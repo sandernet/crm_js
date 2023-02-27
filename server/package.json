@@ -6,14 +6,22 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
+    "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.0.1",
-    "sequelize": "^6.28.0"
+    "sequelize": "^6.29.0"
   },
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dbCreate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:create",
+    "migrate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:migrate",
+    "migrateUndo": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:migrate:undo",
+    "migrateCreate": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make -n",
+    "migratePrev": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make --preview",
+    "postinstall": "cd ../client && npm i"
   },
   "keywords": [],
   "author": "",

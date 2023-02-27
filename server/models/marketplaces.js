@@ -1,25 +1,25 @@
 const {DataTypes} = require("sequelize");
 
 // ==============================================
-// Таблица Товаров
+//Картинки товаров
+// norm большая картинка
+// miniature миниатюра
+// tiny маленькая для списков
 //-----------------------------------------------
 const def = (db, DataTypes, options) => {
     const model = db.define(
-        "product",
+        "imageProduct",
         {
-            externalCode: { // Внешний код товара из мой склад
+            name: { // название Маркетплейса
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            token: { // Токен авторизации
                 type: DataTypes.STRING,
             },
-            vendorCode: { // артикул товара из мой склад
+            description: { // путь к папке
                 type: DataTypes.STRING,
-            },
-            name: { // Наименование товара
-                type: DataTypes.STRING,
-            },
-            archived: { // архивный
-                type: DataTypes.INTEGER,
-                defaultValue: false
-            },
+            }
         },
         options
     );
