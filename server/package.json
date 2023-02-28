@@ -3,25 +3,27 @@
     "axios": "^1.2.3",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.0.1",
-    "sequelize": "^6.29.0"
+    "sequelize": "^6.29.0",
+    "sequelize-cli": "^6.6.0",
+    "sequelize-mig": "github:sacredneobi/sequelize-mig"
   },
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
     "dbCreate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:create",
     "migrate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:migrate",
     "migrateUndo": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:migrate:undo",
     "migrateCreate": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make -n",
-    "migratePrev": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make --preview",
-    "postinstall": "cd ../client && npm i"
+    "migratePrev": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make --preview"
   },
   "keywords": [],
   "author": "",

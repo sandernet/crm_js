@@ -1,9 +1,13 @@
+// достаем параметры из файла конфигурации .env
 require("dotenv").config();
+
 const { Router } = require("express");
 const app = require("./config/express")();
 const { loader } = require("./utils");
 // Авторизация по токену
 const checkJWT = require("./utils/jwtMiddleware");
+
+const PORT = process.env.PORT || 5000
 
 loader(
     { path: "./controllers", type: "controller" },
@@ -16,7 +20,7 @@ loader(
 );
 
 
-app.listen(4000);
+app.listen(PORT, () => console.log(`Start server ${PORT}`));
 
 
 
