@@ -25,3 +25,19 @@ npm install axios
 npm install bcrypt
 
 npm -D nodemon - автоматический перезапуск сервера
+
+Описание запусков
+package.json
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    Создание базы данных
+    "dbCreate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:create",
+    Применение миграции к созданной базе
+    "migrate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:migrate",
+    "migrateUndo": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:migrate:undo",
+    создание миграции в конец нужно добавить имя миграции
+    "migrateCreate": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make -n",
+    Проверка (наглядно посмотреть без применений) миграции
+    "migratePrev": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make --preview"
+  },
