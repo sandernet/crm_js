@@ -21,6 +21,7 @@
     "dev": "nodemon index.js",
     "dbCreate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:create",
     "migrate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:migrate",
+    "seed": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:seed:all",
     "migrateUndo": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:migrate:undo",
     "migrateCreate": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make -n",
     "migratePrev": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make --preview"

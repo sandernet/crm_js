@@ -35,9 +35,13 @@ package.json
     "dbCreate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:create",
     Применение миграции к созданной базе
     "migrate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:migrate",
+    Откат миграции
     "migrateUndo": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:migrate:undo",
     создание миграции в конец нужно добавить имя миграции
     "migrateCreate": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make -n",
     Проверка (наглядно посмотреть без применений) миграции
     "migratePrev": "cross-env MIGRATE_TOOL=true npx sequelize-mig migration:make --preview"
+
+    Ввод начальных значений в базу
+    "seed": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:seed:all",
   },

@@ -59,7 +59,6 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "name": {
-                    "unique": true,
                     "allowNull": false,
                     "field": "name",
                     "seqType": "Sequelize.STRING"
@@ -180,6 +179,9 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "archived": {
+                    "defaultValue": {
+                        "value": 0
+                    },
                     "field": "archived",
                     "seqType": "Sequelize.INTEGER"
                 },
@@ -484,6 +486,14 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
+                "fullName": {
+                    "field": "fullName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "digitalCode": {
+                    "field": "digitalCode",
+                    "seqType": "Sequelize.STRING"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -557,5 +567,5 @@
         }
     },
     "exists": true,
-    "revision": 8
+    "revision": 9
 }
