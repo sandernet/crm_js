@@ -26,6 +26,8 @@ npm install bcrypt
 
 npm -D nodemon - автоматический перезапуск сервера / ключ -D только для разработки
 
+Библиотека тестирования
+npm install jest
 
 Описание запусков
 package.json

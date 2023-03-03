@@ -19,6 +19,7 @@ const check = (options) => {
 
 const defExclude = (file) =>
   file.indexOf(".") !== 0 && file !== "index.js" && file.slice(-3) === ".js";
+
 const arrayExclude = (exclude) => {
   return (file) => !compareStringInArray(file, exclude);
 };
@@ -31,12 +32,15 @@ const arrayExclude = (exclude) => {
 
 module.exports = (options, data, getData) => {
   if (!check(options)) return;
-
+// проверяем существует ли путь к модулю
   if (!fs.existsSync(options.path)) return;
-
+// считываем из каталога все файлы
   fs.readdirSync(options.path)
+      // фильтруем файлы по заданному критерию
     .filter(options.exclude ? arrayExclude(options.exclude) : defExclude)
+      // Перебираем все загруженные файлы
     .forEach((file) => {
+        // Считываем из загруженного файла в переменную
       let moduleName = path.basename(file, ".js");
       if (
         options.moduleNameExtExclude &&
@@ -52,10 +56,13 @@ module.exports = (options, data, getData) => {
         const module = require(`../${options.path}/${file}`);
         if (typeof module === "function") {
           if (typeof getData === "function") {
+              // запускаем функцию из входной переменной в loader
+              // и получем route из функции getData(<moduleName>)
             module(getData(moduleName), moduleName, data);
           } else {
             module(data);
           }
+          // показываем какой контролер подключен в консоль
           console.log(
             `✅ ${options.type ? options.type : "module"}: ${moduleName}`
           );

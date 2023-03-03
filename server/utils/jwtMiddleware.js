@@ -1,4 +1,4 @@
-var jwt = require("jsonwebtoken");
+let jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
   let isError = false;

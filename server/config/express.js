@@ -15,6 +15,8 @@ const def = () => {
     app.use(async (req, res, next) => {
         next();
     });
+
+    // путь для файлов загрузки
     app.use(
         fileUpload({
             useTempFiles: true,
