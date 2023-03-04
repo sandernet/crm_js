@@ -5,6 +5,7 @@ const def = (fields = {}, data, model) => {
   const isArray = Array.isArray(fields);
 
   const check = isArray ? fields : fields?.check;
+  // если isArray массив тогда поля defPostFields 
   const answer = isArray ? defPostFields : fields?.answer ?? defPostFields;
 
   if (check) {
