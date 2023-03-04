@@ -20,10 +20,23 @@ const get = async (req, res) => {
     );
 };
 
+
+// Получаем одну запись модели
+const getOne = async (req, res) => {
+    res.status(200).send(
+        await model.findOne({
+            where: { id: 11 },
+            attributes: {
+                exclude: ["createdAt", "updatedAt", "deletedAt"],
+            },
+        })
+    );
+};
+
 module.exports = (router, moduleName) => {
     model = models[moduleName];
 
-    router.get("/", checkMethod(get, moduleName));
+    router.get("/", checkMethod(getOne, moduleName));
 
     defaultHelpRouter(router, model);
     defaultPutRouter(router, moduleName, model, null);

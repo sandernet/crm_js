@@ -1,0 +1,33 @@
+@hostname = localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+
+###
+GET http://{{host}}/api/uom/ HTTP/1.1
+###
+GET http://{{host}}/api/uom/11 HTTP/1.1
+
+###
+
+POST http://{{host}}/api/uom/ HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "name": "м3",
+    "fullName": "метры кубические",
+    "digitalCode": "123"
+}
+
+###
+PUT http://{{host}}//api/uom/?id=11 HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "name": "литр",
+    "fullName": "Литр",
+    "digitalCode": "103"
+}
+
+###
+DELETE http://localhost:5000/api/uom/?id=11 HTTP/1.1
