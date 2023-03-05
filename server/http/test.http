@@ -6,10 +6,18 @@
 ###
 GET http://{{host}}/api/uom/ HTTP/1.1
 ###
-GET http://{{host}}/api/uom/?id=11 HTTP/1.1
+GET http://{{host}}/api/uom?id=11 HTTP/1.1
 
 ###
+DELETE http://{{host}}/api/uom?id=11 HTTP/1.1
+content-type: {{contentType}}
 
+{
+    "id": 11
+}
+
+
+###
 POST http://{{host}}/api/uom/ HTTP/1.1
 content-type: {{contentType}}
 
