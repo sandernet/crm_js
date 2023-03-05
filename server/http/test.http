@@ -3,6 +3,10 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
+
+
+get https://github.com/sacredneobi/DurgerKingBot
+
 ###
 GET http://{{host}}/api/uom/ HTTP/1.1
 ###
