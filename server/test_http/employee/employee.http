@@ -1,4 +1,4 @@
-@modul = uom
+@modul = employee
 
 
 ###
@@ -7,16 +7,14 @@ GET http://{{hostname}}/api/{{modul}}/
 
 ###
 // поиск товаров по полям наименования и описание
-GET http://{{hostname}}/api/{{modul}}?search=Куб
+GET http://{{hostname}}/api/{{modul}}?search=тов
 
 ###
 POST http://{{hostname}}/api/{{modul}}/
 content-type: {{contentType}}
 
 {
-      "name": "м3",
-      "fullName": "Кубический метр",
-      "digitalCode": "113"
+      "fullName": "user 3"
 }
 
 ###
@@ -25,10 +23,9 @@ PUT http://{{hostname}}/api/{{modul}}/
 content-type: {{contentType}}
 
 {
-    "id": 9,
-      "name": "рулон",
-      "fullName": "Рулон",
-      "digitalCode": "736"
+      "id": 1,
+      "description": "Коневая дириктори",
+      "parent_id": null
 } 
 
 
@@ -38,5 +35,5 @@ DELETE http://{{hostname}}/api/{{modul}}/
 content-type: {{contentType}}
 
 {
-    "id": 15
+    "id": 7
 }

@@ -2,7 +2,7 @@ const models = require("../db/models");
 const { Op } = require("sequelize");
 const jwtCheck = require("../utils/jwtMiddleware");
 
-const model = models.uom;
+const model = models.category;
 
 
 // Создание записи
@@ -25,8 +25,7 @@ const get = (req, res) => {
     ? {
         [Op.or]: [
           { name: { [Op.like]: `%${search}%` } },
-          { fullName: { [Op.like]: `%${search}%` } },
-          { digitalCode: { [Op.like]: `%${search}%` } },
+          { description: { [Op.like]: `%${search}%` } },
         ],
       }
     : null;
