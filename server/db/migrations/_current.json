@@ -368,6 +368,10 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
                 "archived": {
                     "defaultValue": {
                         "value": false
@@ -567,5 +571,5 @@
         }
     },
     "exists": true,
-    "revision": 9
+    "revision": 11
 }

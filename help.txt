@@ -34,6 +34,8 @@ package.json
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
+    зАпуск в режиме разработчика
+    "debug": "nodemon --inspect index.js",
     Создание базы данных
     "dbCreate": "cross-env MIGRATE_TOOL=true npx sequelize-cli db:create",
     Применение миграции к созданной базе

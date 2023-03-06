@@ -1,0 +1,38 @@
+
+
+get https://github.com/sacredneobi/DurgerKingBot
+
+###
+GET http://{{hostname}}/api/uom
+
+
+###
+DELETE http://{{hostname}}/api/uom/
+
+{
+    "id": 13
+}
+
+###
+DELETE http://{{hostname}}/api/uom?id=13 HTTP/1.1
+
+
+###
+POST http://{{hostname}}/api/uom/ HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "name": "м3",
+    "fullName": "метры кубические",
+    "digitalCode": "123"
+}
+
+###
+PUT http://{{hostname}}//api/uom/?id=11 HTTP/1.1
+content-type: {{contentType}}
+
+{
+    "name": "литр",
+    "fullName": "Литр",
+    "digitalCode": "103"
+}
