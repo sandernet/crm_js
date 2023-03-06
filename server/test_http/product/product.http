@@ -1,0 +1,41 @@
+###
+POST http://{{hostname}}/api/product/
+content-type: {{contentType}}
+
+{
+    "externalCode": "222",
+    "vendorCode": "1250",
+    "name": "Прожектор",
+    "description": "Жопа",
+    "archived": "fasle",
+    "categoryId": 1,
+    "uomId": 1
+}
+
+
+###
+// вывод всех товаров из таблицы
+GET http://{{hostname}}/api/product/
+
+###
+// поиск товаров по полям наименования и описание
+GET http://{{hostname}}/api/product?search=ноч
+
+###
+// Удаление товара по id в body
+DELETE http://{{hostname}}/api/product/
+content-type: {{contentType}}
+
+{
+    "id": 1
+}
+
+###
+// обновление товара по id в body + Указание полей которые нужно обновить
+PUT http://{{hostname}}/api/product/
+content-type: {{contentType}}
+
+{
+    "id": 5,
+     "description": "Прожектор 20 Вт"
+} 
