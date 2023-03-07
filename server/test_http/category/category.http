@@ -7,7 +7,7 @@ GET http://{{hostname}}/api/{{modul}}/
 
 ###
 // поиск товаров по полям наименования и описание
-GET http://{{hostname}}/api/{{modul}}?search=тов
+GET http://{{hostname}}/api/{{modul}}?search=това
 
 ###
 POST http://{{hostname}}/api/{{modul}}/
@@ -27,7 +27,7 @@ content-type: {{contentType}}
 {
       "id": 1,
       "description": "Коневая дириктори",
-      "parent_id": null
+      "parent_id": "#"
 } 
 
 

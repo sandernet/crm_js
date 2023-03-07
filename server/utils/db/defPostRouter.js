@@ -7,14 +7,10 @@ const action = (model, fields = null, operation) => {
   };
 };
 
+
 const def = (operation) => {
   if (typeof operation === "function") {
     return (router, moduleName, model, fields = null, checkJWT) => {
-
-      //======================
-      console.log(checkJWT)
-      //======================
-
       if (typeof checkJWT === "function") {
         router.post(
           "/",
@@ -22,10 +18,6 @@ const def = (operation) => {
           checkMethod(action(model, fields, operation), moduleName)
         );
       } else {
-        //======================
-        console.log("Пользователь не авторизован")
-        //======================
-        // исправить если есть авторизация
         router.post(
           "/",
           checkMethod(action(model, fields, operation), moduleName)
