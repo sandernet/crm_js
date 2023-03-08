@@ -34,7 +34,7 @@ const get = (req, res) => {
     model
         .findAndCountAll({
             attributes: {
-                exclude: ["createdAt", "updatedAt", "deletedAt", "chatId"],
+                exclude: ["createdAt", "updatedAt", "deletedAt"],
             },
             order: [["id", "ASC"]],
             limit: parseInt(limit) ? parseInt(limit) : null,

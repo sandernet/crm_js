@@ -1,40 +1,35 @@
 const models = require("../db/models");
 const { Op } = require("sequelize");
-const jwtCheck = require("../utils/jwtMiddleware");
+const { checkMethod } = require("../utils");
+const {
+  defaultPostRouter,
+  defaultDeleteRouter,
+  defaultPutRouter,
+  defaultHelpRouter,
+} = require("../utils/db");
 
-const model = models.category;
-
-
-// Создание записи
-const post = (req, res, promiseError) => {
-  model
-    .create({ ...req.body })
-    .then((data) => {
-      const { id = -1, name } = data;
-      res.status(200).send({ id, name });
-    })
-    .catch(promiseError);
-};
+let model = models.category
 
 // Плучение данных
 const get = (req, res) => {
   const { search, id, limit, offset, ...other } = req.query;
-  
+
   // указываем в каких полях нужно искать строку /model?search=<>
   const searchCaption = search
     ? {
-        [Op.or]: [
-          { name: { [Op.like]: `%${search}%` } },
-          { description: { [Op.like]: `%${search}%` } },
-        ],
-      }
+      [Op.or]: [
+        { name: { [Op.like]: `%${search}%` } },
+        { description: { [Op.like]: `%${search}%` } },
+      ],
+    }
     : null;
-// поиск по id /model?id=<>
+
+  // поиск по id /model?id=<>
   const searchId = id ? { id } : null;
 
   const where =
     searchCaption || searchId ? { ...searchCaption, ...searchId } : null;
-// выполняем запрос
+  // выполняем запрос
   model
     .findAndCountAll({
       attributes: {
@@ -51,56 +46,13 @@ const get = (req, res) => {
     });
 };
 
-// Обновление записи 
-const put = (req, res, promiseError) => {
-  const { id, ...body } = req.body;
-
-  if (!id) {
-    throw new Error("Not found id in body");
-  }
-
-  model
-    .update(body, { where: { id: id } })
-    .then(() => {
-      model
-        .findOne({
-          where: { id: id },
-          attributes: {
-            exclude: ["createdAt", "updatedAt", "deletedAt"],
-          },
-        })
-        .then((data) => {
-          res.status(200).send(data);
-        })
-        .catch(promiseError);
-    })
-    .catch(promiseError);
-};
-
-
-// Удаление данных из таблици по id
-const del = (req, res, promiseError) => {
-  const { id } = req.body;
-
-  if (!id) {
-    throw new Error("Not found id in body");
-  }
-
-  model
-    .destroy({ where: { id } })
-    .then(() => {
-      res.status(200).send({ id, message: "deleted" });
-    })
-    .catch(promiseError);
-};
-
-const { checkMethod } = require("../utils");
-
 module.exports = (router, moduleName) => {
-  router.post("/", checkMethod(post, moduleName));
+  model = models[moduleName];
+
   router.get("/", checkMethod(get, moduleName));
-  router.put("/", checkMethod(put, moduleName));
-  // С проверкой на авторизацию
-  //router.delete("/", jwtCheck, checkMethod(del, moduleName));
-  router.delete("/", checkMethod(del, moduleName));
+
+  defaultHelpRouter(router, model);
+  defaultPutRouter(router, moduleName, model, null);
+  defaultPostRouter(router, moduleName, model, null);
+  defaultDeleteRouter(router, moduleName, model, null);
 };

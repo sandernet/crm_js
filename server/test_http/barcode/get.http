@@ -9,8 +9,7 @@ GET http://{{hostname}}/api/{{modul}}/
 // поиск товаров по полям 
 // ?search = Op.like поиск по полям указанным в контролеле func get
 // id, limit, offset  = занчение указание параметров 
-GET http://{{hostname}}/api/{{modul}}/?where="productId = 1"
-
+GET http://{{hostname}}/api/{{modul}}?productId=1
 ###
 // поиск товаров по id
 GET http://{{hostname}}/api/{{modul}}?id=2

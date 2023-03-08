@@ -14,7 +14,7 @@ POST http://{{hostname}}/api/{{modul}}/
 content-type: {{contentType}}
 
 {
-      "name": "Потолочные светильники",
+      "name": "Настенные светильники",
       "description": "Все светильники линейного типа",
       "parent_id": 3
 }

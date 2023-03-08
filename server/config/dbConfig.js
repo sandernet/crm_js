@@ -7,9 +7,9 @@ const dev = {
   password: process.env.DEV_PASSWORD,
   database: process.env.DEV_DATABASE,
   host: process.env.DEV_HOST,
-//  port: process.env.DEV_PORT,
+  //  port: process.env.DEV_PORT,
   dialect: process.env.DEV_DIALECT,
-  logging: (msg) => {},
+  logging: (msg) => { msg },
   define: {},
 };
 

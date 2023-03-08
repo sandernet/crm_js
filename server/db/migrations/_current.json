@@ -34,6 +34,17 @@
                     "onUpdate": "NO ACTION",
                     "field": "productId",
                     "seqType": "Sequelize.INTEGER"
+                },
+                "marketPlaceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "barcodes",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "NO ACTION",
+                    "field": "marketPlaceId",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -561,5 +572,5 @@
         }
     },
     "exists": true,
-    "revision": 13
+    "revision": 14
 }

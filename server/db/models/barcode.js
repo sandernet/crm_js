@@ -37,6 +37,13 @@ const def = (db, DataTypes, options) => {
             onUpdate: "NO ACTION",
             onDelete: "CASCADE",
         });
+        // таблица маркетплейсов
+        model.belongsTo(model, {
+            foreignKey: "marketPlaceId",
+            as: "marketPlace",
+            onUpdate: "NO ACTION",
+            onDelete: "CASCADE",
+        });
     };
 
     return model;
