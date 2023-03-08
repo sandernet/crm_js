@@ -1,4 +1,4 @@
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 // ==============================================
 //Штрихкоды товаров с разных маркетплейсов товаров
@@ -17,7 +17,15 @@ const def = (db, DataTypes, options) => {
                 allowNull: false
             }
         },
-        options
+        {
+            // Входящие настройки
+            ...options,
+            // Можно добавить свои черех ","
+            // timestamps: false
+            createdAt: false,
+            // Изменяем название `updatedAt`
+            updatedAt: false,
+        }
     );
 
     // Связи с другими таблицами
