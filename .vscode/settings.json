@@ -1,0 +1,9 @@
+{
+    "rest-client.environmentVariables": {
+        "$shared" : {},
+        "ENV Developer" : {
+            "hostname" : "localhost:5000",
+            "contentType" : "application/json"
+        }
+    }
+}

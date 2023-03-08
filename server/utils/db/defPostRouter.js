@@ -7,6 +7,7 @@ const action = (model, fields = null, operation) => {
   };
 };
 
+
 const def = (operation) => {
   if (typeof operation === "function") {
     return (router, moduleName, model, fields = null, checkJWT) => {

@@ -16,6 +16,9 @@ const def = (db, DataTypes, options) => {
             name: { // Наименование товара
                 type: DataTypes.STRING,
             },
+            description: { // Описание товара
+                type: DataTypes.TEXT,
+            },
             archived: { // архивный
                 type: DataTypes.INTEGER,
                 defaultValue: false

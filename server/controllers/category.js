@@ -2,7 +2,7 @@ const models = require("../db/models");
 const { Op } = require("sequelize");
 const jwtCheck = require("../utils/jwtMiddleware");
 
-const model = models.uom;
+const model = models.category;
 
 
 // Создание записи
@@ -25,8 +25,7 @@ const get = (req, res) => {
     ? {
         [Op.or]: [
           { name: { [Op.like]: `%${search}%` } },
-          { fullName: { [Op.like]: `%${search}%` } },
-          { digitalCode: { [Op.like]: `%${search}%` } },
+          { description: { [Op.like]: `%${search}%` } },
         ],
       }
     : null;
@@ -78,41 +77,6 @@ const put = (req, res, promiseError) => {
     .catch(promiseError);
 };
 
-<<<<<<< HEAD
-
-// Получаем одну запись модели
-const getOne = async (req, res) => {
-    const id = req.query.id
-    res.status(200).send(
-        await model.findOne({
-            where: { "id": id },
-            attributes: {
-                exclude: ["createdAt", "updatedAt", "deletedAt"],
-            },
-        })
-    );
-};
-
-
-const del = (req, res, promiseError) => {
-    const { id } = req.body;
-  
-    if (!id) {
-      throw new Error("Not found id in body");
-    }
-  
-    model
-      .destroy({ where: { id } })
-      .then(() => {
-        res.status(200).send({ id, message: "deleted" });
-      })
-      .catch(promiseError);
-  };
-
-module.exports = (router, moduleName) => {
-    model = models[moduleName];
-=======
->>>>>>> 3ea547de51bbb2e1477020388c74b0b02701347a
 
 // Удаление данных из таблици по id
 const del = (req, res, promiseError) => {
@@ -122,20 +86,12 @@ const del = (req, res, promiseError) => {
     throw new Error("Not found id in body");
   }
 
-<<<<<<< HEAD
-    defaultHelpRouter(router, model);
-    defaultPutRouter(router, moduleName, model, null);
-    defaultPostRouter(router, moduleName, model, null);
-    router.delete("/", checkMethod(del, moduleName));
-    //defaultDeleteRouter(router, moduleName, model, null);
-=======
   model
     .destroy({ where: { id } })
     .then(() => {
       res.status(200).send({ id, message: "deleted" });
     })
     .catch(promiseError);
->>>>>>> 3ea547de51bbb2e1477020388c74b0b02701347a
 };
 
 const { checkMethod } = require("../utils");
