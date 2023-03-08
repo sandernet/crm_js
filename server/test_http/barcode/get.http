@@ -1,0 +1,52 @@
+@modul = barcode
+
+
+###
+// вывод всех вывод всех данных из таблицы
+GET http://{{hostname}}/api/{{modul}}/
+
+###
+// поиск товаров по полям 
+// ?search = Op.like поиск по полям указанным в контролеле func get
+// id, limit, offset  = занчение указание параметров 
+GET http://{{hostname}}/api/{{modul}}?productId=1
+###
+// поиск товаров по id
+GET http://{{hostname}}/api/{{modul}}?id=2
+
+
+###
+// Добавление записи
+// productId внешний ключ
+POST http://{{hostname}}/api/{{modul}}/
+content-type: {{contentType}}
+
+{
+            "typeBarcodes": "EAN13",
+            "barcode": "2030085930006",
+            "productId": 2
+
+}
+
+###
+// обновление записи по id в body + 
+// Указание полей которые нужно обновить
+PUT http://{{hostname}}/api/{{modul}}/
+content-type: {{contentType}}
+
+{
+    "id": 7,
+    "typeBarcodes": "EAN13",
+    "barcode": "2037385936510",
+    "productId": 1
+} 
+
+
+###
+// Удаление товара по id запросе
+DELETE http://{{hostname}}/api/{{modul}}?id=7
+content-type: {{contentType}}
+
+{
+      "id": 2
+} 

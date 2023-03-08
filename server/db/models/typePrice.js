@@ -1,4 +1,4 @@
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 // ==============================================
 // Вид цены
@@ -14,7 +14,15 @@ const def = (db, DataTypes, options) => {
                 allowNull: false
             },
         },
-        options
+        {
+            // Входящие настройки
+            ...options,
+            // Можно добавить свои черех ","
+            // timestamps: false
+            createdAt: false,
+            // Изменяем название `updatedAt`
+            // updatedAt: false,
+        }
     );
     return model;
 };

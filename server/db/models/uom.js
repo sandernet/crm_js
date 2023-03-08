@@ -1,4 +1,4 @@
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 // ==============================================
 // Единицы измерения
@@ -17,7 +17,15 @@ const def = (db, DataTypes, options) => {
                 type: DataTypes.STRING,
             },
         },
-        options
+        {
+            // Входящие настройки
+            ...options,
+            // Можно добавить свои черех ","
+            // timestamps: false
+            createdAt: false,
+            // Изменяем название `updatedAt`
+            updatedAt: false,
+        }
     );
 
     return model;

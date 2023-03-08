@@ -14,8 +14,6 @@ let model = models.employee
 const get = (req, res) => {
   const { search, id, limit, offset, ...other } = req.query;
 
-  console.log(search)
-
   // указываем в каких полях нужно искать строку /model?search=<>
   const searchCaption = search
     ? {

@@ -20,16 +20,6 @@
                     "field": "barcode",
                     "seqType": "Sequelize.STRING"
                 },
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                },
                 "deletedAt": {
                     "field": "deletedAt",
                     "seqType": "Sequelize.DATE"
@@ -43,6 +33,17 @@
                     "onDelete": "CASCADE",
                     "onUpdate": "NO ACTION",
                     "field": "productId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "marketPlaceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "barcodes",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "NO ACTION",
+                    "field": "marketPlaceId",
                     "seqType": "Sequelize.INTEGER"
                 }
             },
@@ -571,5 +572,5 @@
         }
     },
     "exists": true,
-    "revision": 11
+    "revision": 14
 }
