@@ -49,7 +49,7 @@ const get = (req, res) => {
 };
 
 module.exports = (router, moduleName) => {
-  model = models[moduleName];
+  //model = models[moduleName];
 
   router.get("/", checkMethod(get, moduleName));
 

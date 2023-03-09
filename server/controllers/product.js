@@ -19,22 +19,23 @@ const post = (req, res, promiseError) => {
 // Плучение данных
 const get = (req, res) => {
   const { search, id, limit, offset, ...other } = req.query;
-  
+
   // указываем в каких полях нужно искать строку /product?search=<>
   const searchCaption = search
     ? {
-        [Op.or]: [
-          { name: { [Op.like]: `%${search}%` } },
-          { description: { [Op.like]: `%${search}%` } },
-        ],
-      }
+      [Op.or]: [
+        { name: { [Op.like]: `%${search}%` } },
+        { description: { [Op.like]: `%${search}%` } },
+        { artical: { [Op.like]: `%${search}%` } },
+      ],
+    }
     : null;
-// поиск по id /product?id=<>
+  // поиск по id /product?id=<>
   const searchId = id ? { id } : null;
 
   const where =
     searchCaption || searchId ? { ...searchCaption, ...searchId } : null;
-// выполняем запрос
+  // выполняем запрос
   model
     .findAndCountAll({
       attributes: {

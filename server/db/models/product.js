@@ -1,4 +1,4 @@
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 // ==============================================
 // Таблица Товаров
@@ -7,6 +7,9 @@ const def = (db, DataTypes, options) => {
     const model = db.define(
         "product",
         {
+            artical: { // Артикул
+                type: DataTypes.STRING,
+            },
             externalCode: { // Внешний код товара из мой склад
                 type: DataTypes.STRING,
             },
