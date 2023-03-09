@@ -12,7 +12,7 @@ GET http://{{hostname}}/api/{{modul}}?search=дир
 
 ###
 // поиск товаров по id
-GET http://{{hostname}}/api/{{modul}}?id=7
+GET http://{{hostname}}/api/{{modul}}?id=6
 
 
 ###
@@ -20,8 +20,8 @@ POST http://{{hostname}}/api/{{modul}}/
 content-type: {{contentType}}
 
 {
-      "fullName": "user 8",
-      "name": "name user 8",
+      "fullName": "user 12",
+      "name": "name user 12",
       "phone": "89501266972"
 }
 
@@ -31,9 +31,9 @@ PUT http://{{hostname}}/api/{{modul}}/
 content-type: {{contentType}}
 
 {
-      "id": 7,
+      "id": 11,
       "position": "Директор",
-      "password": "12345"
+      "password": "1234йцы5"
 } 
 
 

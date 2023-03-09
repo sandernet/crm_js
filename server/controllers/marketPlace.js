@@ -8,7 +8,7 @@ const {
   defaultHelpRouter,
 } = require("../utils/db");
 
-let model = models.employee
+let model = models.marketplace
 
 // Плучение данных
 const get = (req, res) => {
@@ -18,10 +18,8 @@ const get = (req, res) => {
   const searchCaption = search
     ? {
       [Op.or]: [
-        { fullName: { [Op.like]: `%${search}%` } },
         { name: { [Op.like]: `%${search}%` } },
-        { phone: { [Op.like]: `%${search}%` } },
-        { position: { [Op.like]: `%${search}%` } },
+        { description: { [Op.like]: `%${search}%` } },
       ],
     }
     : null;
@@ -49,7 +47,7 @@ const get = (req, res) => {
 };
 
 module.exports = (router, moduleName) => {
-  //model = models[moduleName];
+  model = models[moduleName];
 
   router.get("/", checkMethod(get, moduleName));
 

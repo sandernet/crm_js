@@ -1,4 +1,4 @@
-@modul = category
+@modul = marketplace
 
 
 ###
@@ -7,16 +7,14 @@ GET http://{{hostname}}/api/{{modul}}/
 
 ###
 // поиск товаров по полям наименования и описание
-GET http://{{hostname}}/api/{{modul}}?search=това
+GET http://{{hostname}}/api/{{modul}}?search=ва
 
 ###
 POST http://{{hostname}}/api/{{modul}}/
 content-type: {{contentType}}
 
 {
-      "name": "Настенные светильники",
-      "description": "Все светильники линейного типа",
-      "parent_id": 3
+      "name": "OZON"
 }
 
 ###
@@ -25,9 +23,10 @@ PUT http://{{hostname}}/api/{{modul}}/
 content-type: {{contentType}}
 
 {
-      "id": 1,
-      "description": "Коневая дириктори",
-      "parent_id": "#"
+    "id": 2,
+    "name": "Вайлбериз",
+    "token": "651df65vb1df65v156df1v",
+    "description": "Работаем со своего склада"
 } 
 
 
@@ -37,5 +36,5 @@ DELETE http://{{hostname}}/api/{{modul}}/
 content-type: {{contentType}}
 
 {
-    "id": 4
+    "id": 1
 }
