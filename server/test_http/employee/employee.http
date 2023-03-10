@@ -22,7 +22,7 @@ content-type: {{contentType}}
 {
       "fullName": "user 12",
       "name": "name user 12",
-      "phone": "89501266972"
+      "phone": "89501266973"
 }
 
 ###
@@ -32,8 +32,9 @@ content-type: {{contentType}}
 
 {
       "id": 11,
-      "position": "Директор",
-      "password": "12345"
+      "phone": "89501266973",
+      "password": "12345",
+      "archived": 1
 } 
 
 

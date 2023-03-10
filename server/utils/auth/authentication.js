@@ -1,12 +1,9 @@
 const jwt = require("jsonwebtoken");
-
-
 const models = require("../../db/models");
-const { Op } = require("sequelize");
 const { checkMethod } = require("../../utils");
 
 // Авторизация по токену
-const checkJWT = require("../../utils/jwtMiddleware");
+const checkJWT = require("./jwtMiddleware");
 
 let model = models.employee
 
@@ -39,7 +36,7 @@ const authPonePassword = (req, res) => {
   
 //Если не введен телефон или пароль Возрашаем ошибку
     if (!phone || !password){
-        res.status(401).send("неверно введен Телефон или пароль")
+        res.status(401).send("неверно введен логин или пароль")
         return;
     }
     
@@ -73,45 +70,5 @@ module.exports = (router, moduleName) => {
 
     router.get("/", checkMethod(getAccessRefresh, moduleName));
     router.get("/testAuth/", checkJWT, checkMethod(getTest, moduleName));
-    router.post("/in/", checkMethod(authPonePassword, moduleName));
-
-    // defaultHelpRouter(router, model);
-    // defaultPutRouter(router, moduleName, model, null);
-    // defaultPostRouter(router, moduleName, model, null);
-    // defaultDeleteRouter(router, moduleName, model, null);
+    router.post("/", checkMethod(authPonePassword, moduleName));
 };
-
-// const { search, id, limit, offset, ...other } = req.query;
-
-// // указываем в каких полях нужно искать строку /model?search=<>
-// const searchCaption = search
-//     ? {
-//         [Op.or]: [
-//             { typeBarcodes: { [Op.like]: `%${search}%` } },
-//             { barcode: { [Op.like]: `%${search}%` } },
-//         ],
-//     }
-//     : null;
-
-// // поиск по id /model?id=<>
-// const searchId = id ? { id } : null;
-
-// const where =
-//     searchCaption || searchId ? { ...searchCaption, ...searchId } : null;
-
-// // выполняем запрос
-// model
-//     .findAndCountAll({
-//         attributes: {
-//             exclude: ["createdAt", "updatedAt", "deletedAt"],
-//         },
-//         order: [["id", "ASC"]],
-//         limit: parseInt(limit) ? parseInt(limit) : null,
-//         offset: parseInt(offset) ? parseInt(offset) : null,
-//         ...other,
-//         where: where,
-//     })
-//     .then((data) => {
-//         res.status(200).send(data);
-//     });
-

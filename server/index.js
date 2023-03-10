@@ -5,7 +5,7 @@ const { Router } = require("express");
 const app = require("./config/express")();
 const { loader } = require("./utils");
 // Авторизация по токену
-const checkJWT = require("./utils/jwtMiddleware");
+const checkJWT = require("./utils/auth/jwtMiddleware");
 
 
 const PORT = process.env.PORT || 5000

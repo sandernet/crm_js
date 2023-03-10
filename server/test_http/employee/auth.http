@@ -4,12 +4,13 @@
 
 ###
 // Плучение токена авторизации
-POST http://{{hostname}}/auth/{{modul}}/in/
+POST http://{{hostname}}/auth/{{modul}}/
 content-type: {{contentType}}
 
 {
-  "phone": "89501266972",
-  "position": "Директор",
+      "phone": "89501266973",
+      "password": 12345
+
 }
 
 

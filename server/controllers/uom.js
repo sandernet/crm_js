@@ -1,6 +1,6 @@
 const models = require("../db/models");
 const { Op } = require("sequelize");
-const jwtCheck = require("../utils/jwtMiddleware");
+const jwtCheck = require("../utils/auth/jwtMiddleware");
 const { checkMethod } = require("../utils");
 
 const model = models.uom;
