@@ -1,4 +1,4 @@
-const defPostFields = ["id", "caption"];
+const defPostFields = ["id", "name"];
 const defPutFields = ["createdAt", "updatedAt", "deletedAt"];
 const defPutCheckFields = ["id"];
 
