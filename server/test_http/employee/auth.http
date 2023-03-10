@@ -1,0 +1,37 @@
+@modul = authentication
+
+
+###
+// Плучение токена авторизации
+GET http://{{hostname}}/auth/{{modul}}/
+
+###
+// поиск товаров по полям наименования и описание
+GET http://{{hostname}}/auth/{{modul}}/testAuth/
+user: sander
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic2FuZGVyIiwiaWF0IjoxNjc4NDQ0MDcwLCJleHAiOjE2Nzg0NDc2NzB9.rNEWfzaFjFCfogVTDnBgMLtBY50Bcee7vdIPSMtZk2Q
+
+
+###
+// поиск товаров по id
+GET http://{{hostname}}/api/{{modul}}?id=6
+
+
+###
+POST http://{{hostname}}/api/{{modul}}/
+content-type: {{contentType}}
+
+{
+      "fullName": "user 12",
+      "name": "name user 12",
+      "phone": "89501266972"
+}
+
+###
+// Удаление товара по id запросе
+DELETE http://{{hostname}}/api/{{modul}}?id=7
+content-type: {{contentType}}
+
+{
+      "id": 2
+} 

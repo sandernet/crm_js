@@ -1,11 +1,7 @@
 const checkDataByFields = require("./checkData");
 
-const def = (fields, data, model, onGetWhere) => {
+const def = (fields, data, model) => {
   const check = fields ?? ["id"];
-
-  if (typeof onGetWhere !== "function") {
-    throw new Error(`Error "onGetWhere" is not a function`);
-  }
 
   if (check) {
     const checkData = checkDataByFields(check, data);
@@ -16,8 +12,9 @@ const def = (fields, data, model, onGetWhere) => {
   }
 
   return new Promise((resolve, reject) => {
+    const { id } = data;
     model
-      .destroy({ where: onGetWhere() })
+      .destroy({ where: { id: id } })
       .then(() => {
         resolve();
       })

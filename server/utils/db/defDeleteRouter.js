@@ -3,7 +3,7 @@ const { checkMethod } = require("../checkMethod");
 const action = (model, fields = null, operation) => {
   return async (req, res) => {
     const { body } = req;
-    res.status(200).send(await operation(fields, body, model, () => { }));
+    res.status(200).send(await operation(fields, body, model));
   };
 };
 

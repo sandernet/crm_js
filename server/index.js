@@ -12,6 +12,17 @@ const PORT = process.env.PORT || 5000
 
 // загрузка контроллеров
 loader(
+    { path: "./utils/auth", type: "authentication" },
+    checkJWT,
+    (moduleName) => {
+        const router = Router();
+        app.use(`/auth/${moduleName}`, router);
+        return router;
+    }
+);
+
+
+loader(
     { path: "./controllers", type: "controller" },
     checkJWT,
     (moduleName) => {
