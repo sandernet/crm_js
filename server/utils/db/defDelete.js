@@ -15,8 +15,8 @@ const def = (fields, data, model) => {
     const { id } = data;
     model
       .destroy({ where: { id: id } })
-      .then((mes) => {
-        resolve(mes, id, "delete");
+      .then(() => {
+        resolve();
       })
       .catch((error) => {
         reject(error);

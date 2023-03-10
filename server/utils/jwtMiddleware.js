@@ -4,15 +4,22 @@ module.exports = (req, res, next) => {
   let isError = false;
   let error;
   const jwtToken = req.headers["authorization"];
+  console.log(jwtToken.includes("JWT "))
+  console.log(jwtToken.split(" ")[1])
+
+  // Приставка а токене
   if (jwtToken && jwtToken.includes("JWT ")) {
     jwt.verify(
+      // берем без приставки
       jwtToken.split(" ")[1],
-      process.env["SECRET_TOKEN"],
+      process.env.SECRET_TOKEN,
+      // функция обратного вызова
       function (err, decoded) {
         isError = !!err;
         error = err;
         if (!err) {
-          req.user = decoded;
+          // проверить пользователя в токене и запрашиваемого пользователя
+          req.user = decoded.user;
           next();
         }
       }
