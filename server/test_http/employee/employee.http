@@ -33,7 +33,7 @@ content-type: {{contentType}}
 {
       "id": 11,
       "position": "Директор",
-      "password": "1234йцы5"
+      "password": "12345"
 } 
 
 

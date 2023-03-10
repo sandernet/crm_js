@@ -4,9 +4,6 @@ module.exports = (req, res, next) => {
   let isError = false;
   let error;
   const jwtToken = req.headers["authorization"];
-  console.log(jwtToken.includes("JWT "))
-  console.log(jwtToken.split(" ")[1])
-
   // Приставка а токене
   if (jwtToken && jwtToken.includes("JWT ")) {
     jwt.verify(

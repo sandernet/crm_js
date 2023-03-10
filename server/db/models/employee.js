@@ -18,6 +18,7 @@ const def = (db, DataTypes, options) => {
             },
             phone: { // телефон пользователя
                 type: DataTypes.STRING,
+                allowNull: false
             },
             position: { // Должность
                 type: DataTypes.STRING,
@@ -27,7 +28,7 @@ const def = (db, DataTypes, options) => {
             },
             archived: { // Пароль пользователя
                 type: DataTypes.INTEGER,
-                defaultValue: 0
+                defaultValue: 1
             },
         },
         options

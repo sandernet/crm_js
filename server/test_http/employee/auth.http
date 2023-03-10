@@ -1,6 +1,18 @@
 @modul = authentication
 
 
+
+###
+// Плучение токена авторизации
+POST http://{{hostname}}/auth/{{modul}}/in/
+content-type: {{contentType}}
+
+{
+  "phone": "89501266972",
+  "position": "Директор",
+}
+
+
 ###
 // Плучение токена авторизации
 GET http://{{hostname}}/auth/{{modul}}/
@@ -9,7 +21,7 @@ GET http://{{hostname}}/auth/{{modul}}/
 // поиск товаров по полям наименования и описание
 GET http://{{hostname}}/auth/{{modul}}/testAuth/
 user: sander
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic2FuZGVyIiwiaWF0IjoxNjc4NDQ0MDcwLCJleHAiOjE2Nzg0NDc2NzB9.rNEWfzaFjFCfogVTDnBgMLtBY50Bcee7vdIPSMtZk2Q
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic2FuZGVyIiwiaWF0IjoxNjc4NDUyMDc4LCJleHAiOjE2Nzg0NTU2Nzh9.Mjwc12ZFaxLHhyc-mnxfvJbaM3GuQrVZc62DkeDI3Fg
 
 
 ###
