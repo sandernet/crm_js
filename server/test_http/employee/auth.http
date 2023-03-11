@@ -8,7 +8,7 @@ POST http://{{hostname}}/auth/{{modul}}/
 content-type: {{contentType}}
 
 {
-      "phone": "89501266973",
+      "phone": "89501266974",
       "password": 12345
 
 }
@@ -22,7 +22,7 @@ GET http://{{hostname}}/auth/{{modul}}/
 // поиск товаров по полям наименования и описание
 GET http://{{hostname}}/auth/{{modul}}/testAuth/
 user: sander
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic2FuZGVyIiwiaWF0IjoxNjc4NDUyMDc4LCJleHAiOjE2Nzg0NTU2Nzh9.Mjwc12ZFaxLHhyc-mnxfvJbaM3GuQrVZc62DkeDI3Fg
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxMywiaWF0IjoxNjc4NTE5MjY4LCJleHAiOjE2Nzg1MjI4Njh9.wWhNU1SFhkFjOZIgq04tkgdqJfMsBqZCDzrQNOYqnns
 
 
 ###
