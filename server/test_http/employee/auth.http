@@ -1,15 +1,21 @@
 @modul = authentication
 
-
 ###
 // Плучение токена авторизации
-GET http://{{hostname}}/auth/{{modul}}/
+POST http://{{hostname}}/profile/
+content-type: {{contentType}}
+{
+      "phone": "89501266974",
+      "password": 12345
+
+}
+
 
 ###
-// поиск товаров по полям наименования и описание
-GET http://{{hostname}}/auth/{{modul}}/testAuth/
+// Проверка токена на валидность 
+GET http://{{hostname}}/profile/
 user: sander
-Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic2FuZGVyIiwiaWF0IjoxNjc4NDQ0MDcwLCJleHAiOjE2Nzg0NDc2NzB9.rNEWfzaFjFCfogVTDnBgMLtBY50Bcee7vdIPSMtZk2Q
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxMywiaWF0IjoxNjc4NzAxNzk3LCJleHAiOjE2Nzg3MDUzOTd9.hsJRmy7wEg9a9Fo575ItDShUjzPFt_eRo6AcsvzSDSU
 
 
 ###

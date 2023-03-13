@@ -35,23 +35,31 @@ const arrayExclude = (exclude) => {
  * @returns {}
  */
 
+// options =  { path: "./utils/auth", type: "authentication" },
+// data = checkJWT, функция jwtMiddleware для проверки авторизации
+// getData =  (moduleName) => {
+//     const router = Router();
+//     app.use(`/<путь >/`, router);
+//     return router;
+// }
+
 module.exports = (options, data, getData) => {
   if (!check(options)) return;
-// проверяем существует ли путь к модулю
+  // проверяем существует ли путь к модулю
   if (!fs.existsSync(options.path)) return;
-// считываем из каталога все файлы
+  // считываем из каталога все файлы
   fs.readdirSync(options.path)
-      // фильтруем файлы по заданному критерию
+    // фильтруем файлы по заданному критерию
     .filter(options.exclude ? arrayExclude(options.exclude) : defExclude)
-      // Перебираем все загруженные файлы
+    // Перебираем все загруженные файлы
     .forEach((file) => {
-        // Считываем из файла модуля  файла в moduleName
+      // Считываем из файла модуля  файла в moduleName
       let moduleName = path.basename(file, ".js");
       if (
         options.moduleNameExtExclude &&
         typeof options.moduleNameExtExclude === "string"
       ) {
-        // загрудаем модуль и переводим в нижний регистр .toLowerCase()
+        // загружаем модуль и переводим в нижний регистр .toLowerCase()
         moduleName = path.basename(file, options.moduleNameExtExclude).toLowerCase();
       }
       if (options.moduleNameCb && typeof options.moduleNameCb === "function") {
@@ -63,8 +71,8 @@ module.exports = (options, data, getData) => {
         const module = require(`../${options.path}/${file}`);
         if (typeof module === "function") {
           if (typeof getData === "function") {
-              // запускаем функцию из входной переменной в loader
-              // и получем route из функции getData(<moduleName>)
+            // запускаем функцию из входной переменной в loader
+            // и получем route из функции getData(<moduleName>)
             module(getData(moduleName), moduleName, data);
           } else {
             module(data);

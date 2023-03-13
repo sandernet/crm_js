@@ -47,10 +47,10 @@ const get = (req, res) => {
         });
 };
 
-module.exports = (router, moduleName) => {
+module.exports = (router, moduleName, checkJWT) => {
     model = models[moduleName];
 
-    router.get("/", checkMethod(get, moduleName));
+    router.get("/", checkJWT, checkMethod(get, moduleName));
 
     defaultHelpRouter(router, model);
     defaultPutRouter(router, moduleName, model, null);
