@@ -1,0 +1,6 @@
+@modul = moysklad
+
+
+###
+// запрос данных с мой склад 
+GET http://{{hostname}}/{{modul}}/

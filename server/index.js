@@ -10,7 +10,9 @@ const checkJWT = require("./utils/jwtMiddleware");
 
 const PORT = process.env.PORT || 5000
 
-// загрузка контроллеров
+
+
+// загрузка контроллера ваторизации
 loader(
     { path: "./controllers/auth", type: "authentication" },
     checkJWT,
@@ -31,6 +33,18 @@ loader(
         return router;
     }
 );
+
+// мой склад
+loader(
+    { path: "./controllers/moysklad", type: "loaderProduct" },
+    checkJWT,
+    () => {
+        const router = Router();
+        app.use(`/moysklad/`, router);
+        return router;
+    }
+);
+
 
 app.listen(PORT, () => console.log(`Start server ${PORT}`));
 

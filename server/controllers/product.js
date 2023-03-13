@@ -1,6 +1,5 @@
 const models = require("../db/models");
 const { Op } = require("sequelize");
-const jwtCheck = require("../utils/jwtMiddleware");
 
 const model = models.product;
 
