@@ -22,6 +22,7 @@ const processingError = (error) => {
 }
 
 
+// Промис запрос из мой склад
 const axiosGet = (config, processingData) => {
     return new Promise((resolve, reject) => {
         axios(config)

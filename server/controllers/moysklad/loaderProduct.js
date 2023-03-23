@@ -10,26 +10,33 @@ const config = {
         "Content-Type": "application/json"
     },
     params: {
-        limit: 3,
+        limit: 10,
         offset: 0
     },
 }
 
 // Получение Товаров из мой склад
 const getAssortment = async (req, res) => {
-    console.log(req)
+    //console.log(req)
     res.status(200).send(await axiosGet(config, processingData))
 }
 
-// обработчик данных
-const processingData = (msObj) => {
+const getCategoty = async (url, path) => {
+    if (path !== '') {
+        const category = await axiosGet(config.url = url, getCategoty)
+    }
+}
 
+// обработчик данных
+const processingData = async (msObj) => {
+
+    let count = 0;
     for (let i of msObj['rows']) {
         // В какой категории товар
         console.log(i.pathName)
         // ссылка на категорию товара
-        console.log(i.productFolder.meta.href)
-        // Получаем категорию товара
+
+        getCategoty(i.productFolder.meta.href)
 
         // ссылка на единицу измерения
         console.log(i.uom.meta.href)
@@ -41,8 +48,12 @@ const processingData = (msObj) => {
         console.log(i.barcodes)
         /* 
         создаем товары из запроса
-    */}
-    return { message: `Создано XXX товаров` }
+         */
+        count++;
+    }
+
+    return { message: `Обработано ${count} товаров` }
+
 }
 
 module.exports = {
