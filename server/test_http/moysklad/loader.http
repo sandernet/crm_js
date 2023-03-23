@@ -8,8 +8,7 @@ GET http://{{hostname}}/{{modul}}/
 ###
 // загрузка товаров из мой склад 
 GET {{urlMoysklad}}/entity/product
-    ?limit=10
-    &filter=updated>=2023-03-12 21:43
+    ?limit=2
 Authorization: Bearer f3c2090f43628d18057adeb587eb8eab57b45c7c
 Content-Type: {{contentType}}
 

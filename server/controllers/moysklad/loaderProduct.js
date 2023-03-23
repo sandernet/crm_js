@@ -10,7 +10,7 @@ const config = {
         "Content-Type": "application/json"
     },
     params: {
-        limit: 10,
+        limit: 2,
         offset: 0
     },
 }
@@ -21,14 +21,28 @@ const getAssortment = async (req, res) => {
     res.status(200).send(await axiosGet(config, processingData))
 }
 
+const creatCategory = (x) => {
+    return { message: 'Создаем категорию', x }
+}
+
 const getCategoty = async (url, path) => {
+    const category = await axiosGet(config.url = url, creatCategory)
     if (path !== '') {
-        const category = await axiosGet(config.url = url, getCategoty)
+        console.log(category)
+        if (!category) {
+            return category
+        }
+        console.log(category.x.productFolder.meta.href)
+        console.log(category.x.pathName)
+        await getCategoty(category.x.productFolder.meta.href, category.x.pathName)
     }
+    //return category
+
 }
 
 // обработчик данных
 const processingData = async (msObj) => {
+
 
     let count = 0;
     for (let i of msObj['rows']) {
@@ -36,7 +50,7 @@ const processingData = async (msObj) => {
         console.log(i.pathName)
         // ссылка на категорию товара
 
-        getCategoty(i.productFolder.meta.href)
+        await getCategoty(i.productFolder.meta.href, i.pathName)
 
         // ссылка на единицу измерения
         console.log(i.uom.meta.href)
