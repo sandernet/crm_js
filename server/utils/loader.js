@@ -22,11 +22,14 @@ const check = (options) => {
 
 // функция фильтрующая файлы index.js
 const defExclude = (file) =>
-  file.indexOf(".") !== 0 && file !== "index.js" && file.slice(-3) === ".js";
+  file.indexOf(".") !== 0 && file !== "index.js" && file !== "config.js" && file.slice(-3) === ".js";
 
 
 const arrayExclude = (exclude) => {
-  return (file) => !compareStringInArray(file, exclude);
+  // оставляем только указынные в массиве файлы
+  return (file) => compareStringInArray(file, exclude);
+  // Если нужно убрать указанные в массиве файлы 
+  // return (file) => !compareStringInArray(file, exclude);
 };
 
 /**

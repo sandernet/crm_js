@@ -1,24 +1,19 @@
-// подгружаем настроенный axios
 const { axiosGet } = require('./config')
 
 // Параметры запроса в мой склад
 const config = {
     method: 'get',
     // Добавляем фильтры ?filter=updated>=2023-03-13 21:43:42',
-    url: '/entity/product',
+    url: '',
     headers: {
         "Content-Type": "application/json"
     },
-    params: {
-        limit: 3,
-        offset: 0
-    },
 }
 
+
 // Получение Товаров из мой склад
-const getAssortment = async (req, res) => {
-    console.log(req)
-    res.status(200).send(await axiosGet(config, processingData))
+const getData = async (req, res) => {
+    axiosGet(config, processingData)
 }
 
 // обработчик данных
@@ -41,10 +36,20 @@ const processingData = (msObj) => {
         console.log(i.barcodes)
         /* 
         создаем товары из запроса
-    */}
-    return { message: `Создано XXX товаров` }
+        */
+        // если товара нету в базе тогда создаем 
+        // if (!candidate) {
+        //     //return
+        // }
+    }
+    // res.statusCode = 200
+    // return res.json({ message: 'Создано товаров ' + sumInsert })
+
+
+    // console.log(data)
+    res.status(200).send(msObj);
 }
 
 module.exports = {
-    getAssortment
+    getData
 }

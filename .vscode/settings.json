@@ -3,7 +3,9 @@
         "$shared" : {},
         "ENV Developer" : {
             "hostname" : "localhost:5000",
-            "contentType" : "application/json"
+            "contentType" : "application/json",
+
+            "urlMoysklad" : "https://online.moysklad.ru/api/remap/1.2",
         }
     }
 }

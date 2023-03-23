@@ -15,6 +15,27 @@ const post = (req, res, promiseError) => {
     .catch(promiseError);
 };
 
+
+// Плучение данных
+const getOneId = (externalCode) => {
+  const searchId = externalCode ? { externalCode } : null;
+
+  const where = { ...searchId }
+  // выполняем запрос
+  model
+    .findAndCountAll({
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "deletedAt", "chatId"],
+      },
+      order: [["id", "ASC"]],
+      where: where,
+    })
+    .then((data) => {
+      return data;
+    });
+};
+
+
 // Плучение данных
 const get = (req, res) => {
   const { search, id, limit, offset, ...other } = req.query;

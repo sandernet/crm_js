@@ -1,6 +1,35 @@
 @modul = moysklad
 
-
 ###
 // запрос данных с мой склад 
 GET http://{{hostname}}/{{modul}}/
+
+
+###
+// загрузка товаров из мой склад 
+GET {{urlMoysklad}}/entity/product
+    ?limit=10
+    &filter=updated>=2023-03-12 21:43
+Authorization: Bearer f3c2090f43628d18057adeb587eb8eab57b45c7c
+Content-Type: {{contentType}}
+
+
+###
+// загрузка группы товаров из мой склад 
+GET {{urlMoysklad}}/entity/productfolder/ac7e5cde-97d4-11ed-0a80-012d0092bdd0
+Authorization: Bearer f3c2090f43628d18057adeb587eb8eab57b45c7c
+Content-Type: {{contentType}}
+
+###
+// загрузка группы товаров из мой склад 
+GET {{urlMoysklad}}/entity/productfolder/26595513-9193-11ed-0a80-04fa000b4e16
+Authorization: Bearer f3c2090f43628d18057adeb587eb8eab57b45c7c
+Content-Type: {{contentType}}
+
+###
+// загрузка товаров из мой склад 
+GET {{urlMoysklad}}/entity/group/bbd89e36-ab71-11ed-0a80-0e7e0032ed92
+Authorization: Bearer f3c2090f43628d18057adeb587eb8eab57b45c7c
+Content-Type: {{contentType}}
+
+

@@ -1,6 +1,12 @@
 const checkDataByFields = require("./checkData");
 const { defPostFields } = require("./defFields");
 
+
+
+// fields = {} 
+// data, 
+// model
+
 const def = (fields = {}, data, model) => {
   const isArray = Array.isArray(fields);
 
