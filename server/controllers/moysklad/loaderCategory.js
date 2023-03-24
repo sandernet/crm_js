@@ -32,12 +32,10 @@ const getCategoty = async (url) => {
         // возращаем сообщение с id категории
         return { idForProductCreat: idMoySklad }
     }
-
     // если категории нету
     if (!data) {
         await updateCategory()
         // запускаем процедуру обновления категорий
-
     }
     return mes
 }
