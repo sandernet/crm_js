@@ -1,8 +1,10 @@
 const axiosModule = require('axios')
+const { defGet } = require("../../utils/db/defGet")
+
 
 // опции поумолчанию для запроса в мой склад
 const axios = axiosModule.create({
-    baseURL: 'https://online.moysklad.ru/api/remap/1.2/',
+    baseURL: process.env.MS_BASEURL,  // 'https://online.moysklad.ru/api/remap/1.2/',
     timeout: 1000,
     headers: {
         'Authorization': 'Bearer ' + process.env.MS_TOKEN
@@ -14,6 +16,7 @@ const axios = axiosModule.create({
 });
 
 // обработка ошибок 
+// Написать
 const processingError = (error) => {
     console.log("Будем обрабатывать ошибку");
     console.log("Сообщение об ошибке" + error);
@@ -22,7 +25,7 @@ const processingError = (error) => {
 }
 
 
-// Промис запрос из мой склад
+// Промис запрос данных из мой склад
 const axiosGet = (config, processingData) => {
     return new Promise((resolve, reject) => {
         axios(config)
@@ -39,6 +42,20 @@ const axiosGet = (config, processingData) => {
     })
 }
 
+/*
+    из url мой склад берем ID товара 
+    href: "https://online.moysklad.ru/api/remap/1.2/entity/group/9aa89681-8d14-11eb-0a80-05d700001811",
+*/
+const getIdFormUrl = (url) => {
+
+    const arrayUrl = url.split('/');
+    return id = arrayUrl[arrayUrl.length - 1]
+}
+
+
+
 module.exports = {
-    axiosGet
+    axiosGet,
+    getIdFormUrl,
+    defGet
 }

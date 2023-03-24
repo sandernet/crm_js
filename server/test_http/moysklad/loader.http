@@ -15,7 +15,7 @@ Content-Type: {{contentType}}
 
 ###
 // загрузка группы товаров из мой склад 
-GET {{urlMoysklad}}/entity/productfolder/ac7e5cde-97d4-11ed-0a80-012d0092bdd0
+GET {{urlMoysklad}}/entity/productfolder
 Authorization: Bearer f3c2090f43628d18057adeb587eb8eab57b45c7c
 Content-Type: {{contentType}}
 

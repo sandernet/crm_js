@@ -9,22 +9,6 @@ const {
 } = require("../utils/db");
 
 let model = models.category
-// ===================================================
-// МОЙ КОД ДЛЯ МОЙ СКЛАД
-// поиск категории в таблице по названию
-const getSearchCategories = (name) => {
-  return model.findOne({ where: { name: name } })
-}
-
-// добавляет новую категорию в таблицу;
-const addCategory = (data) => {
-  const { name, description, parent_id } = data // достаем диструктуризацию массива
-  // создаем запись в таблице и получаем её 
-  // возращаем запись
-  return model.create({ name, description, parent_id }) // создаем запись в таблице и получаем её
-}
-// МОЙ КОД ДЛЯ МОЙ СКЛАД
-// ===================================================
 
 // Плучение данных
 const get = (req, res) => {

@@ -64,6 +64,11 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
+                "externalCodeId": {
+                    "unique": true,
+                    "field": "externalCodeId",
+                    "seqType": "Sequelize.STRING"
+                },
                 "description": {
                     "field": "description",
                     "seqType": "Sequelize.STRING"
@@ -357,6 +362,10 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
+                "artical": {
+                    "field": "artical",
+                    "seqType": "Sequelize.STRING"
+                },
                 "externalCode": {
                     "field": "externalCode",
                     "seqType": "Sequelize.STRING"
@@ -460,11 +469,6 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
                 "updatedAt": {
                     "allowNull": false,
                     "field": "updatedAt",
@@ -498,16 +502,6 @@
                 "digitalCode": {
                     "field": "digitalCode",
                     "seqType": "Sequelize.STRING"
-                },
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
                 },
                 "deletedAt": {
                     "field": "deletedAt",
@@ -572,5 +566,5 @@
         }
     },
     "exists": true,
-    "revision": 14
+    "revision": 16
 }

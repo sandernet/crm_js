@@ -1,55 +1,105 @@
-const { axiosGet } = require('./config')
+const { getIdFormUrl } = require('./config')
+const { defaultGet } = require("../../utils/db");
+const models = require("../../db/models");
+
+let model = models.category
 
 // Параметры запроса в мой склад
 const config = {
     method: 'get',
     // Добавляем фильтры ?filter=updated>=2023-03-13 21:43:42',
-    url: '',
+    url: '/entity/productfolder',
     headers: {
         "Content-Type": "application/json"
     },
 }
 
 
-// Получение Товаров из мой склад
-const getData = async (req, res) => {
-    axiosGet(config, processingData)
+const creatCategory = (x) => {
+    return { message: 'Создаем категорию', x }
 }
 
-// обработчик данных
-const processingData = (msObj) => {
+const getCategoty = async (url) => {
 
-    for (let i of msObj['rows']) {
-        // В какой категории товар
-        console.log(i.pathName)
-        // ссылка на категорию товара
-        console.log(i.productFolder.meta.href)
-        // Получаем категорию товара
+    let mes = {}
+    // из url берем ID товара из url
+    // Передаем в сообщение id категории 
+    const idMoySklad = getIdFormUrl(url)
+    const data = await defaultGet({ externalCodeId: idMoySklad }, model)
 
-        // ссылка на единицу измерения
-        console.log(i.uom.meta.href)
-
-        // ссылка на картинку товара
-        console.log(i.images.meta.href)
-
-        // ссылка на картинку товара
-        console.log(i.barcodes)
-        /* 
-        создаем товары из запроса
-        */
-        // если товара нету в базе тогда создаем 
-        // if (!candidate) {
-        //     //return
-        // }
+    // Проверяем есть ли в базе такой id
+    if (data) {
+        // возращаем сообщение с id категории
+        return { idForProductCreat: idMoySklad }
     }
-    // res.statusCode = 200
-    // return res.json({ message: 'Создано товаров ' + sumInsert })
 
+    // если категории нету
+    if (!data) {
+        await updateCategory()
+        // запускаем процедуру обновления категорий
 
-    // console.log(data)
-    res.status(200).send(msObj);
+    }
+    return mes
 }
+
+const updateCategory = async () => {
+
+    // рекурсия загрузки категорий
+    let category = await axiosGet(config.params =
+        { filter: `updated >= 2023-03-1321:43:42` }, creatCategory)
+
+    if (!category) {
+        return messages.push({ messages: 'Rfr' })
+    }
+
+    console.log(category.x.productFolder.meta.href)
+    console.log(category.x.pathName)
+    await getCategoty(category.x.productFolder.meta.href, category.x.pathName)
+}
+
+
 
 module.exports = {
-    getData
+    getCategoty
 }
+
+
+
+
+
+// while (foundPos > 0) {
+//     foundPos = pathName.indexOf('/', pos);
+//     categoryName = (foundPos == -1) ? pathName.slice(pos) : pathName.slice(pos, foundPos)
+
+//     // Ищем в базе категорию
+//     foundCategory = await categoryController.getSearchCategories(categoryName)
+
+//     if (foundPos == -1) {
+//         // и это конечная категория
+//         if (foundCategory != null) {
+//             //если находим, то возращаем найденую
+//             return foundCategory
+//         } else {
+//             //если НЕ находим, и это конечная категория то создаем и возращаем её
+//             return await categoryController.addCategory({
+//                 category: categoryName,
+//                 description: '',
+//                 parent_id: parent_id
+//             })
+//         }
+//     } else {
+//         if (foundCategory != null) {
+//             //если находим, то возращаем найденую
+//             parent_id = foundCategory.id
+//         } else {
+//             //если НЕ находим, и это конечная категория то создаем и возращаем её
+//             foundCategory = await categoryController.addCategory({
+//                 category: categoryName,
+//                 description: '',
+//                 parent_id: parent_id
+//             })
+//             parent_id = foundCategory.id
+//         }
+//     }
+//     pos = (foundPos == -1) ? pos : foundPos + 1; // продолжаем со следующей позиции
+// }

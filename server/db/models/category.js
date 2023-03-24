@@ -1,4 +1,4 @@
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 // ==============================================
 // Категории товаров
@@ -10,6 +10,10 @@ const def = (db, DataTypes, options) => {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false
+            },
+            externalCodeId: { //id из моё склада
+                type: DataTypes.STRING,
+                unique: true,
             },
             description: { // Описание категории
                 type: DataTypes.STRING,

@@ -1,5 +1,6 @@
 // подгружаем настроенный axios
 const { axiosGet } = require('./config')
+const { getCategoty } = require("./loaderCategory")
 
 // Параметры запроса в мой склад
 const config = {
@@ -21,52 +22,53 @@ const getAssortment = async (req, res) => {
     res.status(200).send(await axiosGet(config, processingData))
 }
 
-const creatCategory = (x) => {
-    return { message: 'Создаем категорию', x }
-}
 
-const getCategoty = async (url, path) => {
-    const category = await axiosGet(config.url = url, creatCategory)
-    if (path !== '') {
-        console.log(category)
-        if (!category) {
-            return category
-        }
-        console.log(category.x.productFolder.meta.href)
-        console.log(category.x.pathName)
-        await getCategoty(category.x.productFolder.meta.href, category.x.pathName)
-    }
-    //return category
-
-}
 
 // обработчик данных
 const processingData = async (msObj) => {
 
 
     let count = 0;
+    let messages = {};
+    messages.categoty = [];
+
     for (let i of msObj['rows']) {
         // В какой категории товар
-        console.log(i.pathName)
+
         // ссылка на категорию товара
 
-        await getCategoty(i.productFolder.meta.href, i.pathName)
+        // "Категория не найдена в базе по 
+        // id и наименованию 
+        // тогда загружаем все категории с даты обновления категорий"
+        if (i.pathName !== '') {
+            const mesCategory = await getCategoty(i.productFolder.meta.href)
+            messages.categoty.push(mesCategory);
+            // id для добавление товара
+            ///////console.log(mesCategory.idForProductCreat)
 
-        // ссылка на единицу измерения
-        console.log(i.uom.meta.href)
 
-        // ссылка на картинку товара
-        console.log(i.images.meta.href)
+            // await getCategoty(i.productFolder.meta.href, i.pathName, countingCreatCategory)
+            // resolve.push(countingCreatCategory)
+        }
 
-        // ссылка на картинку товара
-        console.log(i.barcodes)
+
+        // // ссылка на единицу измерения
+        // console.log(i.uom.meta.href)
+
+        // // ссылка на картинку товара
+        // console.log(i.images.meta.href)
+
+        // // ссылка на картинку товара
+        // console.log(i.barcodes)
         /* 
         создаем товары из запроса
          */
         count++;
     }
 
-    return { message: `Обработано ${count} товаров` }
+    messages.product = { productMessage: `Обработано ${count} товаров` }
+    console.log(messages)
+    return messages
 
 }
 
