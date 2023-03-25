@@ -3,54 +3,24 @@ const Sequelize = require("sequelize");
 /**
  * Actions summary:
  *
- * addColumn(digitalCode) => "uoms"
- * addColumn(fullName) => "uoms"
- * changeColumn(name) => "categories"
- * changeColumn(archived) => "employees"
+ * changeColumn(parent_id) => "categories"
  *
  */
 
 const info = {
-  revision: 9,
-  name: "allTables-4",
-  created: "2023-03-02T02:27:04.903Z",
+  revision: 3,
+  name: "cat2",
+  created: "2023-03-25T14:22:24.005Z",
   comment: "",
 };
 
 const migrationCommands = (transaction) => [
   {
-    fn: "addColumn",
-    params: [
-      "uoms",
-      "digitalCode",
-      { type: Sequelize.STRING, field: "digitalCode" },
-      { transaction },
-    ],
-  },
-  {
-    fn: "addColumn",
-    params: [
-      "uoms",
-      "fullName",
-      { type: Sequelize.STRING, field: "fullName" },
-      { transaction },
-    ],
-  },
-  {
     fn: "changeColumn",
     params: [
       "categories",
-      "name",
-      { type: Sequelize.STRING, field: "name", allowNull: false },
-      { transaction },
-    ],
-  },
-  {
-    fn: "changeColumn",
-    params: [
-      "employees",
-      "archived",
-      { type: Sequelize.INTEGER, field: "archived", defaultValue: 0 },
+      "parent_id",
+      { type: Sequelize.STRING, field: "parent_id", defaultValue: 0 },
       { transaction },
     ],
   },
@@ -58,28 +28,11 @@ const migrationCommands = (transaction) => [
 
 const rollbackCommands = (transaction) => [
   {
-    fn: "removeColumn",
-    params: ["uoms", "digitalCode", { transaction }],
-  },
-  {
-    fn: "removeColumn",
-    params: ["uoms", "fullName", { transaction }],
-  },
-  {
     fn: "changeColumn",
     params: [
       "categories",
-      "name",
-      { type: Sequelize.STRING, field: "name", allowNull: false, unique: true },
-      { transaction },
-    ],
-  },
-  {
-    fn: "changeColumn",
-    params: [
-      "employees",
-      "archived",
-      { type: Sequelize.INTEGER, field: "archived" },
+      "parent_id",
+      { type: Sequelize.INTEGER, field: "parent_id", defaultValue: 0 },
       { transaction },
     ],
   },

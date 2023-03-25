@@ -3,50 +3,24 @@ const Sequelize = require("sequelize");
 /**
  * Actions summary:
  *
- * createTable() => "products", deps: []
+ * changeColumn(externalCodeMS) => "categories"
  *
  */
 
 const info = {
-  revision: 1,
-  name: "init",
-  created: "2023-03-01T04:31:22.648Z",
+  revision: 2,
+  name: "cat",
+  created: "2023-03-25T12:30:41.646Z",
   comment: "",
 };
 
 const migrationCommands = (transaction) => [
   {
-    fn: "createTable",
+    fn: "changeColumn",
     params: [
-      "products",
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          field: "id",
-          autoIncrement: true,
-          primaryKey: true,
-          allowNull: false,
-        },
-        externalCode: { type: Sequelize.STRING, field: "externalCode" },
-        vendorCode: { type: Sequelize.STRING, field: "vendorCode" },
-        name: { type: Sequelize.STRING, field: "name" },
-        archived: {
-          type: Sequelize.INTEGER,
-          field: "archived",
-          defaultValue: false,
-        },
-        createdAt: {
-          type: Sequelize.DATE,
-          field: "createdAt",
-          allowNull: false,
-        },
-        updatedAt: {
-          type: Sequelize.DATE,
-          field: "updatedAt",
-          allowNull: false,
-        },
-        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
-      },
+      "categories",
+      "externalCodeMS",
+      { type: Sequelize.STRING, field: "externalCodeMS", unique: true },
       { transaction },
     ],
   },
@@ -54,8 +28,13 @@ const migrationCommands = (transaction) => [
 
 const rollbackCommands = (transaction) => [
   {
-    fn: "dropTable",
-    params: ["products", { transaction }],
+    fn: "changeColumn",
+    params: [
+      "categories",
+      "externalCodeMS",
+      { type: Sequelize.STRING, field: "externalCodeMS" },
+      { transaction },
+    ],
   },
 ];
 

@@ -1,6 +1,6 @@
 // подгружаем настроенный axios
 const { axiosGet } = require('./config')
-const { getCategoty } = require("./loaderCategory")
+const { getCategoty, bulkCreate } = require("./loaderCategory")
 
 // Параметры запроса в мой склад
 const config = {
@@ -32,6 +32,8 @@ const processingData = async (msObj) => {
     let messages = {};
     messages.categoty = [];
 
+
+
     for (let i of msObj['rows']) {
         // В какой категории товар
 
@@ -43,12 +45,12 @@ const processingData = async (msObj) => {
         if (i.pathName !== '') {
             const mesCategory = await getCategoty(i.productFolder.meta.href)
             messages.categoty.push(mesCategory);
-            // id для добавление товара
-            ///////console.log(mesCategory.idForProductCreat)
+            //     // id для добавление товара
+            //     ///////console.log(mesCategory.idForProductCreat)
 
 
-            // await getCategoty(i.productFolder.meta.href, i.pathName, countingCreatCategory)
-            // resolve.push(countingCreatCategory)
+            //     // await getCategoty(i.productFolder.meta.href, i.pathName, countingCreatCategory)
+            //     // resolve.push(countingCreatCategory)
         }
 
 

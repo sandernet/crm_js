@@ -5,8 +5,8 @@ module.exports = {
         await queryInterface.bulkInsert("typePrices", [
             {
                 name: "Закупочная цена",
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                // createdAt: new Date(),
+                // updatedAt: new Date(),
             },
         ])
         await queryInterface.bulkInsert("uoms", [
@@ -14,8 +14,8 @@ module.exports = {
                 name: "шт",
                 fullName: "Штука",
                 digitalCode: "796",
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                // createdAt: new Date(),
+                // updatedAt: new Date(),
             },
         ])
         await queryInterface.bulkInsert("categories", [
@@ -24,8 +24,8 @@ module.exports = {
                 name: "Товары и услуги",
                 description: "",
                 parent_id: "0",
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                // createdAt: new Date(),
+                // updatedAt: new Date(),
             },
         ])
 

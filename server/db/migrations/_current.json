@@ -64,9 +64,9 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
-                "externalCodeId": {
+                "externalCodeMS": {
                     "unique": true,
-                    "field": "externalCodeId",
+                    "field": "externalCodeMS",
                     "seqType": "Sequelize.STRING"
                 },
                 "description": {
@@ -74,11 +74,8 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "parent_id": {
-                    "defaultValue": {
-                        "value": 0
-                    },
                     "field": "parent_id",
-                    "seqType": "Sequelize.INTEGER"
+                    "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -566,5 +563,5 @@
         }
     },
     "exists": true,
-    "revision": 16
+    "revision": 4
 }

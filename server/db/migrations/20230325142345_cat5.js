@@ -3,31 +3,24 @@ const Sequelize = require("sequelize");
 /**
  * Actions summary:
  *
- * addColumn(marketPlaceId) => "barcodes"
+ * changeColumn(parent_id) => "categories"
  *
  */
 
 const info = {
-  revision: 14,
-  name: "barcodeupdateMP",
-  created: "2023-03-08T05:29:46.860Z",
+  revision: 4,
+  name: "cat5",
+  created: "2023-03-25T14:23:45.184Z",
   comment: "",
 };
 
 const migrationCommands = (transaction) => [
   {
-    fn: "addColumn",
+    fn: "changeColumn",
     params: [
-      "barcodes",
-      "marketPlaceId",
-      {
-        type: Sequelize.INTEGER,
-        field: "marketPlaceId",
-        onUpdate: "NO ACTION",
-        onDelete: "CASCADE",
-        references: { model: "barcodes", key: "id" },
-        allowNull: true,
-      },
+      "categories",
+      "parent_id",
+      { type: Sequelize.STRING, field: "parent_id" },
       { transaction },
     ],
   },
@@ -35,8 +28,13 @@ const migrationCommands = (transaction) => [
 
 const rollbackCommands = (transaction) => [
   {
-    fn: "removeColumn",
-    params: ["barcodes", "marketPlaceId", { transaction }],
+    fn: "changeColumn",
+    params: [
+      "categories",
+      "parent_id",
+      { type: Sequelize.STRING, field: "parent_id", defaultValue: 0 },
+      { transaction },
+    ],
   },
 ];
 

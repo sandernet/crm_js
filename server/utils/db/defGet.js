@@ -3,7 +3,7 @@
 // Плучение данных
 // const get = (req, res) => {
 const def = (data, model) => {
-    const { search, id, externalCodeId, ...other } = data;
+    const { search, id, externalCodeMS, ...other } = data;
 
     // указываем в каких полях нужно искать строку /model?search=<>
     const searchCaption = search
@@ -18,7 +18,7 @@ const def = (data, model) => {
     const searchId = id ? { id } : null;
 
     // поиск по внешниму ключу externalCode
-    const searchExternalCode = externalCodeId ? { externalCodeId } : null;
+    const searchExternalCode = externalCodeMS ? { externalCodeMS } : null;
 
     const where =
         searchCaption || searchId || searchExternalCode ? { ...searchCaption, ...searchId, ...searchExternalCode } : null;

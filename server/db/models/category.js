@@ -11,7 +11,7 @@ const def = (db, DataTypes, options) => {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            externalCodeId: { //id из моё склада
+            externalCodeMS: { //id из моё склада
                 type: DataTypes.STRING,
                 unique: true,
             },
@@ -19,8 +19,8 @@ const def = (db, DataTypes, options) => {
                 type: DataTypes.STRING,
             },
             parent_id: { //-номер родительской категории поумолчанию 0;
-                type: DataTypes.INTEGER,
-                defaultValue: 0,
+                type: DataTypes.STRING,
+                //defaultValue: 0,
             }
         },
         options
