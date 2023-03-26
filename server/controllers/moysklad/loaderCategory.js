@@ -5,38 +5,58 @@ const models = require("../../db/models");
 let model = models.category
 
 // Параметры запроса в мой склад
-const config = {
-    method: 'get',
-    // Добавляем фильтры ?filter=updated>=2023-03-13 21:43:42',
-    url: '/entity/productfolder',
-    headers: {
-        "Content-Type": "application/json"
-    },
+// Для получения всех категорий товаров
+// params фильтры для запроса 
+// ?filter=updated>=2023-03-13 21:43:42', по дате 
+const config = (params) => {
+    return {
+        method: 'get',
+        // Добавляем фильтры ?filter=updated>=2023-03-13 21:43:42',
+        params: params,
+        url: '/entity/productfolder',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }
 }
 
 
+// Проверка наличи в моделе записи 
+// Вход: id из мой склад (externalCodeMS)
+// Выход: запись из модели либо null
+const getRecordFromModel = (idMS) => {
+    return defaultGet({ externalCodeMS: idMS }, model)
+}
 
-
-const getCategoty = async (url) => {
+const getCategoty = async (filter) => {
     let mes = {}
-    // из url берем ID товара из url
-    // Передаем в сообщение id категории 
-    const idMoySklad = getIdFormUrl(url)
-    const data = await defaultGet({ externalCodeMS: idMoySklad }, model)
-
-    // Проверяем есть ли в базе такой id
-    if (data) {
-        // возращаем сообщение с id категории
-        return { idForProductCreat: idMoySklad }
+    // Получаем из Мой склад  все каттегории с фильтром 
+    // filterCat функция преобразовывает в массив для модели категорий
+    let categoryMS = await axiosGet(config(filter), filterCat)
+    // Проверяем получили ли входные данные
+    if (categoryMS) {
+        // загружаем в базу и получем ответ
+        const addCategoryDB = await bulkCreate(categoryMS)
+        if (addCategoryDB) {
+            return mes.category = addCategoryDB;
+        }
     }
-    // если категории нету
-    if (!data) {
-        //await updateCategory()
-        await updateCategory()
-        // запускаем процедуру обновления категорий
-    }
-    return mes
 }
+
+
+//     // Проверяем есть ли в базе такой id
+//     if (data) {
+//         // возращаем сообщение с id категории
+//         return { idForProductCreat: idMoySklad }
+//     }
+//     // если категории нету
+//     if (!data) {
+//         //await updateCategory()
+//         await updateCategory()
+//         // запускаем процедуру обновления категорий
+//     }
+//     return mes
+// }
 
 const filterCat = (data) => {
     let dataArrayCat = [];
@@ -60,7 +80,7 @@ const updateCategory = async () => {
 
     // молучаем массив из мой склад 
     //и с помошью функции фильтр ормируем массив для загрузки
-    let category = await axiosGet(config, filterCat)
+    let category = await axiosGet(config(), filterCat)
     await bulkCreate(category)
 
     // рекурсия загрузки категорий
@@ -106,6 +126,7 @@ const bulkCreate = (dataArray) => {
 
 module.exports = {
     getCategoty,
+    getRecordFromModel,
     bulkCreate
 }
 

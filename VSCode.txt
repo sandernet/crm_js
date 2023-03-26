@@ -10,4 +10,4 @@ rest client
 @name <имя переменной>
 GET https://online.moysklad.ru/api/remap/1.2/entity/product
     ?limit=10 
-Authorization: Basic f3c2090f43628d18057adeb587eb8eab57b45c7c
+Authorization: Basic <token>

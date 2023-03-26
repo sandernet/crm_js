@@ -1,6 +1,7 @@
 // подгружаем настроенный axios
-const { axiosGet } = require('./config')
-const { getCategoty, bulkCreate } = require("./loaderCategory")
+const { axiosGet, getIdFormUrl } = require('./config')
+
+const { getCategoty, getRecordFromModel } = require("./loaderCategory")
 
 // Параметры запроса в мой склад
 const config = {
@@ -27,23 +28,31 @@ const getAssortment = async (req, res) => {
 // обработчик данных
 const processingData = async (msObj) => {
 
-
     let count = 0;
     let messages = {};
     messages.categoty = [];
 
-
+    let product = [];
 
     for (let i of msObj['rows']) {
-        // В какой категории товар
-
-        // ссылка на категорию товара
-
-        // "Категория не найдена в базе по 
-        // id и наименованию 
         // тогда загружаем все категории с даты обновления категорий"
         if (i.pathName !== '') {
-            const mesCategory = await getCategoty(i.productFolder.meta.href)
+            // получем категории из мой склад
+            let category = getRecordFromModel(getIdFormUrl(i.productFolder.meta.href))
+
+            if (!category) {
+                // запускаем загрузку всех категорий
+                const mesCategory = await getCategoty(filter)
+                category = getRecordFromModel(getIdFormUrl(i.productFolder.meta.href))
+                if (!category) {
+                    return messages.categoty.push({ messages: '{Херня какая-то !!!' });
+                }
+            }
+
+            product[count].id = category.id;
+
+
+            messages.categoty.push(mesCategory);
             messages.categoty.push(mesCategory);
             //     // id для добавление товара
             //     ///////console.log(mesCategory.idForProductCreat)
