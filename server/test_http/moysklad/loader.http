@@ -9,26 +9,26 @@ GET http://{{hostname}}/{{modul}}/
 // загрузка товаров из мой склад 
 GET {{urlMoysklad}}/entity/product
     ?limit=2
-Authorization: Bearer f3c2090f43628d18057adeb587eb8eab57b45c7c
+Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
 
 ###
 // загрузка группы товаров из мой склад 
 GET {{urlMoysklad}}/entity/productfolder
-Authorization: Bearer f3c2090f43628d18057adeb587eb8eab57b45c7c
+Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
 ###
 // загрузка группы товаров из мой склад 
 GET {{urlMoysklad}}/entity/productfolder/26595513-9193-11ed-0a80-04fa000b4e16
-Authorization: Bearer f3c2090f43628d18057adeb587eb8eab57b45c7c
+Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
 ###
 // загрузка товаров из мой склад 
 GET {{urlMoysklad}}/entity/group/bbd89e36-ab71-11ed-0a80-0e7e0032ed92
-Authorization: Bearer f3c2090f43628d18057adeb587eb8eab57b45c7c
+Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
 
