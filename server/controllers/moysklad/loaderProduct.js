@@ -1,7 +1,7 @@
 // подгружаем настроенный axios
 const { axiosGet, getIdFormUrl } = require('./config')
 
-const { getCategoty, getRecordFromModel } = require("./loaderCategory")
+const { getCategoty, getRecordFromModel, checkCategory } = require("./loaderCategory")
 
 // Параметры запроса в мой склад
 const config = {
@@ -12,56 +12,30 @@ const config = {
         "Content-Type": "application/json"
     },
     params: {
-        limit: 2,
-        offset: 0
+        limit: 5,
+        offset: 0,
+        // filter: "updated>=2023-03-13 21:43:42"
     },
 }
-
-// Получение Товаров из мой склад
-const getAssortment = async (req, res) => {
-    //console.log(req)
-    res.status(200).send(await axiosGet(config, processingData))
-}
-
 
 
 // обработчик данных
 const processingData = async (msObj) => {
 
     let count = 0;
-    let messages = {};
-    messages.categoty = [];
+    // let messages = {};
+    let messages = [];
 
     let product = [];
-
+    let items = {}
     for (let i of msObj['rows']) {
+
         // тогда загружаем все категории с даты обновления категорий"
         if (i.pathName !== '') {
-            // получем категории из мой склад
-            let category = getRecordFromModel(getIdFormUrl(i.productFolder.meta.href))
 
-            if (!category) {
-                // запускаем загрузку всех категорий
-                const mesCategory = await getCategoty(filter)
-                category = getRecordFromModel(getIdFormUrl(i.productFolder.meta.href))
-                if (!category) {
-                    return messages.categoty.push({ messages: '{Херня какая-то !!!' });
-                }
-            }
-
-            product[count].id = category.id;
-
-
-            messages.categoty.push(mesCategory);
-            messages.categoty.push(mesCategory);
-            //     // id для добавление товара
-            //     ///////console.log(mesCategory.idForProductCreat)
-
-
-            //     // await getCategoty(i.productFolder.meta.href, i.pathName, countingCreatCategory)
-            //     // resolve.push(countingCreatCategory)
+            messages.push({ category: await checkCategory(getIdFormUrl(i.productFolder.meta.href)) })
+            items.categoryId = messages[count].category.categoryId
         }
-
 
         // // ссылка на единицу измерения
         // console.log(i.uom.meta.href)
@@ -74,13 +48,20 @@ const processingData = async (msObj) => {
         /* 
         создаем товары из запроса
          */
+        product.push(items)
         count++;
     }
 
-    messages.product = { productMessage: `Обработано ${count} товаров` }
     console.log(messages)
-    return messages
+    console.log(product)
+    return { ...product, ...messages }
+}
 
+
+// Получение Товаров из мой склад
+const getAssortment = async (req, res) => {
+    //console.log(req)
+    res.status(200).send(await axiosGet(config, processingData))
 }
 
 module.exports = {

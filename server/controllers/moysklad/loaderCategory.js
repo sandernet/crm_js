@@ -20,44 +20,33 @@ const config = (params) => {
     }
 }
 
-
 // Проверка наличи в моделе записи 
 // Вход: id из мой склад (externalCodeMS)
 // Выход: запись из модели либо null
-const getRecordFromModel = (idMS) => {
-    return defaultGet({ externalCodeMS: idMS }, model)
+const getRecordFromModel = async (idMS) => {
+    return await defaultGet({ externalCodeMS: idMS }, model)
 }
 
+// Обновление всех категорий 
 const getCategoty = async (filter) => {
-    let mes = {}
     // Получаем из Мой склад  все каттегории с фильтром 
     // filterCat функция преобразовывает в массив для модели категорий
     let categoryMS = await axiosGet(config(filter), filterCat)
     // Проверяем получили ли входные данные
     if (categoryMS) {
         // загружаем в базу и получем ответ
-        const addCategoryDB = await bulkCreate(categoryMS)
+        const addCategoryDB = await bulkCreateData(categoryMS)
         if (addCategoryDB) {
-            return mes.category = addCategoryDB;
+            return `Обновлено ${addCategoryDB.length} категорий`;
+        }
+        else {
+            return `Что то пошло не так`;
         }
     }
 }
 
 
-//     // Проверяем есть ли в базе такой id
-//     if (data) {
-//         // возращаем сообщение с id категории
-//         return { idForProductCreat: idMoySklad }
-//     }
-//     // если категории нету
-//     if (!data) {
-//         //await updateCategory()
-//         await updateCategory()
-//         // запускаем процедуру обновления категорий
-//     }
-//     return mes
-// }
-
+// Прощедура создания массива с данными для ввода в базу 
 const filterCat = (data) => {
     let dataArrayCat = [];
     for (let i of data['rows']) {
@@ -65,13 +54,50 @@ const filterCat = (data) => {
             name: i.name,
             description: i.description ? i.description : null,
             externalCodeMS: i.id,
-            parent_id: i.pathName !== '' ? getIdFormUrl(i.productFolder.meta.href) : null
+            parent_id: i.pathName !== '' ? getIdFormUrl(i.productFolder.meta.href) : "rootFolder"
         }
-
         )
     }
     return dataArrayCat
 }
+
+const checkCategory = async (idMS) => {
+    let messages = {}
+    let arrayAddCategory = null;
+    // получем категории из мой склад по id из мой склад
+    let category = await getRecordFromModel(idMS)
+    // Если категория не найдена в базе обновляем весь каталог из мой склад
+    if (!category) {
+        // Устанавливаем фильтр запроса к мой склад
+        const filter = {
+            filter: ""
+        }
+        // получаем массив для создания в базе
+        arrayAddCategory = await getCategoty(filter)
+        // messages = arrayAddCategory;
+        // еще раз проверяем наличие в базе
+        category = await getRecordFromModel(idMS)
+        if (!category.id) {
+            // если нету возращаем объект с сообщением и ощибкой 
+            return messages = {
+                all: arrayAddCategory,
+                messages: 'Категории нету в базе {Херня какая-то !!!',
+                categoryId: null,
+                isError: true
+            };
+        }
+    }
+    //возращаем объект с данными 
+    return messages = {
+        all: arrayAddCategory,
+        messages: 'Категория найдена',
+        categoryId: category.id,
+        isError: false
+
+    };
+
+}
+
 
 /**************************************** 
  * Рекуртия перебор всех подгрупп
@@ -82,7 +108,6 @@ const updateCategory = async () => {
     //и с помошью функции фильтр ормируем массив для загрузки
     let category = await axiosGet(config(), filterCat)
     await bulkCreate(category)
-
     // рекурсия загрузки категорий
     //    let category = await axiosGet(config, creatCategory)
 
@@ -95,6 +120,7 @@ const updateCategory = async () => {
     console.log(category.x.pathName)
     await getCategoty(category.x.productFolder.meta.href, category.x.pathName)
     */
+
 }
 
 
@@ -102,7 +128,7 @@ const updateCategory = async () => {
 Массовое добавление данных в таблицу
 bulkCreate: updateOnDuplicate
 */
-const bulkCreate = (dataArray) => {
+const bulkCreateData = (dataArray) => {
     // dataArray = [{
     //     name: "Наименование 1112",
     //     externalCodeMS: "Внешний код 111",
@@ -115,7 +141,7 @@ const bulkCreate = (dataArray) => {
     //     description: "Описание  2223",
     //     parent_id: "Внешний код 222 родительского"
     // }]
-    model.bulkCreate(
+    return model.bulkCreate(
         dataArray
         , {
             //fields: ["externalCodeMS"],
@@ -127,7 +153,7 @@ const bulkCreate = (dataArray) => {
 module.exports = {
     getCategoty,
     getRecordFromModel,
-    bulkCreate
+    checkCategory
 }
 
 

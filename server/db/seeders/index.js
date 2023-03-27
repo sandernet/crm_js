@@ -3,31 +3,18 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.bulkInsert("typePrices", [
-            {
-                name: "Закупочная цена",
-                // createdAt: new Date(),
-                // updatedAt: new Date(),
-            },
+            { name: "Закупочная цена", },
+            { name: "Минимальная цена", },
         ])
-        await queryInterface.bulkInsert("uoms", [
-            {
-                name: "шт",
-                fullName: "Штука",
-                digitalCode: "796",
-                // createdAt: new Date(),
-                // updatedAt: new Date(),
-            },
-        ])
-        await queryInterface.bulkInsert("categories", [
-            {
-                id: 0,
-                name: "Товары и услуги",
-                description: "",
-                parent_id: "0",
-                // createdAt: new Date(),
-                // updatedAt: new Date(),
-            },
-        ])
+        // await queryInterface.bulkInsert("categories", [
+        //     {
+        //         name: "Товары и услуги",
+        //         description: "",
+        //         parent_id: "rootFolder",
+        //         // createdAt: new Date(),
+        //         // updatedAt: new Date(),
+        //     },
+        // ])
 
     },
 

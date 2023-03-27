@@ -36,7 +36,8 @@ const def = (data, model) => {
             })
             .then((data) => {
                 resolve(data);
-            }).catch(() => {
+            })
+            .catch(() => {
                 resolve(null)
             })
             ;

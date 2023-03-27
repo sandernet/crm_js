@@ -10,7 +10,7 @@ const def = (db, DataTypes, options) => {
             artical: { // Артикул
                 type: DataTypes.STRING,
             },
-            externalCode: { // Внешний код товара из мой склад
+            idMS: { // Внешний код товара из мой склад
                 type: DataTypes.STRING,
             },
             vendorCode: { // артикул товара из мой склад
