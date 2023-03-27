@@ -6,6 +6,7 @@ rest api client аналог postman
 rest client
 Пример файла
 
+
 запись полученных даннх в переменную
 @name <имя переменной>
 GET https://online.moysklad.ru/api/remap/1.2/entity/product
