@@ -363,8 +363,8 @@
                     "field": "artical",
                     "seqType": "Sequelize.STRING"
                 },
-                "externalCode": {
-                    "field": "externalCode",
+                "idMS": {
+                    "field": "idMS",
                     "seqType": "Sequelize.STRING"
                 },
                 "vendorCode": {
@@ -438,6 +438,48 @@
                 "name": {
                     "field": "name",
                     "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "field": "deletedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "syncInfos": {
+            "tableName": "syncInfos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "info": {
+                    "field": "info",
+                    "seqType": "Sequelize.STRING"
+                },
+                "module": {
+                    "field": "module",
+                    "seqType": "Sequelize.STRING"
+                },
+                "resultError": {
+                    "defaultValue": {
+                        "value": 0
+                    },
+                    "field": "resultError",
+                    "seqType": "Sequelize.INTEGER"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -563,5 +605,5 @@
         }
     },
     "exists": true,
-    "revision": 4
+    "revision": 6
 }

@@ -1,4 +1,7 @@
 const { getIdFormUrl, axiosGet } = require('./config')
+// функции получение времени посдедней синхронихации модуля
+// Функция добовления времени синхронизации модуля
+const { getInfoMaxData, addSyncInfo } = require('./config')
 const { defaultGet } = require("../../utils/db");
 const models = require("../../db/models");
 
@@ -7,6 +10,8 @@ let model = models.category
 // Параметры запроса в мой склад
 // Для получения всех категорий товаров
 // params фильтры для запроса 
+// {filter: "updated>=2023-03-13 21:43:42"}
+// Получим 
 // ?filter=updated>=2023-03-13 21:43:42', по дате 
 const config = (params) => {
     return {
@@ -30,31 +35,36 @@ const getRecordFromModel = async (idMS) => {
 // Обновление всех категорий 
 const getCategoty = async (filter) => {
     // Получаем из Мой склад  все каттегории с фильтром 
-    // filterCat функция преобразовывает в массив для модели категорий
-    let categoryMS = await axiosGet(config(filter), filterCat)
+    // creatArrayAddCategiry функция преобразовывает 
+    // запрос MS в массив для записи в модель категоря
+    let categoryMS = await axiosGet(config(filter), creatArrayAddCategiry)
     // Проверяем получили ли входные данные
     if (categoryMS) {
         // загружаем в базу и получем ответ
         const addCategoryDB = await bulkCreateData(categoryMS)
         if (addCategoryDB) {
-            return `Обновлено ${addCategoryDB.length} категорий`;
+            const mes = `Обновлено ${addCategoryDB.length} категорий`;
+            addSyncInfo(mes, "categoryMS", 0)
+            return mes
         }
         else {
-            return `Что то пошло не так`;
+            const mes = `Что то пошло не так данные не добавлены`;
+            addSyncInfo(mes, "categoryMS", 1)
+            return mes;
         }
     }
 }
 
 
 // Прощедура создания массива с данными для ввода в базу 
-const filterCat = (data) => {
+const creatArrayAddCategiry = (data) => {
     let dataArrayCat = [];
     for (let i of data['rows']) {
         dataArrayCat.push({
             name: i.name,
             description: i.description ? i.description : null,
             externalCodeMS: i.id,
-            parent_id: i.pathName !== '' ? getIdFormUrl(i.productFolder.meta.href) : "rootFolder"
+            parent_id: i.pathName !== '' ? getIdFormUrl(i.productFolder.meta.href) : null
         }
         )
     }
@@ -69,11 +79,12 @@ const checkCategory = async (idMS) => {
     // Если категория не найдена в базе обновляем весь каталог из мой склад
     if (!category) {
         // Устанавливаем фильтр запроса к мой склад
-        const filter = {
-            filter: ""
-        }
+        const lastUpdateDate = await getInfoMaxData("categoryMS")
+        console.log(lastUpdateDate)
+        let filterMS = lastUpdateDate === null ? { filter: "" } : { filter: `updated>=${lastUpdateDate}` }
+
         // получаем массив для создания в базе
-        arrayAddCategory = await getCategoty(filter)
+        arrayAddCategory = await getCategoty(filterMS)
         // messages = arrayAddCategory;
         // еще раз проверяем наличие в базе
         category = await getRecordFromModel(idMS)

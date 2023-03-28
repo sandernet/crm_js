@@ -8,7 +8,7 @@ GET http://{{hostname}}/{{modul}}/
 ###
 // загрузка товаров из мой склад 
 GET {{urlMoysklad}}/entity/product
-    ?limit=2
+    ?limit=10
 Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 

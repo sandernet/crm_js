@@ -1,5 +1,7 @@
 const axiosModule = require('axios')
 const { defGet } = require("../../utils/db/defGet")
+const { getInfoMaxData, addSyncInfo } = require("../../utils/syncInfo")
+
 
 
 // опции поумолчанию для запроса в мой склад
@@ -10,7 +12,7 @@ const axios = axiosModule.create({
         'Authorization': 'Bearer ' + process.env.MS_TOKEN
     },
     params: {
-        limit: 500,
+        limit: 1000,
         offset: 0
     },
 });
@@ -43,19 +45,19 @@ const axiosGet = (config, processingData) => {
 }
 
 /*
-    из url мой склад берем ID товара 
+    из url мой склад берем ID элемента 
     href: "https://online.moysklad.ru/api/remap/1.2/entity/group/9aa89681-8d14-11eb-0a80-05d700001811",
 */
 const getIdFormUrl = (url) => {
-
     const arrayUrl = url.split('/');
     return id = arrayUrl[arrayUrl.length - 1]
 }
 
 
-
 module.exports = {
     axiosGet,
     getIdFormUrl,
-    defGet
+    defGet,
+    getInfoMaxData,
+    addSyncInfo
 }
