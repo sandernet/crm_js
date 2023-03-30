@@ -80,7 +80,6 @@ const checkCategory = async (idMS) => {
     if (!category) {
         // Устанавливаем фильтр запроса к мой склад
         const lastUpdateDate = await getInfoMaxData("categoryMS")
-        console.log(lastUpdateDate)
         let filterMS = lastUpdateDate === null ? { filter: "" } : { filter: `updated>=${lastUpdateDate}` }
 
         // получаем массив для создания в базе
