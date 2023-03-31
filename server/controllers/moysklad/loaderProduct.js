@@ -1,7 +1,7 @@
 // подгружаем настроенный axios
 const { axiosGet, getIdFormUrl } = require('./config')
 
-const { getCategoty, getRecordFromModel, checkCategory } = require("./loaderCategory")
+const { checkCategory } = require("./loaderCategory")
 
 // Параметры запроса в мой склад
 const config = {

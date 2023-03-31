@@ -11,6 +11,7 @@ const dev = {
   dialect: process.env.DEV_DIALECT,
   logging: (msg) => { msg },
   define: {},
+  timezone: "+00:00"
 };
 
 module.exports = { development: dev, test: null, production: null };

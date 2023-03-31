@@ -39,7 +39,7 @@ const getCategoty = async (filter) => {
     // запрос MS в массив для записи в модель категоря
     let categoryMS = await axiosGet(config(filter), creatArrayAddCategiry)
     // Проверяем получили ли входные данные
-    if (categoryMS) {
+    if (categoryMS.length > 0) {
         // загружаем в базу и получем ответ
         const addCategoryDB = await bulkCreateData(categoryMS)
         if (addCategoryDB) {
@@ -47,11 +47,11 @@ const getCategoty = async (filter) => {
             addSyncInfo(mes, "categoryMS", 0)
             return mes
         }
-        else {
-            const mes = `Что то пошло не так данные не добавлены`;
-            addSyncInfo(mes, "categoryMS", 1)
-            return mes;
-        }
+    }
+    else {
+        const mes = `Что то пошло не так данные не добавлены`;
+        addSyncInfo(mes, "categoryMS", 1)
+        return mes;
     }
 }
 
@@ -87,7 +87,7 @@ const checkCategory = async (idMS) => {
         // messages = arrayAddCategory;
         // еще раз проверяем наличие в базе
         category = await getRecordFromModel(idMS)
-        if (!category.id) {
+        if (category === null) {
             // если нету возращаем объект с сообщением и ощибкой 
             return messages = {
                 all: arrayAddCategory,
