@@ -403,7 +403,7 @@
                 "categoryId": {
                     "allowNull": true,
                     "references": {
-                        "model": "products",
+                        "model": "categories",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
@@ -414,7 +414,7 @@
                 "uomId": {
                     "allowNull": true,
                     "references": {
-                        "model": "products",
+                        "model": "uoms",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
@@ -534,12 +534,17 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
-                "fullName": {
-                    "field": "fullName",
+                "externalCodeMS": {
+                    "unique": true,
+                    "field": "externalCodeMS",
                     "seqType": "Sequelize.STRING"
                 },
-                "digitalCode": {
-                    "field": "digitalCode",
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.STRING"
+                },
+                "code": {
+                    "field": "code",
                     "seqType": "Sequelize.STRING"
                 },
                 "deletedAt": {
@@ -604,6 +609,6 @@
             "indexes": []
         }
     },
-    "exists": true,
-    "revision": 6
+    "exists": false,
+    "revision": 1
 }

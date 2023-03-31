@@ -44,13 +44,13 @@ const getCategoty = async (filter) => {
         const addCategoryDB = await bulkCreateData(categoryMS)
         if (addCategoryDB) {
             const mes = `Обновлено ${addCategoryDB.length} категорий`;
-            addSyncInfo(mes, "categoryMS", 0)
+            await addSyncInfo(mes, "categoryMS", 0)
             return mes
         }
     }
     else {
         const mes = `Что то пошло не так данные не добавлены`;
-        addSyncInfo(mes, "categoryMS", 1)
+        await addSyncInfo(mes, "categoryMS", 1)
         return mes;
     }
 }
@@ -73,24 +73,22 @@ const creatArrayAddCategiry = (data) => {
 
 const checkCategory = async (idMS) => {
     let messages = {}
-    let arrayAddCategory = null;
     // получем категории из мой склад по id из мой склад
     let category = await getRecordFromModel(idMS)
     // Если категория не найдена в базе обновляем весь каталог из мой склад
-    if (!category) {
+    if (category === null) {
         // Устанавливаем фильтр запроса к мой склад
         const lastUpdateDate = await getInfoMaxData("categoryMS")
         let filterMS = lastUpdateDate === null ? { filter: "" } : { filter: `updated>=${lastUpdateDate}` }
 
         // получаем массив для создания в базе
-        arrayAddCategory = await getCategoty(filterMS)
+        await getCategoty(filterMS)
         // messages = arrayAddCategory;
         // еще раз проверяем наличие в базе
         category = await getRecordFromModel(idMS)
         if (category === null) {
             // если нету возращаем объект с сообщением и ощибкой 
             return messages = {
-                all: arrayAddCategory,
                 messages: 'Категории нету в базе {Херня какая-то !!!',
                 categoryId: null,
                 isError: true
@@ -99,7 +97,6 @@ const checkCategory = async (idMS) => {
     }
     //возращаем объект с данными 
     return messages = {
-        all: arrayAddCategory,
         messages: 'Категория найдена',
         categoryId: category.id,
         isError: false

@@ -14,14 +14,14 @@ Content-Type: {{contentType}}
 
 
 ###
-// загрузка группы товаров из мой склад 
+// загрузка категорий из мой склад 
 GET {{urlMoysklad}}/entity/productfolder
 Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
 ###
 // загрузка группы товаров из мой склад 
-GET {{urlMoysklad}}/entity/productfolder/26595513-9193-11ed-0a80-04fa000b4e16
+GET {{urlMoysklad}}/entity/uom
 Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 

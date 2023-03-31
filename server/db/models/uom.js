@@ -10,10 +10,14 @@ const def = (db, DataTypes, options) => {
             name: { // название единицы
                 type: DataTypes.STRING,
             },
-            fullName: { // Полное наименование
+            externalCodeMS: { //id из моё склада
+                type: DataTypes.STRING,
+                unique: true,
+            },
+            description: { // Полное наименование
                 type: DataTypes.STRING,
             },
-            digitalCode: { // цифровой код
+            code: { // цифровой код
                 type: DataTypes.STRING,
             },
         },

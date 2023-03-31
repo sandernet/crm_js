@@ -33,7 +33,7 @@ const def = (db, DataTypes, options) => {
     // Связи с другими таблицами
     model.associate = (models) => {
         // Категория товара
-        model.belongsTo(model, {
+        model.belongsTo(models.category, {
             foreignKey: "categoryId",
             as: "category",
             onUpdate: "NO ACTION",
@@ -41,7 +41,7 @@ const def = (db, DataTypes, options) => {
         });
 
         // Таблица свойств
-        model.belongsTo(model, {
+        model.belongsTo(models.uom, {
             foreignKey: "uomId",
             as: "uom",
             onUpdate: "NO ACTION",

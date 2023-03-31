@@ -38,7 +38,7 @@ const getInfoMaxData = async (module, resultError = 0) => {
         // group: [`${model.name}.module`],
         // order: Sequelize.literal(`${model.name}.createdAt`)
     })
-    if (data.dataValues.m__createdAt === null) {
+    if (data === null || data.dataValues.m__createdAt === null) {
         return null
     }
 
