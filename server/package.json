@@ -13,7 +13,8 @@
     "mysql2": "^3.0.1",
     "sequelize": "^6.29.0",
     "sequelize-cli": "^6.6.0",
-    "sequelize-mig": "github:sacredneobi/sequelize-mig"
+    "sequelize-mig": "github:sacredneobi/sequelize-mig",
+    "xmlbuilder": "^15.1.1"
   },
   "name": "server",
   "version": "1.0.0",
