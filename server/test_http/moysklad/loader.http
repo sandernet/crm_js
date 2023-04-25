@@ -26,8 +26,8 @@ Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
 ###
-// загрузка товаров из мой склад 
-GET {{urlMoysklad}}/entity/group/bbd89e36-ab71-11ed-0a80-0e7e0032ed92
+// загрузка модификаций товаров из мой склад 
+GET {{urlMoysklad}}/entity/variant
 Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
