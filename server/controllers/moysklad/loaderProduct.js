@@ -22,7 +22,7 @@ const config = (filter) => {
             "Content-Type": "application/json"
         },
         params: {
-            limit: 600,
+            limit: 10,
             offset: 0,
             ...filter
             // filter: "updated>=2023-03-13 21:43:42"
@@ -66,6 +66,14 @@ const processingData = async (msObj) => {
     let items = {}
     let mes;
     console.log(msObj)
+
+    // Вставить обработчик запросов с шагом 100 товаров
+
+    let size = msObj.meta.size
+    let limit = msObj.meta.limit
+
+
+
     for (let i of msObj['rows']) {
 
         items.idMS = i.id
@@ -120,6 +128,8 @@ const getAssortment = async (req, res) => {
     // const lastUpdateDate = await getInfoMaxData("productMS")
     const lastUpdateDate = null
     let filterMS = lastUpdateDate === null ? { filter: "" } : { filter: `updated>=${lastUpdateDate}` }
+
+
     res.status(200).send(await axiosGet(config(filterMS), processingData))
 }
 
