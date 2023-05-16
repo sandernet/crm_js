@@ -17,7 +17,7 @@ const addSyncInfo = async (info, module, resultError) => {
 };
 
 
-// Плучение информации по последнему обновлению по модулю
+// Получение информации по последнему обновлению по модулю
 // удачному resultError: 0 
 // НЕ удачному resultError: 1 
 const getInfoMaxData = async (module, resultError = 0) => {
@@ -30,13 +30,7 @@ const getInfoMaxData = async (module, resultError = 0) => {
         },
         attributes: [
             [Sequelize.fn('max', Sequelize.col(`${model.name}.createdAt`)), 'm__createdAt'],
-            // include: [
-            //     [Sequelize.fn('max', Sequelize.col(`${model.name}.createdAt`)), 'm__createdAt'],
-
-            // ]
         ],
-        // group: [`${model.name}.module`],
-        // order: Sequelize.literal(`${model.name}.createdAt`)
     })
     if (data === null || data.dataValues.m__createdAt === null) {
         return null
@@ -47,7 +41,7 @@ const getInfoMaxData = async (module, resultError = 0) => {
     const dateString = moment.utc(updatedAt).format("YYYY-MM-DD HH:mm")
 
     // return toUTCString(data.dataValues.updatedAt)
-    console.log(dateString);
+    // console.log(dateString);
 
     return dateString
 };

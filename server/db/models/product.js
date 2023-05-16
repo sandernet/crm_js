@@ -7,22 +7,16 @@ const def = (db, DataTypes, options) => {
     const model = db.define(
         "product",
         {
-            artical: { // Артикул
-                type: DataTypes.STRING,
-            },
-            idMS: { // Внешний код товара из мой склад
-                type: DataTypes.STRING,
-            },
-            vendorCode: { // артикул товара из мой склад
+            article: { // Артикул Товара (Как у производителя если есть) берем из системы учета.
                 type: DataTypes.STRING,
             },
             name: { // Наименование товара
                 type: DataTypes.STRING,
             },
-            description: { // Описание товара
-                type: DataTypes.TEXT,
+            uom: { // Единица измерения
+                type: DataTypes.STRING,
             },
-            archived: { // архивный
+            archived: { // Активный / архивный
                 type: DataTypes.INTEGER,
                 defaultValue: false
             },
@@ -36,14 +30,6 @@ const def = (db, DataTypes, options) => {
         model.belongsTo(models.category, {
             foreignKey: "categoryId",
             as: "category",
-            onUpdate: "NO ACTION",
-            onDelete: "CASCADE",
-        });
-
-        // Таблица свойств
-        model.belongsTo(models.uom, {
-            foreignKey: "uomId",
-            as: "uom",
             onUpdate: "NO ACTION",
             onDelete: "CASCADE",
         });

@@ -16,7 +16,7 @@ const post = (req, res, promiseError) => {
 };
 
 
-// Плучение данных
+// Получение данных
 const getOneId = (externalCode) => {
   const searchId = externalCode ? { externalCode } : null;
 
@@ -36,7 +36,7 @@ const getOneId = (externalCode) => {
 };
 
 
-// Плучение данных
+// Получение данных
 const get = (req, res) => {
   const { search, id, limit, offset, ...other } = req.query;
 
@@ -46,7 +46,7 @@ const get = (req, res) => {
       [Op.or]: [
         { name: { [Op.like]: `%${search}%` } },
         { description: { [Op.like]: `%${search}%` } },
-        { artical: { [Op.like]: `%${search}%` } },
+        { article: { [Op.like]: `%${search}%` } },
       ],
     }
     : null;
@@ -99,7 +99,7 @@ const put = (req, res, promiseError) => {
 };
 
 
-// Удаление данных из таблици по id
+// Удаление данных из Таблицы по id
 const del = (req, res, promiseError) => {
   const { id } = req.body;
 

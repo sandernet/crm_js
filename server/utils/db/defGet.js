@@ -1,8 +1,27 @@
+const { defGetFields } = require("./defFields");
+const checkDataByFields = require("./checkData");
+
+
 // data, 
 // model
-// Плучение данных
+// Получение данных
 // const get = (req, res) => {
-const def = (data, model) => {
+const def = (fields = {}, data, model) => {
+
+    const isArray = Array.isArray(fields);
+
+    const check = isArray ? fields : fields?.check;
+    const answer = isArray ? defGetFields : fields?.answer ?? defGetFields;
+
+    if (check) {
+        const checkData = checkDataByFields(check, data);
+
+        if (checkData.isError) {
+            throw new Error(checkData.message);
+        }
+    }
+
+
     const { search, id, externalCodeMS, ...other } = data;
 
     // указываем в каких полях нужно искать строку /model?search=<>
@@ -17,30 +36,33 @@ const def = (data, model) => {
     // поиск по id /model?id=<>
     const searchId = id ? { id } : null;
 
-    // поиск по внешниму ключу externalCode
+    // поиск по внешнему ключу externalCode
     const searchExternalCode = externalCodeMS ? { externalCodeMS } : null;
 
     const where =
         searchCaption || searchId || searchExternalCode ? { ...searchCaption, ...searchId, ...searchExternalCode } : null;
     // выполняем запрос
 
-
     return new Promise((resolve, reject) => {
         model
-            .findOne({
+            .findAll({
                 attributes: {
                     exclude: ["createdAt", "updatedAt", "deletedAt"],
                 },
                 ...other,
-                where: where,
+                where: where
             })
-            .then((data) => {
-                resolve(data);
+            .then((answerData) => {
+                if (answer) {
+                    let result = {};
+                    answer.forEach((field) => (result[field] = answerData[field]));
+                    resolve(result);
+                }
+                resolve(answerData);
             })
-            .catch(() => {
-                resolve(null)
-            })
-            ;
+            .catch((error) => {
+                reject(error);
+            });
     });
 }
 

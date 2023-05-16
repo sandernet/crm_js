@@ -19,6 +19,7 @@ const checkMethodSync = (method, moduleName) => {
 
 const checkMethod = (method, moduleName) => {
   return async (req, res) => {
+    // Процедура логирования router
     const error = (err) => {
       res.status(500).send({
         moduleName,
@@ -30,10 +31,12 @@ const checkMethod = (method, moduleName) => {
 
     try {
       await method(req, res, error);
-    } catch (err) {
+    }
+    catch (err) {
       error(err);
     }
   };
 };
 
-module.exports = { checkMethodSync, checkMethod };
+// module.exports = { checkMethodSync, checkMethod };
+module.exports = { checkMethod };

@@ -15,16 +15,25 @@ const def = (db, DataTypes, options) => {
                 type: DataTypes.STRING,
                 unique: true,
             },
-            description: { // Описание категории
+            parent_id: { //Родительский Id из мой склад
                 type: DataTypes.STRING,
             },
-            parent_id: { //-номер родительской категории поумолчанию 0;
+            description: { // Описание категории
                 type: DataTypes.STRING,
-                //defaultValue: 0,
             }
         },
         options
     );
+    // // Связи с другими таблицами
+    // model.associate = (models) => {
+    //     // Родительская категория 
+    //     model.belongsTo(model, {
+    //         foreignKey: "parent_id",
+    //         //as: "parent_id",
+    //         onUpdate: "NO ACTION",
+    //         onDelete: "SET NULL",
+    //     });
+    // }
     return model;
 };
 

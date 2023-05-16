@@ -1,7 +1,9 @@
 // подгружаем настроенный axios
 const { axiosGet, getIdFormUrl } = require('./config')
 
-const { addSyncInfo } = require('./config')
+// функции получение времени последней синхронизации модуля
+// Функция добавления времени синхронизации модуля
+const { getInfoMaxData, addSyncInfo } = require('./config')
 
 const { checkCategory } = require("./loaderCategory")
 const { checkUom } = require("./loaderUom")
@@ -11,18 +13,21 @@ const models = require("../../db/models");
 let model = models.product
 
 // Параметры запроса в мой склад
-const config = {
-    method: 'get',
-    // Добавляем фильтры ?filter=updated>=2023-03-13 21:43:42',
-    url: '/entity/product',
-    headers: {
-        "Content-Type": "application/json"
-    },
-    params: {
-        limit: 100,
-        offset: 0,
-        // filter: "updated>=2023-03-13 21:43:42"
-    },
+const config = (filter) => {
+    return {
+        method: 'get',
+
+        url: '/entity/product',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        params: {
+            limit: 600,
+            offset: 0,
+            ...filter
+            // filter: "updated>=2023-03-13 21:43:42"
+        },
+    }
 }
 
 // Обновление всех записей
@@ -31,13 +36,13 @@ const getProductDB = async (addDataDB) => {
         // загружаем в базу и получем ответ
         const detDataDB = await bulkCreateData(addDataDB)
         if (detDataDB) {
-            const mes = `Обновлено ${detDataDB.length} роваров`;
+            const mes = `Обновлено ${detDataDB.length} товаров`;
             await addSyncInfo(mes, "productMS", 0)
             return mes
         }
     }
     else {
-        const mes = `Что то пошло не так данные не добавлены`;
+        const mes = `Обновлено 0 товаров`;
         await addSyncInfo(mes, "productMS", 1)
         return mes;
     }
@@ -60,12 +65,14 @@ const processingData = async (msObj) => {
     let product = [];
     let items = {}
     let mes;
+    console.log(msObj)
     for (let i of msObj['rows']) {
 
         items.idMS = i.id
         items.name = i.name
-        items.description = i.description ? i.description : null
-        // получаем id категории если категоря есть в базе 
+        items.article = i.article
+
+        // получаем id категории если категория есть в базе 
         // если нету загружаем все категории"
         if (i.pathName !== '') {
             const category = await checkCategory(getIdFormUrl(i.productFolder.meta.href))
@@ -74,15 +81,17 @@ const processingData = async (msObj) => {
                 return
             items.categoryId = category.categoryId
         }
-        // Загрузка единиц измерения
-        if (i.uom !== undefined) {
 
-            const uom = await checkUom(getIdFormUrl(i.uom.meta.href))
-            if (uom.isError === true)
-                return
 
-            items.uomId = uom.uomId
-        }
+        // // Загрузка единиц измерения
+        // if (i.uom !== undefined) {
+
+        //  const uom = await checkUom(getIdFormUrl(i.uom.meta.href))
+        //     if (uom.isError === true)
+        //         return
+
+        items.uom = 'шт'; //uom.uomId
+        // }
 
         // // ссылка на картинку товара
         // console.log(i.images.meta.href)
@@ -108,8 +117,10 @@ const processingData = async (msObj) => {
 
 // Получение Товаров из мой склад
 const getAssortment = async (req, res) => {
-    //console.log(req)
-    res.status(200).send(await axiosGet(config, processingData))
+    // const lastUpdateDate = await getInfoMaxData("productMS")
+    const lastUpdateDate = null
+    let filterMS = lastUpdateDate === null ? { filter: "" } : { filter: `updated>=${lastUpdateDate}` }
+    res.status(200).send(await axiosGet(config(filterMS), processingData))
 }
 
 module.exports = {

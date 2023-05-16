@@ -2,7 +2,8 @@ const { getIdFormUrl, axiosGet } = require('./config')
 // функции получение времени посдедней синхронихации модуля
 // Функция добовления времени синхронизации модуля
 const { getInfoMaxData, addSyncInfo } = require('./config')
-const { defaultGet } = require("../../utils/db");
+// const { defaultGet } = require("../../utils/db");
+const { getOneExternalCode } = require("../category");
 const models = require("../../db/models");
 
 let model = models.category
@@ -25,19 +26,16 @@ const config = (params) => {
     }
 }
 
-// Проверка наличи в моделе записи 
+// Проверка наличия в в таблице записи 
 // Вход: id из мой склад (externalCodeMS)
 // Выход: запись из модели либо null
-const getRecordFromModel = async (idMS) => {
-    return await defaultGet({ externalCodeMS: idMS }, model)
-}
 
 // Обновление всех категорий 
-const getCategoty = async (filter) => {
-    // Получаем из Мой склад  все каттегории с фильтром 
-    // creatArrayAddCategiry функция преобразовывает 
-    // запрос MS в массив для записи в модель категоря
-    let categoryMS = await axiosGet(config(filter), creatArrayAddCategiry)
+const getCategory = async (filter) => {
+    // Получаем из Мой склад  все категории с фильтром
+    // createArrayAddCategory функция преобразовывает
+    // запрос MS в массив для записи в модель категория
+    let categoryMS = await axiosGet(config(filter), createArrayAddCategory)
     // Проверяем получили ли входные данные
     if (categoryMS.length > 0) {
         // загружаем в базу и получем ответ
@@ -49,15 +47,14 @@ const getCategoty = async (filter) => {
         }
     }
     else {
-        const mes = `Что то пошло не так данные не добавлены`;
+        const mes = `Что то пошло не так категории не обновлены`;
         await addSyncInfo(mes, "categoryMS", 1)
         return mes;
     }
 }
 
-
-// Прощедура создания массива с данными для ввода в базу 
-const creatArrayAddCategiry = (data) => {
+// Процедура создания массива с данными для ввода в базу всех категорий 
+const createArrayAddCategory = (data) => {
     let dataArrayCat = [];
     for (let i of data['rows']) {
         dataArrayCat.push({
@@ -72,9 +69,9 @@ const creatArrayAddCategiry = (data) => {
 }
 
 const checkCategory = async (idMS) => {
-    let messages = {}
-    // получем категории из мой склад по id из мой склад
-    let category = await getRecordFromModel(idMS)
+    let messages = "";
+    // получем категории из базы по id из мой склад
+    let category = await getOneExternalCode(idMS)
     // Если категория не найдена в базе обновляем весь каталог из мой склад
     if (category === null) {
         // Устанавливаем фильтр запроса к мой склад
@@ -82,22 +79,22 @@ const checkCategory = async (idMS) => {
         let filterMS = lastUpdateDate === null ? { filter: "" } : { filter: `updated>=${lastUpdateDate}` }
 
         // получаем массив для создания в базе
-        await getCategoty(filterMS)
+        messages = await getCategory(filterMS)
         // messages = arrayAddCategory;
         // еще раз проверяем наличие в базе
-        category = await getRecordFromModel(idMS)
+        category = await getOneExternalCode(idMS)
         if (category === null) {
-            // если нету возращаем объект с сообщением и ощибкой 
-            return messages = {
+            // если нету возвращаем объект с сообщением и ошибкой 
+            return {
                 messages: 'Категории нету в базе {Херня какая-то !!!',
                 categoryId: null,
                 isError: true
             };
         }
     }
-    //возращаем объект с данными 
-    return messages = {
-        messages: 'Категория найдена',
+    //возвращаем объект с данными 
+    return {
+        messages: messages,
         categoryId: category.id,
         isError: false
 
@@ -107,12 +104,12 @@ const checkCategory = async (idMS) => {
 
 
 /**************************************** 
- * Рекуртия перебор всех подгрупп
+ * Рекурсия перебор всех подгрупп
 */
 const updateCategory = async () => {
 
-    // молучаем массив из мой склад 
-    //и с помошью функции фильтр ормируем массив для загрузки
+    // получаем массив из мой склад 
+    //и с помощью функции фильтр формируем массив для загрузки
     let category = await axiosGet(config(), filterCat)
     await bulkCreate(category)
     // рекурсия загрузки категорий
@@ -125,7 +122,7 @@ const updateCategory = async () => {
 
     console.log(category.x.productFolder.meta.href)
     console.log(category.x.pathName)
-    await getCategoty(category.x.productFolder.meta.href, category.x.pathName)
+    await getCategory(category.x.productFolder.meta.href, category.x.pathName)
     */
 
 }
@@ -158,8 +155,7 @@ const bulkCreateData = (dataArray) => {
 };
 
 module.exports = {
-    getCategoty,
-    getRecordFromModel,
+    getCategory,
     checkCategory
 }
 

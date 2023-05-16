@@ -17,7 +17,7 @@ const def = (db, DataTypes, options) => {
         {
             // Входящие настройки
             ...options,
-            // Можно добавить свои черех ","
+            // Можно добавить свои через ","
             // timestamps: false
             createdAt: false,
             // Изменяем название `updatedAt`

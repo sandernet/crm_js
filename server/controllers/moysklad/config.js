@@ -12,7 +12,7 @@ const { axiosGet } = require('./axiosConfig')
 */
 const getIdFormUrl = (url) => {
     const arrayUrl = url.split('/');
-    return id = arrayUrl[arrayUrl.length - 1]
+    return arrayUrl[arrayUrl.length - 1]
 }
 
 

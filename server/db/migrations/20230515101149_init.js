@@ -6,23 +6,19 @@ const Sequelize = require("sequelize");
  * createTable() => "categories", deps: []
  * createTable() => "employees", deps: []
  * createTable() => "marketPlaces", deps: []
- * createTable() => "properties", deps: []
  * createTable() => "syncInfos", deps: []
  * createTable() => "typePrices", deps: []
- * createTable() => "uoms", deps: []
- * createTable() => "barcodes", deps: [barcodes, barcodes]
- * createTable() => "categoryProperties", deps: [categoryProperties, categoryProperties]
  * createTable() => "imagesProducts", deps: [imagesProducts]
- * createTable() => "prices", deps: [prices, prices]
- * createTable() => "products", deps: [categories, uoms]
- * createTable() => "valueProperties", deps: [valueProperties, valueProperties]
+ * createTable() => "products", deps: [categories]
+ * createTable() => "prices", deps: [typePrices, products]
+ * createTable() => "properties", deps: [marketPlaces, products]
  *
  */
 
 const info = {
   revision: 1,
   name: "init",
-  created: "2023-04-01T01:29:37.192Z",
+  created: "2023-05-15T10:11:49.292Z",
   comment: "",
 };
 
@@ -45,8 +41,8 @@ const migrationCommands = (transaction) => [
           field: "externalCodeMS",
           unique: true,
         },
-        description: { type: Sequelize.STRING, field: "description" },
         parent_id: { type: Sequelize.STRING, field: "parent_id" },
+        description: { type: Sequelize.STRING, field: "description" },
         createdAt: {
           type: Sequelize.DATE,
           field: "createdAt",
@@ -133,34 +129,6 @@ const migrationCommands = (transaction) => [
   {
     fn: "createTable",
     params: [
-      "properties",
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          field: "id",
-          autoIncrement: true,
-          primaryKey: true,
-          allowNull: false,
-        },
-        name: { type: Sequelize.STRING, field: "name" },
-        createdAt: {
-          type: Sequelize.DATE,
-          field: "createdAt",
-          allowNull: false,
-        },
-        updatedAt: {
-          type: Sequelize.DATE,
-          field: "updatedAt",
-          allowNull: false,
-        },
-        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
-      },
-      { transaction },
-    ],
-  },
-  {
-    fn: "createTable",
-    params: [
       "syncInfos",
       {
         id: {
@@ -217,114 +185,6 @@ const migrationCommands = (transaction) => [
   {
     fn: "createTable",
     params: [
-      "uoms",
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          field: "id",
-          autoIncrement: true,
-          primaryKey: true,
-          allowNull: false,
-        },
-        name: { type: Sequelize.STRING, field: "name" },
-        externalCodeMS: {
-          type: Sequelize.STRING,
-          field: "externalCodeMS",
-          unique: true,
-        },
-        description: { type: Sequelize.STRING, field: "description" },
-        code: { type: Sequelize.STRING, field: "code" },
-        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
-      },
-      { transaction },
-    ],
-  },
-  {
-    fn: "createTable",
-    params: [
-      "barcodes",
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          field: "id",
-          autoIncrement: true,
-          primaryKey: true,
-          allowNull: false,
-        },
-        typeBarcodes: {
-          type: Sequelize.STRING,
-          field: "typeBarcodes",
-          allowNull: false,
-        },
-        barcode: { type: Sequelize.STRING, field: "barcode", allowNull: false },
-        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
-        productId: {
-          type: Sequelize.INTEGER,
-          field: "productId",
-          onUpdate: "NO ACTION",
-          onDelete: "CASCADE",
-          references: { model: "barcodes", key: "id" },
-          allowNull: true,
-        },
-        marketPlaceId: {
-          type: Sequelize.INTEGER,
-          field: "marketPlaceId",
-          onUpdate: "NO ACTION",
-          onDelete: "CASCADE",
-          references: { model: "barcodes", key: "id" },
-          allowNull: true,
-        },
-      },
-      { transaction },
-    ],
-  },
-  {
-    fn: "createTable",
-    params: [
-      "categoryProperties",
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          field: "id",
-          autoIncrement: true,
-          primaryKey: true,
-          allowNull: false,
-        },
-        allow_Null: { type: Sequelize.INTEGER, field: "allow_Null" },
-        createdAt: {
-          type: Sequelize.DATE,
-          field: "createdAt",
-          allowNull: false,
-        },
-        updatedAt: {
-          type: Sequelize.DATE,
-          field: "updatedAt",
-          allowNull: false,
-        },
-        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
-        categoryId: {
-          type: Sequelize.INTEGER,
-          field: "categoryId",
-          onUpdate: "NO ACTION",
-          onDelete: "CASCADE",
-          references: { model: "categoryProperties", key: "id" },
-          allowNull: true,
-        },
-        propertyId: {
-          type: Sequelize.INTEGER,
-          field: "propertyId",
-          onUpdate: "NO ACTION",
-          onDelete: "CASCADE",
-          references: { model: "categoryProperties", key: "id" },
-          allowNull: true,
-        },
-      },
-      { transaction },
-    ],
-  },
-  {
-    fn: "createTable",
-    params: [
       "imagesProducts",
       {
         id: {
@@ -363,6 +223,49 @@ const migrationCommands = (transaction) => [
   {
     fn: "createTable",
     params: [
+      "products",
+      {
+        id: {
+          type: Sequelize.INTEGER,
+          field: "id",
+          autoIncrement: true,
+          primaryKey: true,
+          allowNull: false,
+        },
+        article: { type: Sequelize.STRING, field: "article" },
+        name: { type: Sequelize.STRING, field: "name" },
+        uom: { type: Sequelize.STRING, field: "uom" },
+        archived: {
+          type: Sequelize.INTEGER,
+          field: "archived",
+          defaultValue: false,
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          field: "createdAt",
+          allowNull: false,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          field: "updatedAt",
+          allowNull: false,
+        },
+        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
+        categoryId: {
+          type: Sequelize.INTEGER,
+          field: "categoryId",
+          onUpdate: "NO ACTION",
+          onDelete: "CASCADE",
+          references: { model: "categories", key: "id" },
+          allowNull: true,
+        },
+      },
+      { transaction },
+    ],
+  },
+  {
+    fn: "createTable",
+    params: [
       "prices",
       {
         id: {
@@ -389,11 +292,11 @@ const migrationCommands = (transaction) => [
         },
         deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
         typePriceId: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.STRING,
           field: "typePriceId",
           onUpdate: "NO ACTION",
           onDelete: "CASCADE",
-          references: { model: "prices", key: "id" },
+          references: { model: "typePrices", key: "name" },
           allowNull: true,
         },
         productId: {
@@ -401,7 +304,7 @@ const migrationCommands = (transaction) => [
           field: "productId",
           onUpdate: "NO ACTION",
           onDelete: "CASCADE",
-          references: { model: "prices", key: "id" },
+          references: { model: "products", key: "id" },
           allowNull: true,
         },
       },
@@ -411,7 +314,7 @@ const migrationCommands = (transaction) => [
   {
     fn: "createTable",
     params: [
-      "products",
+      "properties",
       {
         id: {
           type: Sequelize.INTEGER,
@@ -420,59 +323,7 @@ const migrationCommands = (transaction) => [
           primaryKey: true,
           allowNull: false,
         },
-        artical: { type: Sequelize.STRING, field: "artical" },
-        idMS: { type: Sequelize.STRING, field: "idMS" },
-        vendorCode: { type: Sequelize.STRING, field: "vendorCode" },
         name: { type: Sequelize.STRING, field: "name" },
-        description: { type: Sequelize.TEXT, field: "description" },
-        archived: {
-          type: Sequelize.INTEGER,
-          field: "archived",
-          defaultValue: false,
-        },
-        createdAt: {
-          type: Sequelize.DATE,
-          field: "createdAt",
-          allowNull: false,
-        },
-        updatedAt: {
-          type: Sequelize.DATE,
-          field: "updatedAt",
-          allowNull: false,
-        },
-        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
-        categoryId: {
-          type: Sequelize.INTEGER,
-          field: "categoryId",
-          onUpdate: "NO ACTION",
-          onDelete: "CASCADE",
-          references: { model: "categories", key: "id" },
-          allowNull: true,
-        },
-        uomId: {
-          type: Sequelize.INTEGER,
-          field: "uomId",
-          onUpdate: "NO ACTION",
-          onDelete: "CASCADE",
-          references: { model: "uoms", key: "id" },
-          allowNull: true,
-        },
-      },
-      { transaction },
-    ],
-  },
-  {
-    fn: "createTable",
-    params: [
-      "valueProperties",
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          field: "id",
-          autoIncrement: true,
-          primaryKey: true,
-          allowNull: false,
-        },
         value: { type: Sequelize.STRING, field: "value", allowNull: false },
         createdAt: {
           type: Sequelize.DATE,
@@ -485,20 +336,20 @@ const migrationCommands = (transaction) => [
           allowNull: false,
         },
         deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
+        marketPlaceId: {
+          type: Sequelize.INTEGER,
+          field: "marketPlaceId",
+          onUpdate: "NO ACTION",
+          onDelete: "CASCADE",
+          references: { model: "marketPlaces", key: "id" },
+          allowNull: true,
+        },
         productId: {
           type: Sequelize.INTEGER,
           field: "productId",
           onUpdate: "NO ACTION",
           onDelete: "CASCADE",
-          references: { model: "valueProperties", key: "id" },
-          allowNull: true,
-        },
-        propertyId: {
-          type: Sequelize.INTEGER,
-          field: "propertyId",
-          onUpdate: "NO ACTION",
-          onDelete: "CASCADE",
-          references: { model: "valueProperties", key: "id" },
+          references: { model: "products", key: "id" },
           allowNull: true,
         },
       },
@@ -510,15 +361,7 @@ const migrationCommands = (transaction) => [
 const rollbackCommands = (transaction) => [
   {
     fn: "dropTable",
-    params: ["barcodes", { transaction }],
-  },
-  {
-    fn: "dropTable",
     params: ["categories", { transaction }],
-  },
-  {
-    fn: "dropTable",
-    params: ["categoryProperties", { transaction }],
   },
   {
     fn: "dropTable",
@@ -551,14 +394,6 @@ const rollbackCommands = (transaction) => [
   {
     fn: "dropTable",
     params: ["typePrices", { transaction }],
-  },
-  {
-    fn: "dropTable",
-    params: ["uoms", { transaction }],
-  },
-  {
-    fn: "dropTable",
-    params: ["valueProperties", { transaction }],
   },
 ];
 

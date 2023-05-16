@@ -35,7 +35,7 @@ const axiosGet = (config, processingData) => {
                 resolve(message);
             })
             .catch((error) => {
-                // обрабатываем ошибку здесть
+                // обрабатываем ошибку здесь
                 const message = processingError(error)
                 reject(message);
             })

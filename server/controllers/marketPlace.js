@@ -10,7 +10,7 @@ const {
 
 let model = models.marketplace
 
-// Плучение данных
+// Получение данных
 const get = (req, res) => {
   const { search, id, limit, offset, ...other } = req.query;
 

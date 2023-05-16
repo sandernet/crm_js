@@ -1,54 +1,5 @@
 {
     "tables": {
-        "barcodes": {
-            "tableName": "barcodes",
-            "schema": {
-                "id": {
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "field": "id",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "typeBarcodes": {
-                    "allowNull": false,
-                    "field": "typeBarcodes",
-                    "seqType": "Sequelize.STRING"
-                },
-                "barcode": {
-                    "allowNull": false,
-                    "field": "barcode",
-                    "seqType": "Sequelize.STRING"
-                },
-                "deletedAt": {
-                    "field": "deletedAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "productId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "barcodes",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "NO ACTION",
-                    "field": "productId",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "marketPlaceId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "barcodes",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "NO ACTION",
-                    "field": "marketPlaceId",
-                    "seqType": "Sequelize.INTEGER"
-                }
-            },
-            "indexes": []
-        },
         "categories": {
             "tableName": "categories",
             "schema": {
@@ -69,44 +20,13 @@
                     "field": "externalCodeMS",
                     "seqType": "Sequelize.STRING"
                 },
-                "description": {
-                    "field": "description",
-                    "seqType": "Sequelize.STRING"
-                },
                 "parent_id": {
                     "field": "parent_id",
                     "seqType": "Sequelize.STRING"
                 },
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "deletedAt": {
-                    "field": "deletedAt",
-                    "seqType": "Sequelize.DATE"
-                }
-            },
-            "indexes": []
-        },
-        "categoryProperties": {
-            "tableName": "categoryProperties",
-            "schema": {
-                "id": {
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "field": "id",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "allow_Null": {
-                    "field": "allow_Null",
-                    "seqType": "Sequelize.INTEGER"
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -121,28 +41,6 @@
                 "deletedAt": {
                     "field": "deletedAt",
                     "seqType": "Sequelize.DATE"
-                },
-                "categoryId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "categoryProperties",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "NO ACTION",
-                    "field": "categoryId",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "propertyId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "categoryProperties",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "NO ACTION",
-                    "field": "propertyId",
-                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -327,18 +225,18 @@
                 "typePriceId": {
                     "allowNull": true,
                     "references": {
-                        "model": "prices",
-                        "key": "id"
+                        "model": "typePrices",
+                        "key": "name"
                     },
                     "onDelete": "CASCADE",
                     "onUpdate": "NO ACTION",
                     "field": "typePriceId",
-                    "seqType": "Sequelize.INTEGER"
+                    "seqType": "Sequelize.STRING"
                 },
                 "productId": {
                     "allowNull": true,
                     "references": {
-                        "model": "prices",
+                        "model": "products",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
@@ -359,25 +257,17 @@
                     "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
-                "artical": {
-                    "field": "artical",
-                    "seqType": "Sequelize.STRING"
-                },
-                "idMS": {
-                    "field": "idMS",
-                    "seqType": "Sequelize.STRING"
-                },
-                "vendorCode": {
-                    "field": "vendorCode",
+                "article": {
+                    "field": "article",
                     "seqType": "Sequelize.STRING"
                 },
                 "name": {
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
-                "description": {
-                    "field": "description",
-                    "seqType": "Sequelize.TEXT"
+                "uom": {
+                    "field": "uom",
+                    "seqType": "Sequelize.STRING"
                 },
                 "archived": {
                     "defaultValue": {
@@ -410,17 +300,6 @@
                     "onUpdate": "NO ACTION",
                     "field": "categoryId",
                     "seqType": "Sequelize.INTEGER"
-                },
-                "uomId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "uoms",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "NO ACTION",
-                    "field": "uomId",
-                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -439,6 +318,11 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
+                "value": {
+                    "allowNull": false,
+                    "field": "value",
+                    "seqType": "Sequelize.STRING"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -452,6 +336,28 @@
                 "deletedAt": {
                     "field": "deletedAt",
                     "seqType": "Sequelize.DATE"
+                },
+                "marketPlaceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "marketPlaces",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "NO ACTION",
+                    "field": "marketPlaceId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "productId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "products",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "NO ACTION",
+                    "field": "productId",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -516,94 +422,6 @@
                 "deletedAt": {
                     "field": "deletedAt",
                     "seqType": "Sequelize.DATE"
-                }
-            },
-            "indexes": []
-        },
-        "uoms": {
-            "tableName": "uoms",
-            "schema": {
-                "id": {
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "field": "id",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "name": {
-                    "field": "name",
-                    "seqType": "Sequelize.STRING"
-                },
-                "externalCodeMS": {
-                    "unique": true,
-                    "field": "externalCodeMS",
-                    "seqType": "Sequelize.STRING"
-                },
-                "description": {
-                    "field": "description",
-                    "seqType": "Sequelize.STRING"
-                },
-                "code": {
-                    "field": "code",
-                    "seqType": "Sequelize.STRING"
-                },
-                "deletedAt": {
-                    "field": "deletedAt",
-                    "seqType": "Sequelize.DATE"
-                }
-            },
-            "indexes": []
-        },
-        "valueProperties": {
-            "tableName": "valueProperties",
-            "schema": {
-                "id": {
-                    "allowNull": false,
-                    "primaryKey": true,
-                    "autoIncrement": true,
-                    "field": "id",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "value": {
-                    "allowNull": false,
-                    "field": "value",
-                    "seqType": "Sequelize.STRING"
-                },
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "deletedAt": {
-                    "field": "deletedAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "productId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "valueProperties",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "NO ACTION",
-                    "field": "productId",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "propertyId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "valueProperties",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "NO ACTION",
-                    "field": "propertyId",
-                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []

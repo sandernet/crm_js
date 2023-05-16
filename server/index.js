@@ -21,9 +21,9 @@ loader(
     }
 );
 
-//  { path: "./controllers", type: "controller" },
+//  { path: "./routers", type: "routers" },
 loader(
-    { path: "./controllers", type: "controller" },
+    { path: "./routers", type: "routers" },
     checkJWT,
     (moduleName) => {
         const router = Router();
@@ -35,7 +35,7 @@ loader(
 // мой склад
 // загружаем роутеры из модуля мой склад
 loader(
-    { path: "./controllers/moysklad", type: "moysklad", exclude: ["index.js"] },
+    { path: "./routers/moysklad", type: "moysklad", exclude: ["index.js"] },
     checkJWT,
     () => {
         const router = Router();
@@ -44,17 +44,17 @@ loader(
     }
 );
 
-// авито
-// загружаем роутеры из модуля АВИТО
-loader(
-    { path: "./controllers/avito", type: "avito", exclude: ["index.js"] },
-    checkJWT,
-    () => {
-        const router = Router();
-        app.use(`/avito/`, router);
-        return router;
-    }
-);
+// // авито
+// // загружаем роутеры из модуля АВИТО
+// loader(
+//     { path: "./controllers/avito", type: "avito", exclude: ["index.js"] },
+//     checkJWT,
+//     () => {
+//         const router = Router();
+//         app.use(`/avito/`, router);
+//         return router;
+//     }
+// );
 
 app.listen(PORT, () => console.log(`Start server ${PORT}`));
 

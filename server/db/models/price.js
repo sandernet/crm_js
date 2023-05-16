@@ -1,4 +1,4 @@
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 // ==============================================
 // Цены на товар + ключи Товара и Вида цены
@@ -18,13 +18,13 @@ const def = (db, DataTypes, options) => {
     // Связи с другими таблицами
 
     model.associate = (models) => {
-        model.belongsTo(model, {
+        model.belongsTo(models.typePrice, {
             foreignKey: "typePriceId",
             as: "typePrice",
             onUpdate: "NO ACTION",
             onDelete: "CASCADE",
         })
-        model.belongsTo(model, {
+        model.belongsTo(models.product, {
             foreignKey: "productId",
             as: "product",
             onUpdate: "NO ACTION",
