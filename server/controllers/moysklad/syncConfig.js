@@ -33,9 +33,8 @@ const getInfoMaxData = async (module, resultError = 0) => {
         ],
     })
     if (data === null || data.dataValues.m__createdAt === null) {
-        return null
+        return ""
     }
-
 
     let updatedAt = data.dataValues.m__createdAt;
     const dateString = moment.utc(updatedAt).format("YYYY-MM-DD HH:mm")
@@ -43,7 +42,7 @@ const getInfoMaxData = async (module, resultError = 0) => {
     // return toUTCString(data.dataValues.updatedAt)
     // console.log(dateString);
 
-    return dateString
+    return `updated >= ${dateString}`
 };
 
 function formatDate(date) {

@@ -3,7 +3,7 @@ const { axiosGet, getIdFormUrl } = require('./config')
 
 // функции получение времени последней синхронизации модуля
 // Функция добавления времени синхронизации модуля
-const { getInfoMaxData, addSyncInfo } = require('./config')
+const { getInfoMaxData, addSyncInfo, lastUpdateDate, limitLoader } = require('./config')
 
 const { checkCategory } = require("./loaderCategory")
 const { checkUom } = require("./loaderUom")
@@ -13,7 +13,7 @@ const models = require("../../db/models");
 let model = models.product
 
 // Параметры запроса в мой склад
-const config = (filter) => {
+const config = (params) => {
     return {
         method: 'get',
 
@@ -22,9 +22,10 @@ const config = (filter) => {
             "Content-Type": "application/json"
         },
         params: {
-            limit: 10,
-            offset: 0,
-            ...filter
+            ...params
+            // limit: 10,
+            // offset: 0,
+            // ...filter
             // filter: "updated>=2023-03-13 21:43:42"
         },
     }
@@ -60,19 +61,12 @@ const bulkCreateData = (dataArray) => {
 
 // обработчик данных
 const processingData = async (msObj) => {
-
-    let count = 0;
     let product = [];
     let items = {}
-    let mes;
-    console.log(msObj)
 
     // Вставить обработчик запросов с шагом 100 товаров
-
     let size = msObj.meta.size
     let limit = msObj.meta.limit
-
-
 
     for (let i of msObj['rows']) {
 
@@ -84,53 +78,82 @@ const processingData = async (msObj) => {
         // если нету загружаем все категории"
         if (i.pathName !== '') {
             const category = await checkCategory(getIdFormUrl(i.productFolder.meta.href))
-
-            if (category.isError === true)
-                return
-            items.categoryId = category.categoryId
+            items.categoryId = category.isError === false ? category.categoryId : null
         }
 
-
-        // // Загрузка единиц измерения
+        items.property = {
+            externalCode: i.externalCode,
+            description: i.description,
+            weight: i.weight,
+            volume: i.volume
+        }
+        if (i?.attributes) {
+            for (let a of i['attributes']) {
+                items.property[a.name] = a.value.meta ? a.value?.meta?.name : a.value
+            }
+        }
+        items.prise = {
+            externalCode: i.externalCode,
+            description: i.description
+        }
+        items.barcodes = {
+            ean13: "2037391139352"
+        }
+        // Загрузка единиц измерения
         // if (i.uom !== undefined) {
+        //     let uom = await getRecordFromModel(getIdFormUrl(i.uom.meta.href))
+        //     console.log(uom)
 
-        //  const uom = await checkUom(getIdFormUrl(i.uom.meta.href))
-        //     if (uom.isError === true)
-        //         return
-
-        items.uom = 'шт'; //uom.uomId
+        //     // const uom = await checkUom(getIdFormUrl(i.uom.meta.href))
+        //     //items.uom = uom.isError === true ? 'шт' : "шт";
         // }
-
         // // ссылка на картинку товара
         // console.log(i.images.meta.href)
-
-        // // ссылка на картинку товара
-        // console.log(i.barcodes)
-        /* 
-        создаем товары из запроса
-         */
         product.push(items)
-
-
-        //product.push(await model.create(items))
-        count++;
         items = {}
     }
+    return {
+        data: product,
+        size: size,
+        limit: limit,
+    }
 
-    console.log(product)
-    mes = await getProductDB(product)
-    return { mes }
 }
 
 
 // Получение Товаров из мой склад
 const getAssortment = async (req, res) => {
-    // const lastUpdateDate = await getInfoMaxData("productMS")
-    const lastUpdateDate = null
-    let filterMS = lastUpdateDate === null ? { filter: "" } : { filter: `updated>=${lastUpdateDate}` }
+    // Указываем в фильтре дату последней синхронизации.
+
+    const filterDateMS = lastUpdateDate === null ? { filter: "" } : { filter: await getInfoMaxData("productMS") }
+    let params = { limit: limitLoader, offset: 0, ...filterDateMS }
 
 
-    res.status(200).send(await axiosGet(config(filterMS), processingData))
+    // получаем объект data с данными для записи в таблицу
+    // {    data: product,
+    //      size: size,
+    //      limit: limit,   }
+    let check = true;
+    do {
+        const data = await axiosGet(config(params), processingData)
+
+        console.log(data)
+        //  Тут будем обрабатывать все характеристики для товара
+        // 
+        //         
+        const mes = await getProductDB(data.data)
+        params.offset = params.offset + params.limit
+        if (data.size < params.offset) {
+            check = false
+        }
+
+        // offset: 0,
+        //filterMS = { ...filterMS { limit: , offset: }
+
+        console.log(mes)
+    } while (check)
+
+    res.status(200).send({ mes: "Зарос выполнен" })
 }
 
 module.exports = {

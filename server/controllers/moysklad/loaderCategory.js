@@ -1,7 +1,7 @@
 const { getIdFormUrl, axiosGet } = require('./config')
 // функции получение времени посдедней синхронихации модуля
 // Функция добовления времени синхронизации модуля
-const { getInfoMaxData, addSyncInfo } = require('./config')
+const { getInfoMaxData, addSyncInfo, lastUpdateDate, limitLoader } = require('./config')
 // const { defaultGet } = require("../../utils/db");
 const { getOneExternalCode } = require("../category");
 const models = require("../../db/models");
@@ -11,17 +11,20 @@ let model = models.category
 // Параметры запроса в мой склад
 // Для получения всех категорий товаров
 // params фильтры для запроса 
-// {filter: "updated>=2023-03-13 21:43:42"}
-// Получим 
-// ?filter=updated>=2023-03-13 21:43:42', по дате 
 const config = (params) => {
     return {
         method: 'get',
-        // Добавляем фильтры ?filter=updated>=2023-03-13 21:43:42',
-        params: params,
+
         url: '/entity/productfolder',
         headers: {
             "Content-Type": "application/json"
+        },
+        params: {
+            ...params
+            // limit: 10,
+            // offset: 0,
+            // ...filter
+            // filter: "updated>=2023-03-13 21:43:42"
         },
     }
 }
@@ -31,22 +34,27 @@ const config = (params) => {
 // Выход: запись из модели либо null
 
 // Обновление всех категорий 
-const getCategory = async (filter) => {
+const syncCategoryMS = async () => {
     // Получаем из Мой склад  все категории с фильтром
     // createArrayAddCategory функция преобразовывает
     // запрос MS в массив для записи в модель категория
-    let categoryMS = await axiosGet(config(filter), createArrayAddCategory)
-    // Проверяем получили ли входные данные
-    if (categoryMS.length > 0) {
-        // загружаем в базу и получем ответ
-        const addCategoryDB = await bulkCreateData(categoryMS)
-        if (addCategoryDB) {
-            const mes = `Обновлено ${addCategoryDB.length} категорий`;
-            await addSyncInfo(mes, "categoryMS", 0)
-            return mes
+    try {
+        const filterDateMS = lastUpdateDate === null ? { filter: "" } : { filter: await getInfoMaxData("categoryMS") }
+        let params = { limit: limitLoader, offset: 0, ...filterDateMS }
+
+        let categoryMS = await axiosGet(config(params), createArrayAddCategory)
+        // Проверяем получили ли входные данные
+        if (categoryMS.length > 0) {
+            // загружаем в базу и получем ответ
+            const addCategoryDB = await bulkCreateData(categoryMS)
+            if (addCategoryDB) {
+                const mes = `Обновлено ${addCategoryDB.length} категорий`;
+                await addSyncInfo(mes, "categoryMS", 0)
+                return mes
+            }
         }
     }
-    else {
+    catch {
         const mes = `Что то пошло не так категории не обновлены`;
         await addSyncInfo(mes, "categoryMS", 1)
         return mes;
@@ -55,9 +63,9 @@ const getCategory = async (filter) => {
 
 // Процедура создания массива с данными для ввода в базу всех категорий 
 const createArrayAddCategory = (data) => {
-    let dataArrayCat = [];
+    let dataArrayCategory = [];
     for (let i of data['rows']) {
-        dataArrayCat.push({
+        dataArrayCategory.push({
             name: i.name,
             description: i.description ? i.description : null,
             externalCodeMS: i.id,
@@ -65,7 +73,7 @@ const createArrayAddCategory = (data) => {
         }
         )
     }
-    return dataArrayCat
+    return dataArrayCategory
 }
 
 const checkCategory = async (idMS) => {
@@ -74,32 +82,18 @@ const checkCategory = async (idMS) => {
     let category = await getOneExternalCode(idMS)
     // Если категория не найдена в базе обновляем весь каталог из мой склад
     if (category === null) {
-        // Устанавливаем фильтр запроса к мой склад
-        const lastUpdateDate = await getInfoMaxData("categoryMS")
-        let filterMS = lastUpdateDate === null ? { filter: "" } : { filter: `updated>=${lastUpdateDate}` }
-
         // получаем массив для создания в базе
-        messages = await getCategory(filterMS)
+        messages = await syncCategoryMS()
         // messages = arrayAddCategory;
         // еще раз проверяем наличие в базе
         category = await getOneExternalCode(idMS)
-        if (category === null) {
-            // если нету возвращаем объект с сообщением и ошибкой 
-            return {
-                messages: 'Категории нету в базе {Херня какая-то !!!',
-                categoryId: null,
-                isError: true
-            };
-        }
     }
     //возвращаем объект с данными 
     return {
         messages: messages,
         categoryId: category.id,
         isError: false
-
     };
-
 }
 
 
@@ -155,7 +149,6 @@ const bulkCreateData = (dataArray) => {
 };
 
 module.exports = {
-    getCategory,
     checkCategory
 }
 

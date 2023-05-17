@@ -5,6 +5,10 @@ const { getInfoMaxData, addSyncInfo } = require("./syncConfig")
 
 const { axiosGet } = require('./axiosConfig')
 
+// если задано null тогда загружаются все данные не зависимо от последней удачной загрузки
+const lastUpdateDate = null;
+const limitLoader = 100;
+
 
 /*
     из url мой склад берем ID элемента 
@@ -21,5 +25,7 @@ module.exports = {
     getIdFormUrl,
     defGet,
     getInfoMaxData,
-    addSyncInfo
+    addSyncInfo,
+    lastUpdateDate,
+    limitLoader
 }
