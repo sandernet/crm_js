@@ -7,5 +7,5 @@ module.exports = {
     defPostFields,
     defPutFields,
     defPutCheckFields,
-    defGetFields
+    defGetFields,
 };

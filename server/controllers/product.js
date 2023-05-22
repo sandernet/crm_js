@@ -3,7 +3,6 @@ const { Op } = require("sequelize");
 
 const model = models.product;
 
-
 // Создание записи
 const post = (req, res, promiseError) => {
   model

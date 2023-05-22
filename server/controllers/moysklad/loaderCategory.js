@@ -23,7 +23,6 @@ const config = (params) => {
             ...params
             // limit: 10,
             // offset: 0,
-            // ...filter
             // filter: "updated>=2023-03-13 21:43:42"
         },
     }
@@ -42,29 +41,44 @@ const syncCategoryMS = async () => {
         const filterDateMS = lastUpdateDate === null ? { filter: "" } : { filter: await getInfoMaxData("categoryMS") }
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
 
-        let categoryMS = await axiosGet(config(params), createArrayAddCategory)
-        // Проверяем получили ли входные данные
-        if (categoryMS.length > 0) {
-            // загружаем в базу и получем ответ
-            const addCategoryDB = await bulkCreateData(categoryMS)
-            if (addCategoryDB) {
-                const mes = `Обновлено ${addCategoryDB.length} категорий`;
-                await addSyncInfo(mes, "categoryMS", 0)
-                return mes
+
+        let check = true;
+        let count = 0;
+        do {
+
+            let data = await axiosGet(config(params), createArrayAddCategory)
+            // Проверяем получили ли входные данные
+            if (data.data.length > 0) {
+                // загружаем в базу и получем ответ
+                const addCategoryDB = await bulkCreateData(data.data)
+                count = addCategoryDB ? count + addCategoryDB?.length : count;
+
             }
-        }
+            // Проверяем есть ли еще порция данных в МойСклад
+            params.offset = params.offset + params.limit
+            if (data.size < params.offset) {
+                check = false
+            }
+        } while (check)
+        addSyncInfo(`Обновлено ${count} категорий `, "categoryMS", 0)
     }
     catch {
-        const mes = `Что то пошло не так категории не обновлены`;
-        await addSyncInfo(mes, "categoryMS", 1)
-        return mes;
+        (error) => {
+            addSyncInfo(error, "categoryMS", 1)
+            throw new Error("Ошибка  загрузки категорий товаров");
+        }
     }
 }
 
 // Процедура создания массива с данными для ввода в базу всех категорий 
-const createArrayAddCategory = (data) => {
+const createArrayAddCategory = (msObj) => {
+
+    // Вставить обработчик запросов с шагом 100 товаров
+    let size = msObj.meta.size
+    let limit = msObj.meta.limit
+
     let dataArrayCategory = [];
-    for (let i of data['rows']) {
+    for (let i of msObj['rows']) {
         dataArrayCategory.push({
             name: i.name,
             description: i.description ? i.description : null,
@@ -73,54 +87,27 @@ const createArrayAddCategory = (data) => {
         }
         )
     }
-    return dataArrayCategory
+    return {
+        data: dataArrayCategory,
+        size: size,
+        limit: limit,
+    }
 }
 
 const checkCategory = async (idMS) => {
-    let messages = "";
     // получем категории из базы по id из мой склад
     let category = await getOneExternalCode(idMS)
     // Если категория не найдена в базе обновляем весь каталог из мой склад
     if (category === null) {
         // получаем массив для создания в базе
-        messages = await syncCategoryMS()
+        await syncCategoryMS()
         // messages = arrayAddCategory;
         // еще раз проверяем наличие в базе
         category = await getOneExternalCode(idMS)
     }
     //возвращаем объект с данными 
-    return {
-        messages: messages,
-        categoryId: category.id,
-        isError: false
-    };
+    return category
 }
-
-
-/**************************************** 
- * Рекурсия перебор всех подгрупп
-*/
-const updateCategory = async () => {
-
-    // получаем массив из мой склад 
-    //и с помощью функции фильтр формируем массив для загрузки
-    let category = await axiosGet(config(), filterCat)
-    await bulkCreate(category)
-    // рекурсия загрузки категорий
-    //    let category = await axiosGet(config, creatCategory)
-
-    /*
-    if (!category) {
-        return messages.push({ messages: 'Rfr' })
-    }
-
-    console.log(category.x.productFolder.meta.href)
-    console.log(category.x.pathName)
-    await getCategory(category.x.productFolder.meta.href, category.x.pathName)
-    */
-
-}
-
 
 /* 
 Массовое добавление данных в таблицу
@@ -151,44 +138,3 @@ const bulkCreateData = (dataArray) => {
 module.exports = {
     checkCategory
 }
-
-
-
-
-
-// while (foundPos > 0) {
-//     foundPos = pathName.indexOf('/', pos);
-//     categoryName = (foundPos == -1) ? pathName.slice(pos) : pathName.slice(pos, foundPos)
-
-//     // Ищем в базе категорию
-//     foundCategory = await categoryController.getSearchCategories(categoryName)
-
-//     if (foundPos == -1) {
-//         // и это конечная категория
-//         if (foundCategory != null) {
-//             //если находим, то возращаем найденую
-//             return foundCategory
-//         } else {
-//             //если НЕ находим, и это конечная категория то создаем и возращаем её
-//             return await categoryController.addCategory({
-//                 category: categoryName,
-//                 description: '',
-//                 parent_id: parent_id
-//             })
-//         }
-//     } else {
-//         if (foundCategory != null) {
-//             //если находим, то возращаем найденую
-//             parent_id = foundCategory.id
-//         } else {
-//             //если НЕ находим, и это конечная категория то создаем и возращаем её
-//             foundCategory = await categoryController.addCategory({
-//                 category: categoryName,
-//                 description: '',
-//                 parent_id: parent_id
-//             })
-//             parent_id = foundCategory.id
-//         }
-//     }
-//     pos = (foundPos == -1) ? pos : foundPos + 1; // продолжаем со следующей позиции
-// }

@@ -13,11 +13,10 @@ const def = (db, DataTypes, options) => {
             module: { // модуль в котором проходила операция
                 type: DataTypes.STRING,
             },
-            resultError: { // Результат выполения операции
+            resultError: { // Результат выполнения операции
                 type: DataTypes.INTEGER,
                 defaultValue: 0
-            },
-
+            }
         },
         options
     );

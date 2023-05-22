@@ -6,7 +6,7 @@ const { getInfoMaxData, addSyncInfo } = require("./syncConfig")
 const { axiosGet } = require('./axiosConfig')
 
 // если задано null тогда загружаются все данные не зависимо от последней удачной загрузки
-const lastUpdateDate = null;
+const lastUpdateDate = '-'//null;
 const limitLoader = 100;
 
 

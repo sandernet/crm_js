@@ -19,8 +19,8 @@ const axios = axiosModule.create({
 const processingError = (error) => {
     console.log("Будем обрабатывать ошибку");
     console.log("Сообщение об ошибке" + error);
-    console.log(`Обработчик ошибки!!!`);
-    return { message: `Обработчик ошибки!!!` }
+    console.log(`Обработчик ошибки!!! из модуля axiosConfig`);
+    return { message: `Обработчик ошибки!!! из модуля axiosConfig` }
 }
 
 

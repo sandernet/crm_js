@@ -13,7 +13,7 @@ const def = (db, DataTypes, options) => {
             name: { // Наименование товара
                 type: DataTypes.STRING,
             },
-            uom: { // Единица измерения
+            idMS: { // Наименование товара
                 type: DataTypes.STRING,
             },
             archived: { // Активный / архивный
