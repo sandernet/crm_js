@@ -13,7 +13,6 @@ const def = (db, DataTypes, options) => {
 
             value: { // значение характеристики
                 type: DataTypes.STRING,
-                allowNull: false
             }
         },
         options

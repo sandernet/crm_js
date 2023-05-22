@@ -18,7 +18,7 @@ const Sequelize = require("sequelize");
 const info = {
   revision: 1,
   name: "init",
-  created: "2023-05-15T10:11:49.292Z",
+  created: "2023-05-22T07:19:10.342Z",
   comment: "",
 };
 
@@ -234,7 +234,7 @@ const migrationCommands = (transaction) => [
         },
         article: { type: Sequelize.STRING, field: "article" },
         name: { type: Sequelize.STRING, field: "name" },
-        uom: { type: Sequelize.STRING, field: "uom" },
+        idMS: { type: Sequelize.STRING, field: "idMS" },
         archived: {
           type: Sequelize.INTEGER,
           field: "archived",
@@ -324,7 +324,7 @@ const migrationCommands = (transaction) => [
           allowNull: false,
         },
         name: { type: Sequelize.STRING, field: "name" },
-        value: { type: Sequelize.STRING, field: "value", allowNull: false },
+        value: { type: Sequelize.STRING, field: "value" },
         createdAt: {
           type: Sequelize.DATE,
           field: "createdAt",

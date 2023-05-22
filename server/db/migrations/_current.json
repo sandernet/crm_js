@@ -265,8 +265,8 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
-                "uom": {
-                    "field": "uom",
+                "idMS": {
+                    "field": "idMS",
                     "seqType": "Sequelize.STRING"
                 },
                 "archived": {
@@ -319,7 +319,6 @@
                     "seqType": "Sequelize.STRING"
                 },
                 "value": {
-                    "allowNull": false,
                     "field": "value",
                     "seqType": "Sequelize.STRING"
                 },

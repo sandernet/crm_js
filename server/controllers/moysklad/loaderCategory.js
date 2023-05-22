@@ -1,7 +1,7 @@
 const { getIdFormUrl, axiosGet } = require('./config')
 // функции получение времени посдедней синхронихации модуля
 // Функция добовления времени синхронизации модуля
-const { getInfoMaxData, addSyncInfo, lastUpdateDate, limitLoader } = require('./config')
+const { getSyncMaxData, addSyncInfo, lastUpdateDate, limitLoader } = require('./config')
 // const { defaultGet } = require("../../utils/db");
 const { getOneExternalCode } = require("../category");
 const models = require("../../db/models");
@@ -38,7 +38,7 @@ const syncCategoryMS = async () => {
     // createArrayAddCategory функция преобразовывает
     // запрос MS в массив для записи в модель категория
     try {
-        const filterDateMS = lastUpdateDate === null ? { filter: "" } : { filter: await getInfoMaxData("categoryMS") }
+        const filterDateMS = lastUpdateDate === null ? { filter: "" } : { filter: await getSyncMaxData("categoryMS") }
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
 
 
@@ -129,7 +129,7 @@ const bulkCreateData = (dataArray) => {
     return model.bulkCreate(
         dataArray
         , {
-            //fields: ["externalCodeMS"],
+            //Указываем какие поля нужно обновить,
             updateOnDuplicate: ["name", "description", "parent_id"]
         }
     )

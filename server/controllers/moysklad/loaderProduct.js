@@ -3,7 +3,7 @@ const { axiosGet, getIdFormUrl } = require('./config')
 
 // функции получение времени последней синхронизации модуля
 // Функция добавления времени синхронизации модуля
-const { getInfoMaxData, addSyncInfo, lastUpdateDate, limitLoader } = require('./config')
+const { getSyncMaxData, addSyncInfo, lastUpdateDate, limitLoader } = require('./config')
 
 const { checkCategory } = require("./loaderCategory")
 
@@ -119,13 +119,26 @@ const addOrUpdateRecord = async (data, idMS) => {
     }
 };
 
+const bulkCreateData = (dataArray, model) => {
+    return model.bulkCreate(
+        dataArray
+        , {
+            //Указываем какие поля нужно обновить,
+            updateOnDuplicate: ["name", "value"]
+        }
+    )
+};
 
 // Получение Товаров из мой склад
 const getAssortment = async (req, res) => {
     try {
         // Указываем в фильтре дату последней синхронизации.
-        const filterDateMS = lastUpdateDate === null ? { filter: "" } : { filter: await getInfoMaxData("productMS") }
+
+        const filterDateMS = lastUpdateDate === null ? { filter: "" } : { filter: await getSyncMaxData("productMS") }
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
+
+        console.log(filterDateMS)
+
 
         let check = true;
         let countProduct = 0;
@@ -137,16 +150,21 @@ const getAssortment = async (req, res) => {
             const data = await axiosGet(config(params), processingData)
 
             //  Проходим по подготовленному массиву данных полученных из МойСклад 
-            let Record;
             for (let i = 0; i < data.data.length; i++) {
-                Record = await addOrUpdateRecord(data.data[i], { idMS: data.data[i].idMS }, model)
+                let Record = await addOrUpdateRecord(data.data[i], { idMS: data.data[i].idMS }, model)
+
+                //  Тут будем обрабатывать все характеристики для товара
+                let dataProperty = data.data[i].property
+                let propertyRecords = [];
+                for (let key in dataProperty) {
+                    propertyRecords.push({
+                        productId: Record.id,
+                        name: key,
+                        value: dataProperty[key]
+                    })
+                }
+                const property = bulkCreateData(propertyRecords, models.property)
             };
-
-            //  Тут будем обрабатывать все характеристики для товара
-
-            console.log(data.data[i])
-            console.log(Record)
-
 
             // Подсчитываем сколько записей добавлено
             countProduct = countProduct + data.data.length;
@@ -157,8 +175,6 @@ const getAssortment = async (req, res) => {
             }
         } while (check)
         addSyncInfo(`Обработано ${countProduct} записей`, 'productMS', 0)
-
-
         res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countProduct} записей` })
     } catch (error) {
         console.log(`Зарос Не выполнен! ${error}`)

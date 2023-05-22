@@ -1,7 +1,7 @@
 const { defGet } = require("../../utils/db/defGet")
 
 // Взаимодейтсвие с таблицей логирования запросов к серверам API
-const { getInfoMaxData, addSyncInfo } = require("./syncConfig")
+const { getSyncMaxData, addSyncInfo } = require("./syncConfig")
 
 const { axiosGet } = require('./axiosConfig')
 
@@ -24,7 +24,7 @@ module.exports = {
     axiosGet,
     getIdFormUrl,
     defGet,
-    getInfoMaxData,
+    getSyncMaxData,
     addSyncInfo,
     lastUpdateDate,
     limitLoader

@@ -16,11 +16,24 @@ const addSyncInfo = async (info, module, resultError) => {
         });
 };
 
+// Конвертирование даты в текущий часовой и в строку для запроса в МС
+function convertTZ(date) {
+    const toTZ = Intl.DateTimeFormat().resolvedOptions().timeZone; // Получаем текущий часовой пояс
+
+    const options = {
+        timeZone: 'europe/moscow',
+        hour12: false
+    };
+    const toTime = new Date(date.toLocaleString('en-US', options));
+
+    const formattedDateTime = `${toTime.getFullYear()}-${(toTime.getMonth() + 1).toString().padStart(2, '0')}-${toTime.getDate().toString().padStart(2, '0')} ${toTime.getHours().toString().padStart(2, '0')}:${toTime.getMinutes().toString().padStart(2, '0')}`;
+    return formattedDateTime;
+}
 
 // Получение информации по последнему обновлению по модулю
 // удачному resultError: 0 
 // НЕ удачному resultError: 1 
-const getInfoMaxData = async (module, resultError = 0) => {
+const getSyncMaxData = async (module, resultError = 0) => {
     const data = await model.findOne({
         where: {
             [Op.and]: [
@@ -37,24 +50,14 @@ const getInfoMaxData = async (module, resultError = 0) => {
     }
 
     let updatedAt = data.dataValues.m__createdAt;
-    const dateString = moment.utc(updatedAt).format("YYYY-MM-DD HH:mm")
 
-    // return toUTCString(data.dataValues.updatedAt)
-    // console.log(dateString);
+    const dateString = convertTZ(updatedAt,); // Конвертируем дату в текущий часовой пояс и в нужный формат
 
     return `updated >= ${dateString}`
 };
 
-function formatDate(date) {
-    return date.getFullYear() + '-' +
-        (date.getMonth() + 1) + '-' +
-        date.getDate() + ' ' +
-        date.getHours() + ':' +
-        date.getMinutes();
-}
-
 module.exports = {
-    getInfoMaxData,
+    getSyncMaxData,
     addSyncInfo
 
 }
