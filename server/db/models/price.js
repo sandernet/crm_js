@@ -11,6 +11,12 @@ const def = (db, DataTypes, options) => {
                 type: DataTypes.DECIMAL(10, 2),
                 allowNull: false
             },
+            idMsTypePrice: {
+                type: DataTypes.STRING,
+            },
+            name: {
+                type: DataTypes.STRING,
+            },
         },
         options
     );

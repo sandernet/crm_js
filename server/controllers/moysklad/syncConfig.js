@@ -1,6 +1,6 @@
 const models = require("../../db/models");
 const { Sequelize, Op } = require("sequelize");
-const moment = require("moment");
+const { lastUpdateDate } = require("./config")
 
 
 
@@ -34,6 +34,10 @@ function convertTZ(date) {
 // удачному resultError: 0 
 // НЕ удачному resultError: 1 
 const getSyncMaxData = async (module, resultError = 0) => {
+    if (lastUpdateDate === null) {
+        return ""
+    }
+
     const data = await model.findOne({
         where: {
             [Op.and]: [
@@ -48,12 +52,9 @@ const getSyncMaxData = async (module, resultError = 0) => {
     if (data === null || data.dataValues.m__createdAt === null) {
         return ""
     }
-
     let updatedAt = data.dataValues.m__createdAt;
-
     const dateString = convertTZ(updatedAt,); // Конвертируем дату в текущий часовой пояс и в нужный формат
-
-    return `updated >= ${dateString}`
+    return { filter: `updated >= ${dateString}` }
 };
 
 module.exports = {

@@ -1,5 +1,5 @@
 const { checkMethod } = require("../../utils");
-const { getAssortment } = require("../../controllers/moysklad/loaderProduct")
+const { getAssortment } = require("../../controllers/moysklad")
 
 
 module.exports = (router, moduleName) => {

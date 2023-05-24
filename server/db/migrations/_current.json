@@ -208,6 +208,14 @@
                     "field": "price",
                     "seqType": "Sequelize.DECIMAL(10, 2)"
                 },
+                "idMsTypePrice": {
+                    "field": "idMsTypePrice",
+                    "seqType": "Sequelize.STRING"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -426,6 +434,6 @@
             "indexes": []
         }
     },
-    "exists": false,
-    "revision": 1
+    "exists": true,
+    "revision": 3
 }

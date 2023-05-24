@@ -1,7 +1,8 @@
-const { getIdFormUrl, axiosGet } = require('./config')
+const { axiosGet } = require('./axiosConfig')
 // функции получение времени посдедней синхронихации модуля
 // Функция добовления времени синхронизации модуля
-const { getSyncMaxData, addSyncInfo, lastUpdateDate, limitLoader } = require('./config')
+const { limitLoader, getIdFormUrl } = require('./config')
+const { getSyncMaxData, addSyncInfo } = require('./syncConfig')
 // const { defaultGet } = require("../../utils/db");
 const { getOneExternalCode } = require("../category");
 const models = require("../../db/models");
@@ -38,7 +39,7 @@ const syncCategoryMS = async () => {
     // createArrayAddCategory функция преобразовывает
     // запрос MS в массив для записи в модель категория
     try {
-        const filterDateMS = lastUpdateDate === null ? { filter: "" } : { filter: await getSyncMaxData("categoryMS") }
+        const filterDateMS = await getSyncMaxData("categoryMS")
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
 
 

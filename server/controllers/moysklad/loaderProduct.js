@@ -1,9 +1,10 @@
 // подгружаем настроенный axios
-const { axiosGet, getIdFormUrl } = require('./config')
+const { axiosGet } = require('./axiosConfig')
 
 // функции получение времени последней синхронизации модуля
 // Функция добавления времени синхронизации модуля
-const { getSyncMaxData, addSyncInfo, lastUpdateDate, limitLoader } = require('./config')
+const { getSyncMaxData, addSyncInfo } = require('./syncConfig')
+const { limitLoader, getIdFormUrl } = require("./config")
 
 const { checkCategory } = require("./loaderCategory")
 
@@ -21,7 +22,8 @@ const config = (params) => {
     return {
         method: 'get',
 
-        url: '/entity/product',
+        // url: '/entity/product',
+        url: '/entity/assortment',
         headers: {
             "Content-Type": "application/json"
         },
@@ -56,12 +58,12 @@ const processingData = async (msObj) => {
         // получаем id категории если категория есть в базе 
         // если нету загружаем все категории"
         if (i.pathName !== '') {
-            const category = await checkCategory(getIdFormUrl(i.productFolder.meta.href))
+            const category = await checkCategory(getIdFormUrl(i.productFolder?.meta?.href))
             items.categoryId = category ? category.id : null
         } else {
             items.categoryId = null
         }
-
+        // Свойства
         items.property = {
             externalCode: i.externalCode,
             description: i.description,
@@ -70,23 +72,38 @@ const processingData = async (msObj) => {
         }
         if (i?.attributes) {
             for (let a of i['attributes']) {
-                items.property[a.name] = a.value.meta ? a.value?.meta?.name : a.value
+                items.property[a.name] = a.value.name ? a.value.name : a.value
             }
         }
-        items.price = {
-            ['minPrice']: i.minPrice.value,
+        // штрихкод
+        if (i?.barcodes) {
+            for (let b of i['barcodes']) {
+                for (let key in b) {
+                    items.property[key + b[key]] = b[key]
+                }
+            }
+        }
 
+        // Цена
+        items.price = {
+            minPrice: {
+                value: i?.minPrice ? i?.minPrice?.value : 0,
+                name: "Минимальная цена"
+            },
+            buyPrice: {
+                value: i?.buyPrice ? i?.buyPrice?.value : 0,
+                name: "Закупочная"
+            }
         }
         if (i?.salePrices) {
             for (let p of i['salePrices']) {
-                items.price[p?.priceType?.id] = p?.value ? p?.value : 0
-
-                //items.price['idMS'] = p?.priceType?.id ? p?.priceType?.id : null
+                items.price[p?.priceType?.externalCode] = {
+                    value: p?.value ? p?.value : 0,
+                    name: p?.priceType?.name
+                }
             }
         }
-        items.barcodes = {
-            ean13: "2037391139352"
-        }
+
         product.push(items)
         items = {}
     }
@@ -97,20 +114,20 @@ const processingData = async (msObj) => {
     }
 }
 // Создание либо обновление записи по id из внешнего источника
-const addOrUpdateRecord = async (data, idMS) => {
+const addOrUpdateRecord = async (data, options, modelBD) => {
     try {
         // Проверяем, существует ли запись согласно условию
-        let existingRecord = await model.findOne({ where: idMS })
+        let existingRecord = await modelBD.findOne({ where: options })
 
         if (existingRecord) {
             // Если запись уже существует, выполняем обновление
-            await model.update(data, { where: idMS });
-            existingRecord = await model.findOne({ where: idMS })
+            await modelBD.update(data, { where: options });
+            existingRecord = await modelBD.findOne({ where: options })
             console.log('Обновление записи')
             return existingRecord;
         } else {
             // Если запись не существует, выполняем добавление
-            existingRecord = await model.create(data);
+            existingRecord = await modelBD.create(data);
             console.log('Создание записи')
             return existingRecord;
         }
@@ -119,25 +136,28 @@ const addOrUpdateRecord = async (data, idMS) => {
     }
 };
 
-const bulkCreateData = (dataArray, model) => {
-    return model.bulkCreate(
-        dataArray
-        , {
-            //Указываем какие поля нужно обновить,
-            updateOnDuplicate: ["name", "value"]
-        }
-    )
-};
+// const bulkCreateData = async (dataArray, RecordId, model) => {
+//     for (let i = 0; i < dataArray.length; i++) {
+//         await addOrUpdateRecord(
+//             dataArray[i],
+//             {
+//                 productId: dataArray[i].productId,
+//                 name: dataArray[i].name
+//             },
+//             model)
+//     };
+
+//     return true
+// };
 
 // Получение Товаров из мой склад
 const getAssortment = async (req, res) => {
     try {
         // Указываем в фильтре дату последней синхронизации.
-
-        const filterDateMS = lastUpdateDate === null ? { filter: "" } : { filter: await getSyncMaxData("productMS") }
+        const filterDateMS = await getSyncMaxData("productMS")
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
 
-        console.log(filterDateMS)
+        console.log(params)
 
 
         let check = true;
@@ -153,17 +173,43 @@ const getAssortment = async (req, res) => {
             for (let i = 0; i < data.data.length; i++) {
                 let Record = await addOrUpdateRecord(data.data[i], { idMS: data.data[i].idMS }, model)
 
+                // **************************************
                 //  Тут будем обрабатывать все характеристики для товара
                 let dataProperty = data.data[i].property
-                let propertyRecords = [];
                 for (let key in dataProperty) {
-                    propertyRecords.push({
-                        productId: Record.id,
-                        name: key,
-                        value: dataProperty[key]
-                    })
+                    await addOrUpdateRecord(
+                        {
+                            productId: Record.id,
+                            name: key,
+                            value: dataProperty[key]
+                        },
+                        {
+                            productId: Record.id,
+                            name: key
+                        },
+                        models.property)
                 }
-                const property = bulkCreateData(propertyRecords, models.property)
+
+
+                // **************************************
+                //  Тут будем обрабатывать цены
+                let dataPrice = data.data[i].price
+                for (let key in dataPrice) {
+                    await addOrUpdateRecord(
+                        {
+                            productId: Record.id,
+                            idMsTypePrice: key,
+                            name: dataPrice[key].name,
+                            price: parseFloat(dataPrice[key].value) / 100
+                        },
+                        {
+                            productId: Record.id,
+                            idMsTypePrice: key
+                        },
+                        models.price)
+                }
+
+
             };
 
             // Подсчитываем сколько записей добавлено
@@ -174,6 +220,7 @@ const getAssortment = async (req, res) => {
                 check = false
             }
         } while (check)
+        console.log(`Обработано ${countProduct} записей`)
         addSyncInfo(`Обработано ${countProduct} записей`, 'productMS', 0)
         res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countProduct} записей` })
     } catch (error) {

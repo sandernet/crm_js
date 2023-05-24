@@ -8,7 +8,7 @@ GET http://{{hostname}}/{{modul}}/
 ###
 // загрузка товаров из мой склад 
 GET {{urlMoysklad}}/entity/product
-    ?limit=10
+    ?limit=10&filter=updated>=2023-05-24 06:43
 Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
@@ -20,8 +20,9 @@ Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
 ###
-// загрузка группы товаров из мой склад 
-GET {{urlMoysklad}}/entity/uom
+// загрузка ассортимента из мой склад 
+GET {{urlMoysklad}}/entity/assortment
+    ?limit=10&filter=updated>=2023-05-24 06:43
 Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 

@@ -1,10 +1,10 @@
 const axiosModule = require('axios')
 
 
-// опции поумолчанию для запроса в мой склад
+// опции по умолчанию для запроса в мой склад
 const axios = axiosModule.create({
     baseURL: process.env.MS_BASEURL,  // 'https://online.moysklad.ru/api/remap/1.2/',
-    timeout: 1000,
+    timeout: 10000,
     headers: {
         'Authorization': 'Bearer ' + process.env.MS_TOKEN
     },
