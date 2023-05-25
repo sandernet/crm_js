@@ -1,4 +1,4 @@
-const { axiosGet } = require('./axiosConfig')
+const { axiosGet, axiosConfig } = require('./axiosConfig')
 // функции получение времени посдедней синхронихации модуля
 // Функция добовления времени синхронизации модуля
 const { limitLoader, getIdFormUrl } = require('./config')
@@ -9,29 +9,9 @@ const models = require("../../db/models");
 
 let model = models.category
 
-// Параметры запроса в мой склад
-// Для получения всех категорий товаров
-// params фильтры для запроса 
-const config = (params) => {
-    return {
-        method: 'get',
+// параметр API MC для получение категорий товаров
+const url = '/entity/productfolder'
 
-        url: '/entity/productfolder',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        params: {
-            ...params
-            // limit: 10,
-            // offset: 0,
-            // filter: "updated>=2023-03-13 21:43:42"
-        },
-    }
-}
-
-// Проверка наличия в в таблице записи 
-// Вход: id из мой склад (externalCodeMS)
-// Выход: запись из модели либо null
 
 // Обновление всех категорий 
 const syncCategoryMS = async () => {
@@ -47,7 +27,7 @@ const syncCategoryMS = async () => {
         let count = 0;
         do {
 
-            let data = await axiosGet(config(params), createArrayAddCategory)
+            let data = await axiosGet(axiosConfig({ url: url, params: params }), createArrayAddCategory)
             // Проверяем получили ли входные данные
             if (data.data.length > 0) {
                 // загружаем в базу и получем ответ
@@ -95,7 +75,7 @@ const createArrayAddCategory = (msObj) => {
     }
 }
 
-const checkCategory = async (idMS) => {
+const loaderCategory = async (idMS) => {
     // получем категории из базы по id из мой склад
     let category = await getOneExternalCode(idMS)
     // Если категория не найдена в базе обновляем весь каталог из мой склад
@@ -137,5 +117,6 @@ const bulkCreateData = (dataArray) => {
 };
 
 module.exports = {
-    checkCategory
+    loaderCategory,
+    syncCategoryMS
 }

@@ -1,43 +1,21 @@
 // подгружаем настроенный axios
-const { axiosGet } = require('./axiosConfig')
+const { axiosGet, axiosConfig } = require('./axiosConfig')
 
 // функции получение времени последней синхронизации модуля
 // Функция добавления времени синхронизации модуля
 const { getSyncMaxData, addSyncInfo } = require('./syncConfig')
 const { limitLoader, getIdFormUrl } = require("./config")
 
-const { checkCategory } = require("./loaderCategory")
-
-// Какие поля нужно загружать из мой склад
-const defPostCheckFieldsMS = ["article", "name", "idMS", "categoryId"];
-const checkDataByFields = require("../../utils/db/checkData");
+const { loaderCategory } = require("./loaderCategory")
+const { loadingImages } = require("./loaderImages")
 
 // БД 
 const models = require("../../db/models");
 // Таблица БД
 const model = models.product
 
-// Параметры запроса в мой склад
-const config = (params) => {
-    return {
-        method: 'get',
-
-        // url: '/entity/product',
-        url: '/entity/assortment',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        params: {
-            ...params
-            // limit: 10,
-            // offset: 0,
-            // ...filter
-            // filter: "updated>=2023-03-13 21:43:42"
-        },
-    }
-}
-
-
+// параметр API MC для получение ассортимента товаров
+const url = '/entity/assortment'
 
 // обработчик данных запроса из МойСклад
 // Выдает массив с даннами для дальнейшей обработки
@@ -58,7 +36,7 @@ const processingData = async (msObj) => {
         // получаем id категории если категория есть в базе 
         // если нету загружаем все категории"
         if (i.pathName !== '') {
-            const category = await checkCategory(getIdFormUrl(i.productFolder?.meta?.href))
+            const category = await loaderCategory(getIdFormUrl(i.productFolder?.meta?.href))
             items.categoryId = category ? category.id : null
         } else {
             items.categoryId = null
@@ -104,6 +82,9 @@ const processingData = async (msObj) => {
             }
         }
 
+        // ссылка на картинки товара
+        items.urlImages = i?.images?.meta?.href !== undefined ? i?.images?.meta?.href : null
+
         product.push(items)
         items = {}
     }
@@ -123,12 +104,10 @@ const addOrUpdateRecord = async (data, options, modelBD) => {
             // Если запись уже существует, выполняем обновление
             await modelBD.update(data, { where: options });
             existingRecord = await modelBD.findOne({ where: options })
-            console.log('Обновление записи')
             return existingRecord;
         } else {
             // Если запись не существует, выполняем добавление
             existingRecord = await modelBD.create(data);
-            console.log('Создание записи')
             return existingRecord;
         }
     } catch (error) {
@@ -136,26 +115,13 @@ const addOrUpdateRecord = async (data, options, modelBD) => {
     }
 };
 
-// const bulkCreateData = async (dataArray, RecordId, model) => {
-//     for (let i = 0; i < dataArray.length; i++) {
-//         await addOrUpdateRecord(
-//             dataArray[i],
-//             {
-//                 productId: dataArray[i].productId,
-//                 name: dataArray[i].name
-//             },
-//             model)
-//     };
-
-//     return true
-// };
-
 // Получение Товаров из мой склад
 const getAssortment = async (req, res) => {
     try {
         // Указываем в фильтре дату последней синхронизации.
         const filterDateMS = await getSyncMaxData("productMS")
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
+
 
         console.log(params)
 
@@ -167,12 +133,15 @@ const getAssortment = async (req, res) => {
             // {    data: product,
             //      size: size,
             //      limit: limit,   }
-            const data = await axiosGet(config(params), processingData)
+            const data = await axiosGet(axiosConfig({ url: url, params: params }), processingData)
 
             //  Проходим по подготовленному массиву данных полученных из МойСклад 
             for (let i = 0; i < data.data.length; i++) {
                 let Record = await addOrUpdateRecord(data.data[i], { idMS: data.data[i].idMS }, model)
 
+                // **************************************
+                // Загрузка картинки
+                await loaderImages(Record.id, data.data[i].urlImages)
                 // **************************************
                 //  Тут будем обрабатывать все характеристики для товара
                 let dataProperty = data.data[i].property

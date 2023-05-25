@@ -16,6 +16,7 @@ const {
 
 const { compareString, compareStringInArray } = require("./compare");
 const { checkMethodSync, checkMethod } = require("./checkMethod");
+const { writerFile } = require("./loaderFiles");
 
 module.exports = {
   loader,
@@ -35,4 +36,5 @@ module.exports = {
   compareStringInArray,
   checkMethod,
   checkMethodSync,
-};
+  writerFile
+}

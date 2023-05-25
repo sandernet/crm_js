@@ -27,9 +27,10 @@ Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
 ###
-// загрузка модификаций товаров из мой склад 
-GET {{urlMoysklad}}/entity/variant
+// загрузка картинок
+GET https://online.moysklad.ru/api/remap/1.2/entity/bundle/79c6668e-f9e7-11ed-0a80-0275000259d4/images/c4ff57d8-c4aa-418b-a737-7407f075d8a5
 Authorization: Bearer {{tokenMS}}
-Content-Type: {{contentType}}
+responseType: 'stream'
+
 
 

@@ -14,6 +14,26 @@ const axios = axiosModule.create({
     },
 });
 
+
+const axiosConfig = (options) => {
+    const { url, method = 'get', params, responseType = 'json' } = options
+    const config = {
+        ...{
+            method: method,
+            // url: '/entity/product',
+            url: url,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            params: {
+                ...params
+            }
+        },
+        ...{ responseType }
+    }
+    return config
+}
+
 // обработка ошибок 
 // Написать
 const processingError = (error) => {
@@ -23,9 +43,13 @@ const processingError = (error) => {
     return { message: `Обработчик ошибки!!! из модуля axiosConfig` }
 }
 
+// Проброс данных из axioGet()
+const processingDefaultData = (msObj) => {
+    return msObj
+}
 
 // Промис запрос данных из мой склад
-const axiosGet = (config, processingData) => {
+const axiosGet = (config, processingData = processingDefaultData) => {
     return new Promise((resolve, reject) => {
         axios(config)
             .then((response) => {
@@ -43,5 +67,6 @@ const axiosGet = (config, processingData) => {
 }
 
 module.exports = {
-    axiosGet
+    axiosGet,
+    axiosConfig
 }
