@@ -3,14 +3,14 @@ const Sequelize = require("sequelize");
 /**
  * Actions summary:
  *
- * addColumn(idMsTypePrice) => "prices"
+ * addColumn(action) => "syncInfos"
  *
  */
 
 const info = {
   revision: 2,
-  name: "price",
-  created: "2023-05-24T04:42:06.985Z",
+  name: "sync",
+  created: "2023-05-25T07:39:32.915Z",
   comment: "",
 };
 
@@ -18,9 +18,9 @@ const migrationCommands = (transaction) => [
   {
     fn: "addColumn",
     params: [
-      "prices",
-      "idMsTypePrice",
-      { type: Sequelize.STRING, field: "idMsTypePrice" },
+      "syncInfos",
+      "action",
+      { type: Sequelize.STRING, field: "action" },
       { transaction },
     ],
   },
@@ -29,7 +29,7 @@ const migrationCommands = (transaction) => [
 const rollbackCommands = (transaction) => [
   {
     fn: "removeColumn",
-    params: ["prices", "idMsTypePrice", { transaction }],
+    params: ["syncInfos", "action", { transaction }],
   },
 ];
 

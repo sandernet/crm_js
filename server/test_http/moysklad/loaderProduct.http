@@ -2,7 +2,7 @@
 
 ###
 // запрос данных с мой склад 
-GET http://{{hostname}}/{{modul}}/
+GET http://{{hostname}}/{{modul}}/?isLoadingImages=true
 
 
 ###

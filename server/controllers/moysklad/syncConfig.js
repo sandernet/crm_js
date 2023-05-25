@@ -7,11 +7,12 @@ const { lastUpdateDate } = require("./config")
 let model = models.syncInfo
 
 // создание записи в таблицу логирования взаимодействия с  серверами API
-const addSyncInfo = async (info, module, resultError) => {
+const addSyncInfo = async (info, module, action, resultError) => {
     return await model.create(
         {
             info: info,
             module: module,
+            action: action,
             resultError: resultError
         });
 };
@@ -33,7 +34,7 @@ function convertTZ(date) {
 // Получение информации по последнему обновлению по модулю
 // удачному resultError: 0 
 // НЕ удачному resultError: 1 
-const getSyncMaxData = async (module, resultError = 0) => {
+const getSyncMaxData = async (module, action, resultError = 0) => {
     if (lastUpdateDate === null) {
         return ""
     }
@@ -43,6 +44,7 @@ const getSyncMaxData = async (module, resultError = 0) => {
             [Op.and]: [
                 { module: module },
                 { resultError: resultError },
+                { action: action },
             ],
         },
         attributes: [

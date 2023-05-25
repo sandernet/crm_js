@@ -1,12 +1,13 @@
 const { axiosGet, axiosConfig } = require('./axiosConfig')
 // функции получение времени посдедней синхронихации модуля
 // Функция добовления времени синхронизации модуля
-const { limitLoader, getIdFormUrl } = require('./config')
+const { limitLoader, getIdFormUrl, moduleName } = require('./config')
 const { getSyncMaxData, addSyncInfo } = require('./syncConfig')
 // const { defaultGet } = require("../../utils/db");
 const { getOneExternalCode } = require("../category");
 const models = require("../../db/models");
 
+// Модель данных Таблица
 let model = models.category
 
 // параметр API MC для получение категорий товаров
@@ -19,7 +20,7 @@ const syncCategoryMS = async () => {
     // createArrayAddCategory функция преобразовывает
     // запрос MS в массив для записи в модель категория
     try {
-        const filterDateMS = await getSyncMaxData("categoryMS")
+        const filterDateMS = await getSyncMaxData(moduleName, __filename)
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
 
 
@@ -41,11 +42,12 @@ const syncCategoryMS = async () => {
                 check = false
             }
         } while (check)
-        addSyncInfo(`Обновлено ${count} категорий `, "categoryMS", 0)
+        addSyncInfo(`Обновлено ${count} категорий `, moduleName, __filename, 0)
     }
     catch {
         (error) => {
-            addSyncInfo(error, "categoryMS", 1)
+            console.log(`Зарос Не выполнен! ${error} / ${moduleName} / ${__filename}`)
+            addSyncInfo(error, moduleName, __filename, 1)
             throw new Error("Ошибка  загрузки категорий товаров");
         }
     }

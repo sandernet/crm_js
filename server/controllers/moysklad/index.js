@@ -1,4 +1,4 @@
-const { getAssortment } = require("./loaderProduct")
+const { getAssortment } = require("./loadingProduct")
 
 module.exports = {
     getAssortment

@@ -1,6 +1,7 @@
 // если задано null тогда загружаются все данные не зависимо от последней удачной загрузки
 const lastUpdateDate = '-'//null;
 const limitLoader = 100;
+const moduleName = 'Мой Склад';
 
 const getIdFormUrl = (url) => {
     if (url === undefined) {
@@ -14,5 +15,6 @@ const getIdFormUrl = (url) => {
 module.exports = {
     getIdFormUrl,
     lastUpdateDate,
-    limitLoader
+    limitLoader,
+    moduleName
 }

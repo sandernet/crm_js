@@ -8,8 +8,8 @@ const Sequelize = require("sequelize");
  * createTable() => "marketPlaces", deps: []
  * createTable() => "syncInfos", deps: []
  * createTable() => "typePrices", deps: []
- * createTable() => "imagesProducts", deps: [imagesProducts]
  * createTable() => "products", deps: [categories]
+ * createTable() => "imagesProducts", deps: [products]
  * createTable() => "prices", deps: [typePrices, products]
  * createTable() => "properties", deps: [marketPlaces, products]
  *
@@ -18,7 +18,7 @@ const Sequelize = require("sequelize");
 const info = {
   revision: 1,
   name: "init",
-  created: "2023-05-22T07:19:10.342Z",
+  created: "2023-05-25T06:36:43.979Z",
   comment: "",
 };
 
@@ -185,44 +185,6 @@ const migrationCommands = (transaction) => [
   {
     fn: "createTable",
     params: [
-      "imagesProducts",
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          field: "id",
-          autoIncrement: true,
-          primaryKey: true,
-          allowNull: false,
-        },
-        nameFiles: { type: Sequelize.STRING, field: "nameFiles" },
-        pathName: { type: Sequelize.STRING, field: "pathName" },
-        typeImage: { type: Sequelize.STRING(4), field: "typeImage" },
-        createdAt: {
-          type: Sequelize.DATE,
-          field: "createdAt",
-          allowNull: false,
-        },
-        updatedAt: {
-          type: Sequelize.DATE,
-          field: "updatedAt",
-          allowNull: false,
-        },
-        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
-        productId: {
-          type: Sequelize.INTEGER,
-          field: "productId",
-          onUpdate: "NO ACTION",
-          onDelete: "CASCADE",
-          references: { model: "imagesProducts", key: "id" },
-          allowNull: true,
-        },
-      },
-      { transaction },
-    ],
-  },
-  {
-    fn: "createTable",
-    params: [
       "products",
       {
         id: {
@@ -266,6 +228,44 @@ const migrationCommands = (transaction) => [
   {
     fn: "createTable",
     params: [
+      "imagesProducts",
+      {
+        id: {
+          type: Sequelize.INTEGER,
+          field: "id",
+          autoIncrement: true,
+          primaryKey: true,
+          allowNull: false,
+        },
+        nameFiles: { type: Sequelize.STRING, field: "nameFiles" },
+        pathName: { type: Sequelize.STRING, field: "pathName" },
+        typeImage: { type: Sequelize.STRING, field: "typeImage" },
+        createdAt: {
+          type: Sequelize.DATE,
+          field: "createdAt",
+          allowNull: false,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          field: "updatedAt",
+          allowNull: false,
+        },
+        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
+        productId: {
+          type: Sequelize.INTEGER,
+          field: "productId",
+          onUpdate: "NO ACTION",
+          onDelete: "CASCADE",
+          references: { model: "products", key: "id" },
+          allowNull: true,
+        },
+      },
+      { transaction },
+    ],
+  },
+  {
+    fn: "createTable",
+    params: [
       "prices",
       {
         id: {
@@ -280,6 +280,8 @@ const migrationCommands = (transaction) => [
           field: "price",
           allowNull: false,
         },
+        idMsTypePrice: { type: Sequelize.STRING, field: "idMsTypePrice" },
+        name: { type: Sequelize.STRING, field: "name" },
         createdAt: {
           type: Sequelize.DATE,
           field: "createdAt",

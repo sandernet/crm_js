@@ -13,6 +13,9 @@ const def = (db, DataTypes, options) => {
             module: { // модуль в котором проходила операция
                 type: DataTypes.STRING,
             },
+            action: { // модуль в котором проходила операция
+                type: DataTypes.STRING,
+            },
             resultError: { // Результат выполнения операции
                 type: DataTypes.INTEGER,
                 defaultValue: 0

@@ -123,7 +123,7 @@
                 },
                 "typeImage": {
                     "field": "typeImage",
-                    "seqType": "Sequelize.STRING(4)"
+                    "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -142,7 +142,7 @@
                 "productId": {
                     "allowNull": true,
                     "references": {
-                        "model": "imagesProducts",
+                        "model": "products",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
@@ -387,6 +387,10 @@
                     "field": "module",
                     "seqType": "Sequelize.STRING"
                 },
+                "action": {
+                    "field": "action",
+                    "seqType": "Sequelize.STRING"
+                },
                 "resultError": {
                     "defaultValue": {
                         "value": 0
@@ -435,5 +439,5 @@
         }
     },
     "exists": true,
-    "revision": 3
+    "revision": 2
 }

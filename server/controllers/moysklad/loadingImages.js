@@ -1,6 +1,6 @@
 // подгружаем настроенный axios
 const { axiosGet, axiosConfig } = require('./axiosConfig')
-
+const { moduleName } = require('./config')
 
 // функции получение времени последней синхронизации модуля
 // Функция добавления времени синхронизации модуля
@@ -32,7 +32,7 @@ const processingData = (msObj) => {
 // Создаем запись в таблице с картинками
 //Запись картинки в таблицу
 const addImages = async (productId, nameFiles, pathName, typeImage) => {
-    await ImagesProduct.create({
+    await model.create({
         productId: productId,
         nameFiles: nameFiles,
         pathName: pathName,
@@ -57,13 +57,13 @@ const loadingImages = async (productId, url) => {
                     let pathName = `${key}/` + msObj[i][key].slice(56, 58)
                     // запись на диск
                     writerFile(fileImage, pathName, msObj[i].nameFiles)
-                    addImages(productId, nameFiles, pathName, key)
+                    addImages(productId, msObj[i].nameFiles, pathName, key)
                 }
             }
         };
     } catch (error) {
-        console.log(`Зарос Не выполнен! ${error}`)
-        addSyncInfo(`Зарос Не выполнен! ${error}`, 'productImagesMS', 1)
+        console.log(`Зарос Не выполнен! ${error} / ${moduleName} / ${__filename}`)
+        addSyncInfo(`Зарос Не выполнен! ${error}`, moduleName, __filename, 1)
     }
 }
 

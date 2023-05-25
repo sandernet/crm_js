@@ -4,10 +4,10 @@ const { axiosGet, axiosConfig } = require('./axiosConfig')
 // функции получение времени последней синхронизации модуля
 // Функция добавления времени синхронизации модуля
 const { getSyncMaxData, addSyncInfo } = require('./syncConfig')
-const { limitLoader, getIdFormUrl } = require("./config")
+const { limitLoader, getIdFormUrl, moduleName } = require("./config")
 
-const { loaderCategory } = require("./loaderCategory")
-const { loadingImages } = require("./loaderImages")
+const { loaderCategory } = require("./loadingCategory")
+const { loadingImages } = require("./loadingImages")
 
 // БД 
 const models = require("../../db/models");
@@ -118,8 +118,9 @@ const addOrUpdateRecord = async (data, options, modelBD) => {
 // Получение Товаров из мой склад
 const getAssortment = async (req, res) => {
     try {
+        const { isLoadingImages = true } = req.query
         // Указываем в фильтре дату последней синхронизации.
-        const filterDateMS = await getSyncMaxData("productMS")
+        const filterDateMS = await getSyncMaxData(moduleName, __filename)
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
 
 
@@ -141,7 +142,9 @@ const getAssortment = async (req, res) => {
 
                 // **************************************
                 // Загрузка картинки
-                await loaderImages(Record.id, data.data[i].urlImages)
+                if (isLoadingImages) { //если включена загрузка картинок
+                    await loadingImages(Record.id, data.data[i].urlImages)
+                }
                 // **************************************
                 //  Тут будем обрабатывать все характеристики для товара
                 let dataProperty = data.data[i].property
@@ -158,7 +161,6 @@ const getAssortment = async (req, res) => {
                         },
                         models.property)
                 }
-
 
                 // **************************************
                 //  Тут будем обрабатывать цены
@@ -177,8 +179,6 @@ const getAssortment = async (req, res) => {
                         },
                         models.price)
                 }
-
-
             };
 
             // Подсчитываем сколько записей добавлено
@@ -189,16 +189,14 @@ const getAssortment = async (req, res) => {
                 check = false
             }
         } while (check)
-        console.log(`Обработано ${countProduct} записей`)
-        addSyncInfo(`Обработано ${countProduct} записей`, 'productMS', 0)
-        res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countProduct} записей` })
+        console.log(`Обработано ${countProduct} записей/${moduleName}/${__filename}`)
+        addSyncInfo(`Обработано ${countProduct} записей`, moduleName, __filename, 0)
+        res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countProduct} Товаров` })
     } catch (error) {
-        console.log(`Зарос Не выполнен! ${error}`)
-        addSyncInfo(`Зарос Не выполнен! ${error}`, 'productMS', 1)
+        console.log(`Зарос Не выполнен! ${error}/${moduleName}/${__filename}`)
+        addSyncInfo(`Зарос Не выполнен! ${error}`, moduleName, __filename, 1)
         res.status(200).send({ mes: `Зарос Не выполнен! ${error}` })
     }
-
-
 }
 
 module.exports = {

@@ -1,4 +1,4 @@
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 // ==============================================
 // Картинки товаров
@@ -18,7 +18,7 @@ const def = (db, DataTypes, options) => {
             },
             typeImage: {
                 // Миниатюра
-                type: DataTypes.STRING(4),
+                type: DataTypes.STRING,
             }
         },
         options
@@ -26,7 +26,7 @@ const def = (db, DataTypes, options) => {
 
     // Связи с другими таблицами
     model.associate = (models) => {
-        model.belongsTo(model, {
+        model.belongsTo(models.product, {
             foreignKey: "productId",
             as: "product",
             onUpdate: "NO ACTION",
