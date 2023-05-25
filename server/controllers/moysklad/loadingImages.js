@@ -45,6 +45,7 @@ const addImages = async (productId, nameFiles, pathName, typeImage) => {
 const loadingImages = async (productId, url) => {
     try {
         const options = { url: url, };
+
         const msObj = await axiosGet(axiosConfig(options), processingData)
 
         for (let i = 0; i < msObj.length; i++) {
@@ -52,9 +53,12 @@ const loadingImages = async (productId, url) => {
                 if (key !== 'nameFiles') {
 
                     const options = { url: msObj[i][key], responseType: 'stream' };
+
+                    console.log(options.url)
+
                     // получение из мой склад
                     const fileImage = await axiosGet(axiosConfig(options))
-                    let pathName = `${key}/` + msObj[i][key].slice(56, 58)
+                    let pathName = `${key}/` + url.slice(55, 57)
                     // запись на диск
                     writerFile(fileImage, pathName, msObj[i].nameFiles)
                     addImages(productId, msObj[i].nameFiles, pathName, key)

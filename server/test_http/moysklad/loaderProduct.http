@@ -28,7 +28,7 @@ Content-Type: {{contentType}}
 
 ###
 // загрузка картинок
-GET https://online.moysklad.ru/api/remap/1.2/entity/bundle/79c6668e-f9e7-11ed-0a80-0275000259d4/images/c4ff57d8-c4aa-418b-a737-7407f075d8a5
+GET https://online.moysklad.ru/api/remap/1.2/entity/product/8d26776b-97a7-11ed-0a80-02a2000761cb/images
 Authorization: Bearer {{tokenMS}}
 responseType: 'stream'
 

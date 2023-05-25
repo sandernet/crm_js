@@ -118,14 +118,12 @@ const addOrUpdateRecord = async (data, options, modelBD) => {
 // Получение Товаров из мой склад
 const getAssortment = async (req, res) => {
     try {
+        const startDateTime = new Date();
+        console.log(`${startDateTime} - Время запуска обмена.`)
         const { isLoadingImages = true } = req.query
         // Указываем в фильтре дату последней синхронизации.
         const filterDateMS = await getSyncMaxData(moduleName, __filename)
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
-
-
-        console.log(params)
-
 
         let check = true;
         let countProduct = 0;
@@ -134,6 +132,7 @@ const getAssortment = async (req, res) => {
             // {    data: product,
             //      size: size,
             //      limit: limit,   }
+            console.log(params)
             const data = await axiosGet(axiosConfig({ url: url, params: params }), processingData)
 
             //  Проходим по подготовленному массиву данных полученных из МойСклад 
@@ -183,17 +182,21 @@ const getAssortment = async (req, res) => {
 
             // Подсчитываем сколько записей добавлено
             countProduct = countProduct + data.data.length;
+            const actionDateTime = new Date();
+            console.log(`${actionDateTime} - Загружено ${countProduct} товаров.....`)
             // Проверяем есть ли еще порция данных в МойСклад
             params.offset = params.offset + params.limit
             if (data.size < params.offset) {
                 check = false
             }
         } while (check)
-        console.log(`Обработано ${countProduct} записей/${moduleName}/${__filename}`)
+        const finishDateTime = new Date();
+        console.log(`${finishDateTime} Обработано ${countProduct} записей/${moduleName}/${__filename}`)
         addSyncInfo(`Обработано ${countProduct} записей`, moduleName, __filename, 0)
         res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countProduct} Товаров` })
     } catch (error) {
-        console.log(`Зарос Не выполнен! ${error}/${moduleName}/${__filename}`)
+        const errorDateTime = new Date();
+        console.log(`${errorDateTime} Зарос Не выполнен! ${error}/${moduleName}/${__filename}`)
         addSyncInfo(`Зарос Не выполнен! ${error}`, moduleName, __filename, 1)
         res.status(200).send({ mes: `Зарос Не выполнен! ${error}` })
     }

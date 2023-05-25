@@ -27,8 +27,9 @@ DELETE http://{{hostname}}/api/product/
 content-type: {{contentType}}
 
 {
-    "id": 1
+    "id": 781
 }
+
 
 ###
 // обновление товара по id в body + Указание полей которые нужно обновить
