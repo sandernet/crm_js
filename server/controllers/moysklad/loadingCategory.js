@@ -19,13 +19,13 @@ const syncCategoryMS = async () => {
     // Получаем из Мой склад  все категории с фильтром
     // createArrayAddCategory функция преобразовывает
     // запрос MS в массив для записи в модель категория
+    let count = 0;
     try {
         const filterDateMS = await getSyncMaxData(moduleName, __filename)
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
 
 
         let check = true;
-        let count = 0;
         do {
 
             let data = await axiosGet(axiosConfig({ url: url, params: params }), createArrayAddCategory)
@@ -42,15 +42,18 @@ const syncCategoryMS = async () => {
                 check = false
             }
         } while (check)
-        addSyncInfo(`Обновлено ${count} категорий `, moduleName, __filename, 0)
+        addSyncInfo(`Обработано ${count} категорий `, moduleName, __filename, 0)
     }
     catch {
         (error) => {
-            console.log(`Зарос Не выполнен! ${error} / ${moduleName} / ${__filename}`)
+            console.log(`Зарос Не выполнен! ${error} // ${moduleName} // ${__filename}`)
             addSyncInfo(error, moduleName, __filename, 1)
             throw new Error("Ошибка  загрузки категорий товаров");
         }
+    } finally {
+        return count
     }
+
 }
 
 // Процедура создания массива с данными для ввода в базу всех категорий 
@@ -77,7 +80,7 @@ const createArrayAddCategory = (msObj) => {
     }
 }
 
-const loaderCategory = async (idMS) => {
+const getCategory = async (idMS) => {
     // получем категории из базы по id из мой склад
     let category = await getOneExternalCode(idMS)
     // Если категория не найдена в базе обновляем весь каталог из мой склад
@@ -117,8 +120,18 @@ const bulkCreateData = (dataArray) => {
         }
     )
 };
+// Получение Товаров из мой склад
+const loadingCategory = async (req, res) => {
+    const startDateTime = new Date();
+    console.log(`${startDateTime} - Время запуска обмена.`)
+
+    const countCategory = await syncCategoryMS();
+    const finishDateTime = new Date();
+    console.log(`${finishDateTime} Обработано ${countCategory} категорий // ${moduleName} // ${__filename}`)
+    res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countCategory} категорий` })
+}
 
 module.exports = {
-    loaderCategory,
-    syncCategoryMS
+    loadingCategory,
+    getCategory
 }

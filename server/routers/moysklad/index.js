@@ -1,7 +1,8 @@
 const { checkMethod } = require("../../utils");
-const { getAssortment } = require("../../controllers/moysklad")
+const { loadingProduct, loadingCategory } = require("../../controllers/moysklad")
 
 
 module.exports = (router, moduleName) => {
-    router.get("/", checkMethod(getAssortment, moduleName));
+    router.get("/loadingproduct/", checkMethod(loadingProduct, moduleName));
+    router.get("/loadingcategory/", checkMethod(loadingCategory, moduleName));
 }

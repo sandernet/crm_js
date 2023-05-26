@@ -7,14 +7,20 @@ const { lastUpdateDate } = require("./config")
 let model = models.syncInfo
 
 // создание записи в таблицу логирования взаимодействия с  серверами API
-const addSyncInfo = async (info, module, action, resultError) => {
+const addSyncInfo = async (info, module, action, date, resultError) => {
+    if (date === undefined) {
+        date = new Date()
+    }
     return await model.create(
         {
-            info: info,
-            module: module,
-            action: action,
-            resultError: resultError
-        });
+            ...{
+                info: info,
+                module: module,
+                action: action,
+                resultError: resultError
+            }, ...{ createdAt: date }
+        }
+    );
 };
 
 // Конвертирование даты в текущий часовой и в строку для запроса в МС
