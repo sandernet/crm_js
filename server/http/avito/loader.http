@@ -1,4 +1,4 @@
-@tokenAvito = sTe1t0LpTOKu7Rrtl9uFlgBna17Wms94u20DU-Tm
+@tokenAvito = G3WjPJEsRVSW-BdbK7YrpwTdxpmeUG9DYYzPdYYs
 @modul = avito
 
 ###
@@ -17,10 +17,10 @@ grant_type=client_credentials&client_id={{tokenAvito_id}}&client_secret={{tokenA
 
 ###
 // запрос списка обьявлений из авито 
-GET {{urlAvito}}/core/v1/items?page=11
+GET {{urlAvito}}//core/v1/items
 Authorization: Bearer {{tokenAvito}}
+Content-Type: application/json
 
-per_page=25&page=2
 
 ###
 // запрос данных с мой склад 
