@@ -17,13 +17,14 @@ grant_type=client_credentials&client_id={{tokenAvito_id}}&client_secret={{tokenA
 
 ###
 // запрос списка обьявлений из авито 
-GET {{urlAvito}}//core/v1/items
+GET {{urlAvito}}/core/v1/items
 Authorization: Bearer {{tokenAvito}}
 Content-Type: application/json
 
 
 ###
-// запрос данных с мой склад 
-POST  {{urlAvito}}/token
-Content-Type: application/x-www-form-urlencoded
+// запрос обьявлениz из авито 
+GET {{urlAvito}}/core/v1/accounts/231519117/items/2955107206/
+Authorization: Bearer {{tokenAvito}}
+Content-Type: application/json
 
