@@ -6,7 +6,7 @@ const fs = require("fs");
 // pathFolder путь до файла
 // filename Имя файла
 const writerFile = async (msObjImg, pathFolder, filename) => {
-    const pathFolderImage = Path.resolve(__dirname, '..', '..', 'static', pathFolder)
+    const pathFolderImage = Path.resolve(__dirname, '..', '..', 'uploader', pathFolder)
 
     // если каталога для картинки не существует
     if (!fs.existsSync(pathFolderImage)) {

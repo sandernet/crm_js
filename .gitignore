@@ -1,6 +1,6 @@
 /server/.env
 /server/node_modules/*
-/static/*
+/uploader/*
 /.vscode/*
 /.idea/
 /.git/
