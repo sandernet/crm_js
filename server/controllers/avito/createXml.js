@@ -2,7 +2,7 @@ const fs = require('fs');
 const xmlbuilder = require('xmlbuilder');
 
 
-const creatXml = () => {
+const createXml = () => {
 
     // Создаем новый документ XML
     // const rootAds = xmlbuilder.create('Ads', { formatVersion: "3", target: "Avito.ru" })
@@ -54,5 +54,5 @@ const creatXml = () => {
 // });
 
 module.exports = {
-    creatXml
+    createXml
 }
