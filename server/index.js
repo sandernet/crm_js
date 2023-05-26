@@ -44,17 +44,16 @@ loader(
     }
 );
 
-// // авито
-// // загружаем роутеры из модуля АВИТО
-// loader(
-//     { path: "./controllers/avito", type: "avito", exclude: ["index.js"] },
-//     checkJWT,
-//     () => {
-//         const router = Router();
-//         app.use(`/avito/`, router);
-//         return router;
-//     }
-// );
+// загружаем роутеры из модуля avito
+loader(
+    { path: "./routers/avito", type: "avito", exclude: ["index.js"] },
+    checkJWT,
+    () => {
+        const router = Router();
+        app.use(`/avito/`, router);
+        return router;
+    }
+);
 
 app.listen(PORT, () => console.log(`Start server ${PORT}`));
 
