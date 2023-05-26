@@ -1,14 +1,20 @@
 @modul = moysklad
 
 ###
-// запрос данных с мой склад 
-GET http://{{hostname}}/{{modul}}/?isLoadingImages=true
+// запрос данных на загрузку ассортимента
+// ?isLoadingImages=false загрузка без картинок
+GET http://{{hostname}}/{{modul}}/loadingProduct/?isLoadingImages=false
+
+
+###
+// запрос на загрузку категорий
+GET http://{{hostname}}/{{modul}}/loadingcategory/
 
 
 ###
 // загрузка товаров из мой склад 
 GET {{urlMoysklad}}/entity/product
-    ?limit=10&filter=updated>=2023-05-24 06:43
+    ?limit=10&filter=updated>=2023-03-24 06:43
 Authorization: Bearer {{tokenMS}}
 Content-Type: {{contentType}}
 
@@ -28,7 +34,7 @@ Content-Type: {{contentType}}
 
 ###
 // загрузка картинок
-GET https://online.moysklad.ru/api/remap/1.2/entity/product/8d26776b-97a7-11ed-0a80-02a2000761cb/images
+GET https://online.moysklad.ru/api/remap/1.2/entity/product/7f6d7927-d46a-11ed-0a80-0b830021e0a3/images
 Authorization: Bearer {{tokenMS}}
 responseType: 'stream'
 

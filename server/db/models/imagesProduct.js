@@ -16,6 +16,9 @@ const def = (db, DataTypes, options) => {
             pathName: { // путь к папке
                 type: DataTypes.STRING,
             },
+            url: { // путь к папке
+                type: DataTypes.STRING,
+            },
             typeImage: {
                 // Миниатюра
                 type: DataTypes.STRING,

@@ -6,7 +6,7 @@ const { axiosGet, axiosConfig } = require('./axiosConfig')
 const { getSyncMaxData, addSyncInfo } = require('./syncConfig')
 const { limitLoader, getIdFormUrl, moduleName } = require("./config")
 
-const { loaderCategory } = require("./loadingCategory")
+const { getCategory } = require("./loadingCategory")
 const { loadingImages } = require("./loadingImages")
 
 // БД 
@@ -36,7 +36,7 @@ const processingData = async (msObj) => {
         // получаем id категории если категория есть в базе 
         // если нету загружаем все категории"
         if (i.pathName !== '') {
-            const category = await loaderCategory(getIdFormUrl(i.productFolder?.meta?.href))
+            const category = await getCategory(getIdFormUrl(i.productFolder?.meta?.href))
             items.categoryId = category ? category.id : null
         } else {
             items.categoryId = null
@@ -116,7 +116,7 @@ const addOrUpdateRecord = async (data, options, modelBD) => {
 };
 
 // Получение Товаров из мой склад
-const getAssortment = async (req, res) => {
+const loadingProduct = async (req, res) => {
     try {
         const startDateTime = new Date();
         console.log(`${startDateTime} - Время запуска обмена.`)
@@ -141,7 +141,7 @@ const getAssortment = async (req, res) => {
 
                 // **************************************
                 // Загрузка картинки
-                if (isLoadingImages) { //если включена загрузка картинок
+                if (isLoadingImages === 'true') { //если включена загрузка картинок
                     await loadingImages(Record.id, data.data[i].urlImages)
                 }
                 // **************************************
@@ -191,17 +191,17 @@ const getAssortment = async (req, res) => {
             }
         } while (check)
         const finishDateTime = new Date();
-        console.log(`${finishDateTime} Обработано ${countProduct} записей/${moduleName}/${__filename}`)
-        addSyncInfo(`Обработано ${countProduct} записей`, moduleName, __filename, 0)
-        res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countProduct} Товаров` })
+        console.log(`${finishDateTime} Обработано ${countProduct} товаров // ${moduleName} // ${__filename}`)
+        addSyncInfo(`Обработано ${countProduct} товаров`, moduleName, __filename, 0)
+        res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countProduct} товаров` })
     } catch (error) {
         const errorDateTime = new Date();
-        console.log(`${errorDateTime} Зарос Не выполнен! ${error}/${moduleName}/${__filename}`)
+        console.log(`${errorDateTime} Зарос Не выполнен! -- ${error}--${moduleName}--${__filename}`)
         addSyncInfo(`Зарос Не выполнен! ${error}`, moduleName, __filename, 1)
         res.status(200).send({ mes: `Зарос Не выполнен! ${error}` })
     }
 }
 
 module.exports = {
-    getAssortment
+    loadingProduct
 }

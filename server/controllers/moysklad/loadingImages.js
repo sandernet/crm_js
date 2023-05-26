@@ -31,11 +31,12 @@ const processingData = (msObj) => {
 
 // Создаем запись в таблице с картинками
 //Запись картинки в таблицу
-const addImages = async (productId, nameFiles, pathName, typeImage) => {
+const addImages = async (productId, nameFiles, url, pathName, typeImage) => {
     await model.create({
         productId: productId,
         nameFiles: nameFiles,
         pathName: pathName,
+        url: url,
         typeImage: typeImage
     })
 }
@@ -44,8 +45,10 @@ const addImages = async (productId, nameFiles, pathName, typeImage) => {
 // Процедура запуска загрузки картинок для карточки товаров
 const loadingImages = async (productId, url) => {
     try {
+        if (url === null) {
+            return
+        }
         const options = { url: url, };
-
         const msObj = await axiosGet(axiosConfig(options), processingData)
 
         for (let i = 0; i < msObj.length; i++) {
@@ -54,20 +57,18 @@ const loadingImages = async (productId, url) => {
 
                     const options = { url: msObj[i][key], responseType: 'stream' };
 
-                    console.log(options.url)
-
                     // получение из мой склад
                     const fileImage = await axiosGet(axiosConfig(options))
-                    let pathName = `${key}/` + url.slice(55, 57)
+                    let pathName = `${key}/` + url.slice(56, 58)
                     // запись на диск
-                    writerFile(fileImage, pathName, msObj[i].nameFiles)
-                    addImages(productId, msObj[i].nameFiles, pathName, key)
+                    await writerFile(fileImage, pathName, msObj[i].nameFiles)
+                    await addImages(productId, msObj[i].nameFiles, options.url, pathName, key)
                 }
             }
         };
     } catch (error) {
-        console.log(`Зарос Не выполнен! ${error} / ${moduleName} / ${__filename}`)
-        addSyncInfo(`Зарос Не выполнен! ${error}`, moduleName, __filename, 1)
+        console.log(`Картинки ${productId} не записаны ${error} / ${moduleName} / ${__filename}`)
+        addSyncInfo(`Картинки ${productId} не записаны ${error}`, moduleName, __filename, 1)
     }
 }
 

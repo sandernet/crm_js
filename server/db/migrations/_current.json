@@ -121,6 +121,10 @@
                     "field": "pathName",
                     "seqType": "Sequelize.STRING"
                 },
+                "url": {
+                    "field": "url",
+                    "seqType": "Sequelize.STRING"
+                },
                 "typeImage": {
                     "field": "typeImage",
                     "seqType": "Sequelize.STRING"
@@ -439,5 +443,5 @@
         }
     },
     "exists": true,
-    "revision": 2
+    "revision": 3
 }

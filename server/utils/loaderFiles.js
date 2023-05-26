@@ -19,7 +19,7 @@ const writerFile = async (msObjImg, pathFolder, filename) => {
     const writer = fs.createWriteStream(path)
     msObjImg.pipe(writer)
     writer.on('finish', () => {
-        console.log('Successfully downloaded file!', path)
+        // console.log('Successfully downloaded file!', path)
     })
 }
 
