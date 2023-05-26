@@ -4,7 +4,7 @@ const { axiosGet, axiosConfig } = require('./axiosConfig')
 const { limitLoader, getIdFormUrl, moduleName } = require('./config')
 const { getSyncMaxData, addSyncInfo } = require('./syncConfig')
 // const { defaultGet } = require("../../utils/db");
-const { getOneExternalCode } = require("../category");
+const { getOneExternalCode } = require("../crm/category");
 const models = require("../../db/models");
 
 // Модель данных Таблица

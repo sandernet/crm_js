@@ -1,6 +1,0 @@
-@modul = avito
-
-###
-// запрос данных с мой склад 
-GET http://{{hostname}}/{{modul}}/
-

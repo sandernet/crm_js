@@ -1,13 +1,13 @@
-const models = require("../db/models");
-const { checkMethod } = require("../utils");
+const models = require("../../db/models");
+const { checkMethod } = require("../../utils");
 const {
   defaultPostRouter,
   defaultDeleteRouter,
   defaultPutRouter,
   defaultHelpRouter,
-} = require("../utils/db");
+} = require("../../utils/db");
 
-const { get } = require('../controllers/category')
+const { get } = require('../../controllers/crm/category')
 
 let model = models.category
 

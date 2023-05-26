@@ -1,4 +1,12 @@
 @tokenAvito = sTe1t0LpTOKu7Rrtl9uFlgBna17Wms94u20DU-Tm
+@modul = avito
+
+###
+// запрос данных на загрузку ассортимента
+// ?isLoadingImages=false загрузка без картинок
+GET http://{{hostname}}/api/{{modul}}/createXml/
+
+
 
 ###
 // Получение токена на авито

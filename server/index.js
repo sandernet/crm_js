@@ -9,21 +9,21 @@ const checkJWT = require("./utils/jwtMiddleware");
 
 const PORT = process.env.PORT || 5000
 
-// загрузка контроллера ваторизации
+// загрузка контроллера в авторизации
 // { path: "./controllers/auth", type: "authentication" },
 loader(
     { path: "./controllers/auth", type: "authentication" },
     checkJWT,
     () => {
         const router = Router();
-        app.use(`/profile/`, router);
+        app.use(`/api/profile/`, router);
         return router;
     }
 );
 
 //  { path: "./routers", type: "routers" },
 loader(
-    { path: "./routers", type: "routers" },
+    { path: "./routers/crm", type: "crm" },
     checkJWT,
     (moduleName) => {
         const router = Router();
@@ -32,6 +32,7 @@ loader(
     }
 );
 
+
 // мой склад
 // загружаем роутеры из модуля мой склад
 loader(
@@ -39,22 +40,24 @@ loader(
     checkJWT,
     () => {
         const router = Router();
-        app.use(`/moysklad/`, router);
+        app.use(`/api/moysklad/`, router);
         return router;
     }
 );
 
-// // авито
-// // загружаем роутеры из модуля АВИТО
-// loader(
-//     { path: "./controllers/avito", type: "avito", exclude: ["index.js"] },
-//     checkJWT,
-//     () => {
-//         const router = Router();
-//         app.use(`/avito/`, router);
-//         return router;
-//     }
-// );
+
+//  { path: "./routers", type: "routers" },
+loader(
+    { path: "./routers/avito", type: "avito", exclude: ["index.js"] },
+    checkJWT,
+    () => {
+        const router = Router();
+        app.use(`/api/avito/`, router);
+        return router;
+    }
+);
+
+
 
 app.listen(PORT, () => console.log(`Start server ${PORT}`));
 

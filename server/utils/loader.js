@@ -93,5 +93,5 @@ module.exports = (options, data, getData) => {
       } catch (error) {
         getErrorMessage(moduleName, error.message);
       }
-    });
+    })
 };

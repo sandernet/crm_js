@@ -1,6 +1,6 @@
-const { get, post, put, del } = require('../controllers/product')
+const { get, post, put, del } = require('../../controllers/crm/product')
 
-const { checkMethod } = require("../utils");
+const { checkMethod } = require("../../utils");
 
 module.exports = (router, moduleName) => {
   router.post("/", checkMethod(post, moduleName));

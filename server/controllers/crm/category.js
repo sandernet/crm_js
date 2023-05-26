@@ -1,7 +1,7 @@
-const models = require("../db/models");
+const models = require("../../db/models");
 const { Op } = require("sequelize");
 
-const { defaultGet } = require("../utils/db");
+const { defaultGet } = require("../../utils/db");
 
 let model = models.category
 

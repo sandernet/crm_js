@@ -9,5 +9,5 @@ const { createXml } = require("../../controllers/avito")
 
 module.exports = (router, moduleName) => {
     //router.post("/", checkMethod(post, moduleName));
-    router.get("/", checkMethod(createXml, moduleName));
+    router.get("/createXml/", checkMethod(createXml, moduleName));
 }

@@ -1,6 +1,6 @@
-const models = require("../db/models");
+const models = require("../../db/models");
 const { Op } = require("sequelize");
-const { checkMethod } = require("../utils");
+const { checkMethod } = require("../../utils");
 const {
   defaultPostRouter,
   defaultDeleteRouter,
