@@ -25,7 +25,7 @@ content-type: {{contentType}}
 {
     "id": 2,
     "name": "Вайлбериз",
-    "token": "651df65vb1df65v156df1v",
+    "token": {{tokenWB}},
     "description": "Работаем со своего склада"
 } 
 

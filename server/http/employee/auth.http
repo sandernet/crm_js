@@ -5,7 +5,7 @@
 POST http://{{hostname}}/profile/
 content-type: {{contentType}}
 {
-      "phone": "89501266974",
+      "phone": "89500000000",
       "password": 12345
 
 }
