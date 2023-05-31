@@ -1,6 +1,10 @@
-/server/.env
-/server/node_modules/*
-/uploader/*
 /.vscode/*
 /.idea/
 /.git/
+/uploader/*
+
+/server/.env
+/server/node_modules/*
+/client/node_modules/*
+/client/.next/*
+

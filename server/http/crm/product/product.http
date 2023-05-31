@@ -19,7 +19,7 @@ GET http://{{hostname}}/api/product/
 
 ###
 // поиск товаров по полям наименования и описание
-GET http://{{hostname}}/api/product?search=ноч
+GET http://{{hostname}}/api/product?id=3107
 
 ###
 // Удаление товара по id в body
