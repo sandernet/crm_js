@@ -7,6 +7,12 @@ GET http://{{hostname}}/api/{{modul}}/createXml/
 
 
 
+# Запрос всех параметров для маркетплейса
+###
+GET http://{{hostname}}/api/{{modul}}/property/
+
+
+
 ###
 // Получение токена на авито
 POST  {{urlAvito}}/token

@@ -1,7 +1,9 @@
 const { createXml } = require("./createXml")
-const { loadingPropertyAvito } = require("./propertyAvito")
+const { loadingPropertyAvito } = require("./loadingProperty")
+const { property } = require("./property")
 
 module.exports = {
     createXml,
-    loadingPropertyAvito
+    loadingPropertyAvito,
+    property
 }
