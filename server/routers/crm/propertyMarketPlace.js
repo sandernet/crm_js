@@ -1,4 +1,5 @@
-const models = require("../../db/models");
+// const models = require("../../db/models");
+const { get, model } = require("../../controllers/crm/propertyMarketPlace")
 const { checkMethod } = require("../../utils");
 const {
   defaultPostRouter,
@@ -6,19 +7,12 @@ const {
   defaultPutRouter,
 } = require("../../utils/db");
 
-const { get } = require('../../controllers/crm/category')
-
-let model = models.category
-
-// Получение данных
-const getCategory = (req, res) => {
-  res.status(200).send(get(req.query));
-}
+// let model = models.propertyMarketPlace
 
 module.exports = (router, moduleName) => {
-  model = models[moduleName];
+  //model = models[moduleName];
 
-  router.get("/", checkMethod(getCategory, moduleName));
+  router.get("/", checkMethod(get, moduleName));
 
   defaultPutRouter(router, moduleName, model, null);
   defaultPostRouter(router, moduleName, model, null);

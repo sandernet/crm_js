@@ -1,0 +1,42 @@
+
+###
+// вывод всех товаров из таблицы
+GET http://{{hostname}}/api/propertymarketplace/
+
+
+###
+POST http://{{hostname}}/api/propertymarketplace/
+content-type: {{contentType}}
+
+{
+    "name": "Имя менеджера",
+    "params": "ManagerName",
+    "description": "Имя менеджера, контактного лица компании по данному объявлению — строка не более 40 символов.",
+    "example": "Николай",
+    "requiredField": 1,
+    "marketPlaceId": 1
+}
+
+###
+// поиск товаров по полям наименования и описание
+GET http://{{hostname}}/api/product?search=ноч
+
+###
+// Удаление товара по id в body
+DELETE http://{{hostname}}/api/product/
+content-type: {{contentType}}
+
+{
+    "id": 781
+}
+
+
+###
+// обновление товара по id в body + Указание полей которые нужно обновить
+PUT http://{{hostname}}/api/product/
+content-type: {{contentType}}
+
+{
+    "id": 5,
+     "description": "Прожектор 20 Вт"
+} 

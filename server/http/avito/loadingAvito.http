@@ -1,0 +1,9 @@
+###
+// вывод всех товаров из таблицы
+GET http://{{hostname}}/api/avito/loadingpropertyavito?marketPlace=1
+
+
+
+###
+// вывод всех товаров из таблицы
+GET https://www.avito.ru/autoload/documentation/templates/1196360

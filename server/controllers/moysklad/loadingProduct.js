@@ -3,7 +3,7 @@ const { axiosGet, axiosConfig } = require('./axiosConfig')
 
 // функции получение времени последней синхронизации модуля
 // Функция добавления времени синхронизации модуля
-const { getSyncMaxData, addSyncInfo } = require('./syncConfig')
+const { getSyncMaxData, addSyncInfo } = require('../logging/syncLogging')
 const { limitLoader, getIdFormUrl, moduleName } = require("./config")
 
 const { getCategory } = require("./loadingCategory")
@@ -11,6 +11,7 @@ const { loadingImages } = require("./loadingImages")
 
 // БД 
 const models = require("../../db/models");
+const { addOrUpdateRecord } = require("../../utils/db");
 // Таблица БД
 const model = models.product
 
@@ -94,27 +95,6 @@ const processingData = async (msObj) => {
         limit: limit,
     }
 }
-// Создание либо обновление записи по id из внешнего источника
-const addOrUpdateRecord = async (data, options, modelBD) => {
-    try {
-        // Проверяем, существует ли запись согласно условию
-        let existingRecord = await modelBD.findOne({ where: options })
-
-        if (existingRecord) {
-            // Если запись уже существует, выполняем обновление
-            await modelBD.update(data, { where: options });
-            existingRecord = await modelBD.findOne({ where: options })
-            return existingRecord;
-        } else {
-            // Если запись не существует, выполняем добавление
-            existingRecord = await modelBD.create(data);
-            return existingRecord;
-        }
-    } catch (error) {
-        throw new Error(error);
-    }
-};
-
 // Получение Товаров из мой склад
 const loadingProduct = async (req, res) => {
     try {
@@ -192,12 +172,12 @@ const loadingProduct = async (req, res) => {
         } while (check)
         const finishDateTime = new Date();
         console.log(`${finishDateTime} Обработано ${countProduct} товаров // ${moduleName} // ${__filename}`)
-        addSyncInfo(`Обработано ${countProduct} товаров`, moduleName, __filename, 0)
+        addSyncInfo(`Обработано ${countProduct} товаров`, moduleName, __filename, finishDateTime, 0)
         res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countProduct} товаров` })
     } catch (error) {
         const errorDateTime = new Date();
         console.log(`${errorDateTime} Зарос Не выполнен! -- ${error}--${moduleName}--${__filename}`)
-        addSyncInfo(`Зарос Не выполнен! ${error}`, moduleName, __filename, 1)
+        addSyncInfo(`Зарос Не выполнен! ${error}`, moduleName, __filename, errorDateTime, 1)
         res.status(200).send({ mes: `Зарос Не выполнен! ${error}` })
     }
 }

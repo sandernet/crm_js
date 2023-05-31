@@ -7,6 +7,7 @@ const defaultPostRouter = require("./defPostRouter")(defaultPost);
 const defaultPutRouter = require("./defPutRouter")(defaultPut);
 const defaultGetRouter = require("./defGetRouter")(defaultGet);
 const defaultHelpRouter = require("./defGetHelpRouter");
+const addOrUpdateRecord = require("./addOrUpdateRecord");
 
 module.exports = {
   defaultPost,
@@ -18,4 +19,5 @@ module.exports = {
   defaultDeleteRouter,
   defaultGetRouter,
   defaultHelpRouter,
+  addOrUpdateRecord,
 };

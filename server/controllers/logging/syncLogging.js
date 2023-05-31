@@ -1,6 +1,6 @@
 const models = require("../../db/models");
 const { Sequelize, Op } = require("sequelize");
-const { lastUpdateDate } = require("./config")
+const { lastUpdateDate } = require("../moysklad/config")
 
 
 

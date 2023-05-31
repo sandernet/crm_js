@@ -45,6 +45,61 @@
             },
             "indexes": []
         },
+        "categoryMarketPlaces": {
+            "tableName": "categoryMarketPlaces",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "externalCodeMS": {
+                    "unique": true,
+                    "field": "externalCodeMS",
+                    "seqType": "Sequelize.STRING"
+                },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "url": {
+                    "field": "url",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "field": "deletedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "marketPlaceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "marketPlaces",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "NO ACTION",
+                    "field": "marketPlaceId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
         "employees": {
             "tableName": "employees",
             "schema": {
@@ -348,15 +403,15 @@
                     "field": "deletedAt",
                     "seqType": "Sequelize.DATE"
                 },
-                "marketPlaceId": {
+                "propertyMPId": {
                     "allowNull": true,
                     "references": {
-                        "model": "marketPlaces",
+                        "model": "propertyMarketPlaces",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
                     "onUpdate": "NO ACTION",
-                    "field": "marketPlaceId",
+                    "field": "propertyMPId",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "productId": {
@@ -368,6 +423,76 @@
                     "onDelete": "CASCADE",
                     "onUpdate": "NO ACTION",
                     "field": "productId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "propertyMarketPlaces": {
+            "tableName": "propertyMarketPlaces",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "params": {
+                    "field": "params",
+                    "seqType": "Sequelize.STRING"
+                },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "example": {
+                    "field": "example",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "requiredField": {
+                    "field": "requiredField",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "field": "deletedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "marketPlaceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "marketPlaces",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "NO ACTION",
+                    "field": "marketPlaceId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "categoryMarketPlaceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "categoryMarketPlaces",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "NO ACTION",
+                    "field": "categoryMarketPlaceId",
                     "seqType": "Sequelize.INTEGER"
                 }
             },
@@ -443,5 +568,5 @@
         }
     },
     "exists": true,
-    "revision": 3
+    "revision": 6
 }

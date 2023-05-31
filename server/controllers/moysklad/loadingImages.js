@@ -4,7 +4,7 @@ const { moduleName } = require('./config')
 
 // функции получение времени последней синхронизации модуля
 // Функция добавления времени синхронизации модуля
-const { addSyncInfo } = require('./syncConfig')
+const { addSyncInfo } = require('../logging/syncLogging')
 const { writerFile } = require("../../utils")
 
 // БД 

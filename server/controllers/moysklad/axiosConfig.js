@@ -55,6 +55,7 @@ const axiosGet = (config, processingData = processingDefaultData) => {
             .then((response) => {
                 // обрабатываем результат тут
                 // c помощью процедуры переданной в параметре
+                console.log(response)
                 const message = processingData(response.data)
                 resolve(message);
             })

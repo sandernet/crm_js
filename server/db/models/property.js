@@ -20,9 +20,9 @@ const def = (db, DataTypes, options) => {
     // Связи с другими таблицами
     model.associate = (models) => {
         // таблица товаров
-        model.belongsTo(models.marketPlace, {
-            foreignKey: "marketPlaceId",
-            as: "marketPlace",
+        model.belongsTo(models.propertyMarketPlace, {
+            foreignKey: "propertyMPId",
+            as: "propertyMP",
             onUpdate: "NO ACTION",
             onDelete: "CASCADE",
         });

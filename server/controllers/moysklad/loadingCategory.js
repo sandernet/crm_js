@@ -2,7 +2,7 @@ const { axiosGet, axiosConfig } = require('./axiosConfig')
 // функции получение времени посдедней синхронихации модуля
 // Функция добовления времени синхронизации модуля
 const { limitLoader, getIdFormUrl, moduleName } = require('./config')
-const { getSyncMaxData, addSyncInfo } = require('./syncConfig')
+const { getSyncMaxData, addSyncInfo } = require('../logging/syncLogging')
 // const { defaultGet } = require("../../utils/db");
 const { getOneExternalCode } = require("../crm/category");
 const models = require("../../db/models");
