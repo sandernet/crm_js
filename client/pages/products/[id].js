@@ -2,7 +2,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import MainContainer from "../../components/MainContainer"
 
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem, Nav, NavItem, NavLink } from 'reactstrap';
 
 export default function Product({ product }) {
     const { query } = useRouter()
@@ -10,6 +10,32 @@ export default function Product({ product }) {
         <>
             <MainContainer>
                 <h1>Product c id {query.id}</h1>
+                <>
+                    <Nav tabs="true">
+                        <NavItem>
+                            <NavLink
+                                active
+                                href="#"
+                            >
+                                {product.rows[0].name}
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="#">
+                                Авито
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                disabled
+                                href="#"
+                            >
+                                Добавить МП ...
+                            </NavLink>
+                        </NavItem>
+                    </Nav>
+                </>
+
                 <ListGroup>
                     <ListGroupItem>
                         id товара {product.rows[0].id}

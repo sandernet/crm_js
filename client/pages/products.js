@@ -54,7 +54,7 @@ const Product = ({ products }) => {
 export default Product;
 
 export async function getStaticProps(context) {
-    const response = await fetch('http://localhost:5000/api/product/?full=true&limit=10')
+    const response = await fetch('http://localhost:5000/api/product/?full=true&limit=100')
     const products = await response.json()
     return {
         props: { products }
