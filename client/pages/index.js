@@ -1,4 +1,3 @@
-import Link from "next/link";
 import MainContainer from "../components/MainContainer"
 
 const Index = () => {
@@ -8,8 +7,8 @@ const Index = () => {
                 <h1>Главная страница</h1>
                 <style jsx>
                     {`
-                .navbar{
-                        background: orange;
+                     .navbar{
+                      background: orange;
                         padding: 15px;
                     }
                     `}

@@ -33,6 +33,12 @@ const def = (db, DataTypes, options) => {
             onUpdate: "NO ACTION",
             onDelete: "CASCADE",
         });
+        model.hasMany(models.imagesProduct, {
+            foreignKey: "productId",
+            as: "images",
+            onUpdate: "NO ACTION",
+            onDelete: "CASCADE",
+        });
     };
 
     return model;

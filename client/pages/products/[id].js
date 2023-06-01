@@ -2,20 +2,34 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import MainContainer from "../../components/MainContainer"
 
+import { ListGroup, ListGroupItem } from 'reactstrap';
+
 export default function Product({ product }) {
     const { query } = useRouter()
     return (
         <>
             <MainContainer>
                 <h1>Product c id {query.id}</h1>
-                <div>
-                    <p>id товара {product.rows[0].id}</p>
-                    <p>article товара {product.rows[0].article}</p>
-                    <p>name товара {product.rows[0].name}</p>
-                    <p>idMS товара {product.rows[0].idMS}</p>
-                    <p>archived товара {product.rows[0].archived}</p>
-                    <p>categoryId товара {product.rows[0].categoryId}</p>
-                </div>
+                <ListGroup>
+                    <ListGroupItem>
+                        id товара {product.rows[0].id}
+                    </ListGroupItem>
+                    <ListGroupItem>
+                        article товара {product.rows[0].article}
+                    </ListGroupItem>
+                    <ListGroupItem>
+                        name товара {product.rows[0].name}
+                    </ListGroupItem>
+                    <ListGroupItem>
+                        idMS товара {product.rows[0].idMS}
+                    </ListGroupItem>
+                    <ListGroupItem>
+                        archived товара {product.rows[0].archived}
+                    </ListGroupItem>
+                    <ListGroupItem>
+                        categoryId товара {product.rows[0].categoryId}
+                    </ListGroupItem>
+                </ListGroup>
             </MainContainer>
         </>
     )

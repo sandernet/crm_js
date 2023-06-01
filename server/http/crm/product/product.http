@@ -9,13 +9,16 @@ content-type: {{contentType}}
     "description": "Жопа",
     "archived": "fasle",
     "categoryId": 1,
-    "uomId": 1
 }
 
 
 ###
 // вывод всех товаров из таблицы
-GET http://{{hostname}}/api/product/
+GET http://{{hostname}}/api/product/?full=true&limit=10
+
+###
+// вывод всех товаров из таблицы
+GET http://{{hostname}}/api/images/?id=11844
 
 ###
 // поиск товаров по полям наименования и описание
@@ -27,7 +30,7 @@ DELETE http://{{hostname}}/api/product/
 content-type: {{contentType}}
 
 {
-    "id": 781
+    "id": 3115
 }
 
 

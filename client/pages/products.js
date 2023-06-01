@@ -1,6 +1,9 @@
+import Link from 'next/link';
 import { useState } from 'react'
-import Link from "next/link"
+import { Table } from 'reactstrap';
 import MainContainer from "../components/MainContainer"
+import Images from "../components/Images"
+
 
 
 const Product = ({ products }) => {
@@ -10,15 +13,39 @@ const Product = ({ products }) => {
             <MainContainer>
                 <h1>Список товаров</h1>
                 <h2>{products.count}</h2>
-                <ul>
-                    {productsArray.map(product =>
-                        <li key={product.id}>
-                            <Link href={`/products/${product.id}`}>
-                                {product?.name}
-                            </Link>
-                        </li>
-                    )}
-                </ul>
+
+                <Table bordered>
+                    <thead>
+                        <tr>
+                            <th>
+                                id
+                            </th>
+                            <th>
+                                картинка
+                            </th>
+                            <th>
+                                Наименование товара
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {productsArray.map((product, index) => (
+
+                            < tr key={index} >
+                                <td>{product?.id}</td>
+                                <td>
+                                    <Images product={product}></Images>
+                                </td>
+                                <td><Link href={`/products/${product.id}`}>
+                                    {product?.name}
+                                </Link>
+                                </td>
+                            </tr>
+                        )
+                        )}
+
+                    </tbody>
+                </Table>
             </MainContainer>
         </>
     );
@@ -27,7 +54,7 @@ const Product = ({ products }) => {
 export default Product;
 
 export async function getStaticProps(context) {
-    const response = await fetch('http://localhost:5000/api/product/')
+    const response = await fetch('http://localhost:5000/api/product/?full=true&limit=10')
     const products = await response.json()
     return {
         props: { products }

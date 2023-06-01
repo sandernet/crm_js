@@ -2,6 +2,9 @@ const models = require("../../db/models");
 const { Op } = require("sequelize");
 
 const model = models.product;
+const modelImagesProduct = models.imagesProduct;
+const modelPrice = models.price;
+
 
 // Создание записи
 const post = (req, res, promiseError) => {
@@ -38,6 +41,20 @@ const getOneId = (externalCode) => {
 // Получение данных
 const get = (req, res) => {
   const { search, id, limit, offset, ...other } = req.query;
+  let dependencies
+
+  if (other.full === 'true') {
+    dependencies = [{
+      model: modelImagesProduct,
+      as: 'images',
+      limit: 1,
+      where: { "typeImage": "miniature" },
+      attributes: {
+        // Исключить поля field3 и field4 из модели 2
+        exclude: ["createdAt", "updatedAt", "deletedAt"]
+      }
+    }]
+  }
 
   // указываем в каких полях нужно искать строку /product?search=<>
   const searchCaption = search
@@ -63,7 +80,7 @@ const get = (req, res) => {
       order: [["id", "ASC"]],
       limit: parseInt(limit) ? parseInt(limit) : null,
       offset: parseInt(offset) ? parseInt(offset) : null,
-      ...other,
+      include: dependencies,
       where: where,
     })
     .then((data) => {
