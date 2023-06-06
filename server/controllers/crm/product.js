@@ -44,16 +44,28 @@ const get = (req, res) => {
   let dependencies
 
   if (other.full === 'true') {
-    dependencies = [{
-      model: modelImagesProduct,
-      as: 'images',
-      limit: 1,
-      where: { "typeImage": "miniature" },
-      attributes: {
-        // Исключить поля field3 и field4 из модели 2
-        exclude: ["createdAt", "updatedAt", "deletedAt"]
-      }
-    }]
+    dependencies = [
+      {
+        model: modelImagesProduct,
+        as: 'images',
+        // limit: 1,
+        //where: { "typeImage": "miniature" },
+        attributes: {
+          // Исключить поля field3 и field4 из модели 2
+          exclude: ["createdAt", "updatedAt", "deletedAt"]
+        }
+      },
+      {
+        model: modelPrice,
+        as: 'price',
+        // limit: 1,
+        //where: { "typeImage": "miniature" },
+        attributes: {
+          // Исключить поля field3 и field4 из модели 2
+          // include: ["name", "price"],
+          exclude: ["createdAt", "updatedAt", "deletedAt"]
+        }
+      }]
   }
 
   // указываем в каких полях нужно искать строку /product?search=<>
@@ -84,6 +96,7 @@ const get = (req, res) => {
       where: where,
     })
     .then((data) => {
+      console.log(data)
       res.status(200).send(data);
     });
 };

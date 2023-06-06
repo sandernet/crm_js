@@ -20,7 +20,7 @@ const MainContainer = ({ children }) => {
     const toggle = () => setIsOpen(!isOpen);
     return (
         <>
-            <Navbar className="navbar navbar-expand-sm navbar-light bg-info fixed-top">
+            <Navbar className="navbar navbar-expand-sm navbar-light bg-info">
                 <NavbarBrand href="/products">Список товаров</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>

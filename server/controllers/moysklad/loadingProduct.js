@@ -112,7 +112,6 @@ const loadingProduct = async (req, res) => {
             // {    data: product,
             //      size: size,
             //      limit: limit,   }
-            console.log(params)
             const data = await axiosGet(axiosConfig({ url: url, params: params }), processingData)
 
             //  Проходим по подготовленному массиву данных полученных из МойСклад 

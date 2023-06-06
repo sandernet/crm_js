@@ -1,0 +1,9 @@
+###
+// загрузка товаров из мой склад 
+GET {{urlMoysklad}}/entity/customentity/4243e8f4-b8a4-11ed-0a80-0138001af90f
+Authorization: Bearer {{tokenMS}}
+Content-Type: {{contentType}}
+
+###
+// запрос на загрузку категорий
+GET http://{{hostname}}/api/moysklad/getcities/

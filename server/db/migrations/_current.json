@@ -310,6 +310,17 @@
                     "onUpdate": "NO ACTION",
                     "field": "productId",
                     "seqType": "Sequelize.INTEGER"
+                },
+                "priceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "products",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "NO ACTION",
+                    "field": "priceId",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -568,5 +579,5 @@
         }
     },
     "exists": true,
-    "revision": 6
+    "revision": 7
 }

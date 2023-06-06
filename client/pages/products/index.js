@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useState } from 'react'
 import { Table } from 'reactstrap';
-import MainContainer from "../components/MainContainer"
-import Images from "../components/Images"
+import MainContainer from "../../components/MainContainer"
+import Images from "../../components/Images"
 
 
 
@@ -31,14 +31,15 @@ const Product = ({ products }) => {
                     <tbody>
                         {productsArray.map((product, index) => (
 
-                            < tr key={index} >
+                            < tr key={product?.id} >
                                 <td>{product?.id}</td>
                                 <td>
                                     <Images product={product}></Images>
                                 </td>
-                                <td><Link href={`/products/${product.id}`}>
-                                    {product?.name}
-                                </Link>
+                                <td>
+                                    <Link href={`/products/${product.id}`}>
+                                        {product?.name}
+                                    </Link>
                                 </td>
                             </tr>
                         )
