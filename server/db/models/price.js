@@ -35,7 +35,7 @@ const def = (db, DataTypes, options) => {
             as: "product",
             onUpdate: "NO ACTION",
             onDelete: "CASCADE",
-        })
+        });
     };
     return model;
 };

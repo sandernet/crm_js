@@ -21,15 +21,15 @@ const MainContainer = ({ children }) => {
     return (
         <>
             <Navbar className="navbar navbar-expand-sm navbar-light bg-info">
-                <NavbarBrand href="/products">Список товаров</NavbarBrand>
+                <NavbarBrand href="/">Главная</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="me-auto" navbar>
                         <NavItem>
-                            <NavLink href="/components/">Components</NavLink>
+                            <NavLink href="/products?page=1">Список товаров</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="https://github.com/reactstrap/reactstrap">
+                            <NavLink href="/">
                                 GitHub
                             </NavLink>
                         </NavItem>

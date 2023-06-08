@@ -40,8 +40,14 @@ const def = (db, DataTypes, options) => {
             onDelete: "CASCADE",
         });
         model.hasMany(models.price, {
-            foreignKey: "priceId",
+            foreignKey: "productId",
             as: "price",
+            onUpdate: "NO ACTION",
+            onDelete: "CASCADE",
+        });
+        model.hasMany(models.property, {
+            foreignKey: "productId",
+            as: "property",
             onUpdate: "NO ACTION",
             onDelete: "CASCADE",
         });

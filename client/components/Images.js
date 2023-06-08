@@ -1,12 +1,16 @@
 
-export default function Images({ product }) {
+export default function Images({ id }) {
+
+
     const urlImages = (id) => {
 
         return `http://localhost:5000/api/images/?id=${id}`
     }
-    if (product?.images?.length !== 0) {
+
+
+    if (id !== undefined) {
         return (
-            <img src={urlImages(product.images[0]['id'])} alt="Картинка" width="30" height="30" />
+            <img src={urlImages(id)} alt="Картинка" width="30" height="30" />
         )
     }
     else {
