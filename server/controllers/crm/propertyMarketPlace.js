@@ -3,6 +3,12 @@ const { Op } = require("sequelize");
 // const { axiosGet, axiosConfig } = require('../../controllers/moysklad/axiosConfig')
 const axiosModule = require('axios')
 
+const { checkMethod } = require("../../utils");
+const {
+  defaultPostRouter,
+  defaultDeleteRouter,
+  defaultPutRouter,
+} = require("../../utils/db");
 
 let model = models.propertyMarketPlace
 
@@ -43,8 +49,12 @@ const get = (req, res) => {
     });
 };
 
+module.exports = (router, moduleName) => {
+  //model = models[moduleName];
 
-module.exports = {
-  get,
-  model
+  router.get("/", checkMethod(get, moduleName));
+
+  defaultPutRouter(router, moduleName, model, null);
+  defaultPostRouter(router, moduleName, model, null);
+  defaultDeleteRouter(router, moduleName, model, null);
 };

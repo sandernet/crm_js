@@ -4,7 +4,7 @@ export default function Images({ id }) {
 
     const urlImages = (id) => {
 
-        return `http://localhost:5000/api/images/?id=${id}`
+        return `http://localhost:5000/api/crm/images/?id=${id}`
     }
 
 

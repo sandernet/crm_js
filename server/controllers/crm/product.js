@@ -6,7 +6,11 @@ const modelImagesProduct = models.imagesProduct;
 const modelPrice = models.price;
 const modelProperty = models.property;
 
+const { checkMethod } = require("../../utils");
 
+
+
+// Связанные таблицы
 const property = {
   model: modelProperty,
   as: 'property',
@@ -21,7 +25,6 @@ const property = {
     exclude: ["createdAt", "updatedAt", "deletedAt"]
   }
 };
-
 const images = {
   model: modelImagesProduct,
   as: 'images',
@@ -55,9 +58,12 @@ const get = (req, res) => {
 
   // Добавляем связанные таблицы
   let include = [];
-  (other.images === 'true' || other.full === 'true') ? include.push(images) : undefined;
-  (other.price === 'true' || other.full === 'true') ? include.push(price) : undefined;
-  (other.property === 'true' || other.full === 'true') ? include.push(property) : undefined;
+  (other.images === 'true' || other.full === 'true') ? include.push(images) : null;
+  (other.price === 'true' || other.full === 'true') ? include.push(price) : null;
+  (other.property === 'true' || other.full === 'true') ? include.push(property) : null;
+
+  console.log(include);
+
 
   // указываем в каких полях нужно искать строку /product?search=<>
   const searchCaption = search
@@ -91,7 +97,6 @@ const get = (req, res) => {
       res.status(200).send(data);
     });
 };
-
 // Создание записи
 const post = (req, res, promiseError) => {
   model
@@ -102,8 +107,6 @@ const post = (req, res, promiseError) => {
     })
     .catch(promiseError);
 };
-
-
 // Обновление записи 
 const put = (req, res, promiseError) => {
   const { id, ...body } = req.body;
@@ -129,8 +132,6 @@ const put = (req, res, promiseError) => {
     })
     .catch(promiseError);
 };
-
-
 // Удаление данных из Таблицы по id
 const del = (req, res, promiseError) => {
   const { id } = req.body;
@@ -147,9 +148,11 @@ const del = (req, res, promiseError) => {
     .catch(promiseError);
 };
 
-module.exports = {
-  post,
-  get,
-  put,
-  del
+module.exports = (router, moduleName) => {
+  router.post("/", checkMethod(post, moduleName));
+  router.get("/", checkMethod(get, moduleName));
+  router.put("/", checkMethod(put, moduleName));
+  // С проверкой на авторизацию
+  //router.delete("/", jwtCheck, checkMethod(del, moduleName));
+  router.delete("/", checkMethod(del, moduleName));
 };

@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { useRouter } from "next/router"
-import MainContainer from "../../../components/MainContainer"
-import NavbarProduct from "../../../components/product/NavbarProduct"
-import ProductComp from "../../../components/product/Product"
-import ContextProduct from "../../../components/product/ContextProduct"
-import ContextMP from "../../../components/product/ContextMP"
-import Avito from "../../../components/product/Avito"
+import MainContainer from "../../components/MainContainer"
+import NavbarProduct from "../../components/product/NavbarProduct"
+import ProductComp from "../../components/product/Product"
+import ContextProduct from "../../components/product/ContextProduct"
+import ContextMP from "../../components/product/ContextMP"
+import Avito from "../../components/product/Avito"
 
 import { Container, Row } from 'reactstrap';
 
@@ -59,9 +59,10 @@ export default function Product({ product }) {
 
 export async function getServerSideProps({ params }) {
 
-    console.log(params.id)
-    const response = await fetch(`http://localhost:5000/api/product?id=${params.id}&full=true`)
+    const response = await fetch(`http://localhost:5000/api/crm/product?id=${params.id}&full=true`)
     const product = await response.json()
+    console.log(product)
+    console.log('-------product-----------')
     return {
         props: { product }
     }

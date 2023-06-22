@@ -4,6 +4,8 @@ const { Op } = require("sequelize");
 const axiosModule = require('axios')
 
 
+const { checkMethod } = require("../../utils");
+
 let model = models.property
 let modelMP = models.propertyMarketPlace
 
@@ -60,6 +62,12 @@ const get = async (req, res) => {
 };
 
 
-module.exports = {
-  get
+
+module.exports = (router, moduleName) => {
+  // router.post("/", checkMethod(post, moduleName));
+  router.get("/", checkMethod(get, moduleName));
+  // router.put("/", checkMethod(put, moduleName));
+  // // С проверкой на авторизацию
+  // //router.delete("/", jwtCheck, checkMethod(del, moduleName));
+  // router.delete("/", checkMethod(del, moduleName));
 };

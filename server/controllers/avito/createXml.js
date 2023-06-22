@@ -1,5 +1,6 @@
 const fs = require('fs');
 const xmlbuilder = require('xmlbuilder');
+const { checkMethod } = require("../../utils");
 
 
 const createXml = () => {
@@ -53,6 +54,6 @@ const createXml = () => {
 //     console.log('XML-документ сохранен в файле "example.xml"');
 // });
 
-module.exports = {
-    createXml
+module.exports = (router, moduleName) => {
+    router.get("/createXml/", checkMethod(createXml, moduleName));
 }

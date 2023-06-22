@@ -7,7 +7,7 @@ const getErrorMessage = (fileName, message) => {
 };
 
 
-// Проверяем параметр функции на объект и присутстие в параметре переменной path пути 
+// Проверяем параметр функции на объект и присутствие в параметре переменной path пути 
 // Также проврем наличие в параметре options.exclude и что это не массив
 const check = (options) => {
   if (!options && options !== "object" && !options.path) {
@@ -26,7 +26,7 @@ const defExclude = (file) =>
 
 
 const arrayExclude = (exclude) => {
-  // оставляем только указынные в массиве файлы
+  // оставляем только указанные в массиве файлы
   return (file) => compareStringInArray(file, exclude);
   // Если нужно убрать указанные в массиве файлы 
   // return (file) => !compareStringInArray(file, exclude);
@@ -70,7 +70,7 @@ module.exports = (options, data, getData) => {
       }
 
       try {
-        // из файла загрудаем функицю и проверяем на функцию
+        // из файла загружаем функцию и проверяем на функцию
         const module = require(`../${options.path}/${file}`);
         if (typeof module === "function") {
           if (typeof getData === "function") {

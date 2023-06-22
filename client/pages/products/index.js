@@ -11,10 +11,11 @@ const Product = ({ products }) => {
     console.log("********query.page********")
     console.log(query.page)
 
-    const productsArray = products.rows;
+    const { count, rows } = products;
 
     // Вычисление общего количества элементов
-    const totalItems = 566 //products.count; // Замените на ваше реальное количество элементов
+    const totalItems = count //products.count; // Замените на ваше реальное количество элементов
+    console.log(totalItems)
     const itemsPerPage = 10; // Количество элементов на странице
 
     return (
@@ -38,13 +39,13 @@ const Product = ({ products }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {productsArray.map((product, index) => (
+                        {rows.map((product, index) => (
 
-                            < tr key={product?.id} >
+                            < tr key={index} >
                                 <td>{product?.id}</td>
                                 <td>
                                     {/* {product?.images.length > 0 ? JSON.stringify(product?.['images'][0]['id']) : ''} */}
-                                    <Images id={product?.images.length > 0 ? product?.images[0]['id'] : undefined}></Images>
+                                    <Images id={product?.images?.length > 0 ? product?.images[0]['id'] : undefined}></Images>
                                 </td>
                                 <td>
                                     <Link href={`/products/${product.id}`}>
@@ -84,8 +85,9 @@ export async function getServerSideProps(context) {
 
     console.log(params)
 
-    const response = await fetch(`http://localhost:5000/api/product?${params.toString()}`)
+    const response = await fetch(`http://localhost:5000/api/crm/product?${params.toString()}`)
     const products = await response.json()
+    console.log(products)
     return {
         props: { products }
     }

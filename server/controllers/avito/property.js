@@ -1,7 +1,9 @@
 const models = require("../../db/models");
+const { checkMethod } = require("../../utils");
 // const axiosModule = require('axios')
 
-const { moduleName } = require("./config")
+
+const { moduleName } = require("./config/config")
 
 const { addOrUpdateRecord } = require("../../utils/db");
 
@@ -36,6 +38,6 @@ const property = async (req, res) => {
     }
 }
 
-module.exports = {
-    property
-};
+module.exports = (router, moduleName) => {
+    router.get("/", checkMethod(property, moduleName));
+}

@@ -1,7 +1,7 @@
 const models = require("../../db/models");
-// const axiosModule = require('axios')
+const { checkMethod } = require("../../utils");
 
-const { moduleName } = require("./config")
+const { moduleName } = require("./config/config")
 
 const { addOrUpdateRecord } = require("../../utils/db");
 
@@ -17,7 +17,7 @@ const loadingPropertyAvito = async (req, res) => {
 
     const { marketPlace = 1 } = req.query
     const fs = require('fs');
-    let data1;
+
 
     // Чтение файла HTML
     fs.readFile("W:\\Developmen\\NodeJS\\crm_js\\uploader\\temp\\avito.html", 'utf8', (error, data) => {
@@ -83,6 +83,6 @@ const loadingPropertyAvito = async (req, res) => {
 
 
 
-module.exports = {
-  loadingPropertyAvito
-};
+module.exports = (router, moduleName) => {
+  router.get("/loadingpropertyavito/", checkMethod(loadingPropertyAvito, moduleName));
+}

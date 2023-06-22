@@ -31,7 +31,7 @@ if (config.use_env_variable) {
 const defOptions = { paranoid: true };
 
 
-// Четам директорию модуля с файлами .js
+// Читаем директорию модуля с файлами .js
 fs.readdirSync(__dirname)
   .filter((file) => {
     // берем файлы только с расширением .js

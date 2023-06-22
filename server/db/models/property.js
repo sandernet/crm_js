@@ -19,7 +19,7 @@ const def = (db, DataTypes, options) => {
     );
     // Связи с другими таблицами
     model.associate = (models) => {
-        // таблица товаров
+        // таблица маркетплейсов
         model.belongsTo(models.propertyMarketPlace, {
             foreignKey: "propertyMPId",
             as: "propertyMP",
@@ -27,7 +27,7 @@ const def = (db, DataTypes, options) => {
             onDelete: "CASCADE",
         });
 
-        // Таблица свойств
+        // Таблица товаров
         model.belongsTo(models.product, {
             foreignKey: "productId",
             as: "product",

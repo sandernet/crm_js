@@ -19,7 +19,7 @@ GET http://{{hostname}}/api/product/?images=true&limit=10
 
 ###
 // вывод всех товаров из таблицы
-GET http://{{hostname}}/api/images/?id=11844
+GET http://{{hostname}}/api/crm/images/?id=11844
 
 ###
 // поиск товаров по полям наименования и описание

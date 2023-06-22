@@ -22,7 +22,7 @@ const Product = () => {
                                     <Col className="bg-light border">
                                         <CardImg key={index}
                                             alt={item.nameFiles}
-                                            src={`${baseIrl}/api/images/?id=${item.id}`}
+                                            src={`${baseIrl}/api/crm/images/?id=${item.id}`}
                                             style={{
                                                 height: 150,
                                                 "object-fit": "contain"

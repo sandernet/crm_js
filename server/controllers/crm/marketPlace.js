@@ -6,7 +6,7 @@ const {
   defaultDeleteRouter,
   defaultPutRouter,
   defaultHelpRouter,
-} = require("../utils/db");
+} = require("../../utils/db");
 
 let model = models.marketplace
 

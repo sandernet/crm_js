@@ -43,21 +43,20 @@ const processingError = (error) => {
     return { message: `Обработчик ошибки!!! из модуля axiosConfig` }
 }
 
-// Проброс данных из axioGet()
-const processingDefaultData = (msObj) => {
-    return msObj
-}
-
 // Промис запрос данных из мой склад
-const axiosGet = (config, processingData = processingDefaultData) => {
+const axiosGet = (config, processingData) => {
     return new Promise((resolve, reject) => {
         axios(config)
             .then((response) => {
                 // обрабатываем результат тут
                 // c помощью процедуры переданной в параметре
                 console.log(response)
-                const message = processingData(response.data)
-                resolve(message);
+                if (processingData === "function") {
+                    const message = processingData(response.data)
+                    resolve(message);
+                }
+                resolve(response.data);
+
             })
             .catch((error) => {
                 // обрабатываем ошибку здесь

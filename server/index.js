@@ -23,20 +23,20 @@ loader(
 
 //  { path: "./routers", type: "routers" },
 loader(
-    { path: "./routers/crm", type: "crm" },
+    { path: "./controllers/crm", type: "crm" },
     checkJWT,
     (moduleName) => {
         const router = Router();
-        app.use(`/api/${moduleName}`, router);
+        app.use(`/api/crm/${moduleName}`, router);
         return router;
     }
 );
 
 
 // мой склад
-// загружаем роутеры из модуля мой склад
+// загружаем роутера из модуля мой склад
 loader(
-    { path: "./routers/moysklad", type: "moysklad", exclude: ["index.js"] },
+    { path: "./controllers/moysklad", type: "moysklad", exclude: ["index.js"] },
     checkJWT,
     () => {
         const router = Router();
@@ -48,16 +48,16 @@ loader(
 
 //  { path: "./routers", type: "routers" },
 loader(
-    { path: "./routers/avito", type: "avito", exclude: ["index.js"] },
+    { path: "./controllers/avito", type: "avito" },
     checkJWT,
-    () => {
+    (moduleName) => {
         const router = Router();
-        app.use(`/api/avito/`, router);
+        app.use(`/api/avito/${moduleName}`, router);
         return router;
     }
 );
 
 
 
-app.listen(PORT, () => console.log(`Start server ${PORT}`));
+app.listen(PORT, () => console.log(`Start server, port: ${PORT}`));
 
