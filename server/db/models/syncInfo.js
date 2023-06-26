@@ -3,9 +3,9 @@ const { DataTypes } = require("sequelize");
 // ==============================================
 //Набор характеристик для категории товаров
 //-----------------------------------------------
-const def = (db, DataTypes, options) => {
+module.exports = (db, options, modelName) => {
     const model = db.define(
-        "syncInfo",
+        modelName,
         {
             info: { // Информайия выполения операции
                 type: DataTypes.STRING,
@@ -26,5 +26,3 @@ const def = (db, DataTypes, options) => {
 
     return model;
 };
-
-module.exports = def;

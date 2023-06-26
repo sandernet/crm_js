@@ -5,7 +5,7 @@ import NavbarProduct from "../../components/product/NavbarProduct"
 import ProductComp from "../../components/product/Product"
 import ContextProduct from "../../components/product/ContextProduct"
 import ContextMP from "../../components/product/ContextMP"
-import Avito from "../../components/product/Avito"
+import Avito from "../../components/product/avito/avito"
 
 import { Container, Row } from 'reactstrap';
 
@@ -28,11 +28,13 @@ export default function Product({ product }) {
                 <ContextMP.Provider value={listMP}>
                     <Container fluid>
                         <div className="container-fluid">
-                            <div className="row justify-content-md-center">
-                                <div className="col">
-                                    <h1>{product.rows[0]['name']}</h1>
+                            <Row >
+                                <div className="row justify-content-md-center">
+                                    <div className="col">
+                                        <h1>{product.rows[0]['name']}</h1>
+                                    </div>
                                 </div>
-                            </div>
+                            </Row>
                             <Row >
                                 <div className="col">
                                     <NavbarProduct></NavbarProduct>
@@ -61,8 +63,8 @@ export async function getServerSideProps({ params }) {
 
     const response = await fetch(`http://localhost:5000/api/crm/product?id=${params.id}&full=true`)
     const product = await response.json()
-    console.log(product)
     console.log('-------product-----------')
+    console.log(product)
     return {
         props: { product }
     }

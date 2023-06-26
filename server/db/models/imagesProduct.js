@@ -6,9 +6,9 @@ const { DataTypes } = require("sequelize");
 // mini миниатюра
 // tiny маленькая для списков
 //-----------------------------------------------
-const def = (db, DataTypes, options) => {
+module.exports = (db, options, modelName) => {
     const model = db.define(
-        "imagesProduct",
+        modelName,
         {
             nameFiles: { // название файла
                 type: DataTypes.STRING,
@@ -39,5 +39,3 @@ const def = (db, DataTypes, options) => {
 
     return model;
 };
-
-module.exports = def;

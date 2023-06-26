@@ -1,0 +1,12 @@
+@modul = avito
+
+###
+// запрос данных на загрузку ассортимента
+// ?isLoadingImages=false загрузка без картинок
+GET http://{{hostname}}/api/{{modul}}/property?marketPlace=1
+
+
+###
+// Получение токена на авито
+POST  {{urlAvito}}/token
+Content-Type: application/x-www-form-urlencoded

@@ -3,9 +3,9 @@ const { DataTypes } = require("sequelize");
 // ==============================================
 // Цены на товар + ключи Товара и Вида цены
 //-----------------------------------------------
-const def = (db, DataTypes, options) => {
+module.exports = (db, options, modelName) => {
     const model = db.define(
-        "price",
+        modelName,
         {
             price: {
                 type: DataTypes.DECIMAL(10, 2),
@@ -39,5 +39,3 @@ const def = (db, DataTypes, options) => {
     };
     return model;
 };
-
-module.exports = def;

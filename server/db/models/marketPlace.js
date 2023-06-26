@@ -1,11 +1,11 @@
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 // ==============================================
 // маркетплейсы
 //-----------------------------------------------
-const def = (db, DataTypes, options) => {
+module.exports = (db, options, modelName) => {
     const model = db.define(
-        "marketPlace",
+        modelName,
         {
             name: { // название Маркетплейса
                 type: DataTypes.STRING,
@@ -22,5 +22,3 @@ const def = (db, DataTypes, options) => {
     );
     return model;
 };
-
-module.exports = def;

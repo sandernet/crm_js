@@ -3,9 +3,9 @@ const { DataTypes } = require("sequelize");
 // ==============================================
 // Таблица Товаров
 //-----------------------------------------------
-const def = (db, DataTypes, options) => {
+module.exports = (db, options, modelName) => {
     const model = db.define(
-        "product",
+        modelName,
         {
             article: { // Артикул Товара (Как у производителя если есть) берем из системы учета.
                 type: DataTypes.STRING,
@@ -55,5 +55,3 @@ const def = (db, DataTypes, options) => {
 
     return model;
 };
-
-module.exports = def;

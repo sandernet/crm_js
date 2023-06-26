@@ -19,8 +19,8 @@ const Product = () => {
                         <Row>
                             {context.images.map((item, index) => (
                                 item.typeImage === "miniature" ?
-                                    <Col className="bg-light border">
-                                        <CardImg key={index}
+                                    <Col key={index} className="bg-light border">
+                                        <CardImg
                                             alt={item.nameFiles}
                                             src={`${baseIrl}/api/crm/images/?id=${item.id}`}
                                             style={{

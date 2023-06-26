@@ -3,9 +3,9 @@ const { DataTypes } = require("sequelize");
 // ==============================================
 // Категории товаров
 //-----------------------------------------------
-const def = (db, DataTypes, options) => {
+module.exports = (db, options, modelName) => {
     const model = db.define(
-        "categoryMarketPlace",
+        modelName,
         {
             name: {
                 type: DataTypes.STRING,
@@ -35,5 +35,3 @@ const def = (db, DataTypes, options) => {
     };
     return model;
 }
-
-module.exports = def;

@@ -1,11 +1,11 @@
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 // ==============================================
 // Таблица пользователей
 //-----------------------------------------------
-const def = (db, DataTypes, options) => {
+module.exports = (db, options, modelName) => {
     const model = db.define(
-        "employee",
+        modelName,
         {
             externalCode: { // Внешний код сотрудника мой склад
                 type: DataTypes.STRING,
@@ -35,4 +35,3 @@ const def = (db, DataTypes, options) => {
     return model;
 };
 
-module.exports = def;

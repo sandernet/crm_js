@@ -3,9 +3,9 @@ const { DataTypes } = require("sequelize");
 // ==============================================
 // Вид цены
 //-----------------------------------------------
-const def = (db, DataTypes, options) => {
+module.exports = (db, options, modelName) => {
     const model = db.define(
-        "typePrice",
+        modelName,
         {
             name: {
                 type: DataTypes.STRING,
@@ -26,5 +26,3 @@ const def = (db, DataTypes, options) => {
     );
     return model;
 };
-
-module.exports = def;

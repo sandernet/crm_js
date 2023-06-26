@@ -4,9 +4,9 @@ const { DataTypes } = require("sequelize");
 // Свойства из маркетплейсов
 // для определенных категорий по маркПлейсам
 //-----------------------------------------------
-const def = (db, DataTypes, options) => {
+module.exports = (db, options, modelName) => {
     const model = db.define(
-        "propertyMarketPlace",
+        modelName,
         {
             name: { // название параметра
                 type: DataTypes.STRING,
@@ -46,4 +46,3 @@ const def = (db, DataTypes, options) => {
     return model;
 };
 
-module.exports = def;
