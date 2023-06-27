@@ -3,8 +3,8 @@ import { useRouter } from "next/router"
 import MainContainer from "../../components/MainContainer"
 import NavbarProduct from "../../components/product/NavbarProduct"
 import ProductComp from "../../components/product/Product"
-import ContextProduct from "../../components/product/ContextProduct"
-import ContextMP from "../../components/product/ContextMP"
+import ContextProduct from "../../context/ContextProduct"
+import ContextMP from "../../context/ContextMP"
 import Avito from "../../components/product/avito/avito"
 
 import { Container, Row } from 'reactstrap';
@@ -13,11 +13,6 @@ export default function Product({ product }) {
     const { query } = useRouter()
     const listMP = [{ id: 1, name: 'Avito' }, { id: 2, name: 'Avito-2' }];
 
-    const [showComponent2, setShowComponent2] = useState(true);
-
-    const toggleComponent = () => {
-        setShowComponent2(!showComponent2);
-    };
 
     return (
         <MainContainer>
@@ -45,7 +40,7 @@ export default function Product({ product }) {
                                     <ProductComp></ProductComp>
                                 </div>
                                 <div className="col-6">
-                                    {showComponent2 ? <Avito /> : "<Component1 />"}
+                                    <Avito marketPlaceId={listMP[0].id} productId={product.rows[0]['id']} />
                                 </div>
                             </Row>
                         </div>

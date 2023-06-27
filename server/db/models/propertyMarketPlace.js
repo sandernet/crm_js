@@ -42,6 +42,12 @@ module.exports = (db, options, modelName) => {
             onUpdate: "NO ACTION",
             onDelete: "NO ACTION",
         });
+        model.hasMany(models.property, {
+            foreignKey: "propertyMPId",
+            as: "property",
+            onUpdate: "NO ACTION",
+            onDelete: "CASCADE",
+        });
     };
     return model;
 };

@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
-import ContextProduct from '../ContextProduct';
-import ContextMP from '../ContextMP';
+import ContextProduct from '../../../context/ContextProduct';
+import ContextMP from '../../../context/ContextMP';
 
 import { Container, Row, Col } from 'reactstrap';
 import { Card, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
 
 const baseIrl = "http://localhost:5000"
 
+let marketPlaceId, productId
 
-const Avito = ({ property }) => {
-    console.log('-------property MP--------------')
+const Avito = ({ property, mPId, pId }) => {
+    console.log('-------property MP---777s-----------')
+
+    marketPlaceId = mPId
+    productId = pId
+
     console.log(property)
+    console.log(marketPlaceId)
+    console.log(productId)
     return (
         <ContextProduct.Consumer>
             {(context) => (
@@ -38,8 +45,8 @@ export default Avito;
 
 export async function getServerSideProps(params) {
     console.log('-------Свойства для авито???-----------')
-    console.log(params)
-    const response = await fetch(`http://localhost:5000/api/avito/property?marketPlace=1`)
+    console.log(marketPlaceId, productId)
+    const response = await fetch(`http://localhost:5000/api/avito/property?marketPlace=${marketPlaceId}&product=${productId}`)
     // const response = await fetch(`http://localhost:5000/api/crm/property?marketPlace=${params.id}`)
     const property = await response.json()
     console.log(property)

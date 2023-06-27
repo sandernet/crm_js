@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ContextProduct from './ContextProduct';
-import ContextMP from './ContextMP';
+import ContextProduct from '../../context/ContextProduct';
+import ContextMP from '../../context/ContextMP';
 
 import { Container, Row, Col } from 'reactstrap';
 import { Card, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';

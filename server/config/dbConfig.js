@@ -9,6 +9,8 @@ const dev = {
   host: process.env.DEV_HOST,
   //  port: process.env.DEV_PORT,
   dialect: process.env.DEV_DIALECT,
+  // Включить и отключить логирование sequelize 
+  // если закомментировать будет логирование в консоль
   logging: (msg) => { msg },
   define: {},
   timezone: "+00:00"

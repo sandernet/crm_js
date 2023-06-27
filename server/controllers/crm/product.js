@@ -62,9 +62,6 @@ const get = (req, res) => {
   (other.price === 'true' || other.full === 'true') ? include.push(price) : null;
   (other.property === 'true' || other.full === 'true') ? include.push(property) : null;
 
-  console.log(include);
-
-
   // указываем в каких полях нужно искать строку /product?search=<>
   const searchCaption = search
     ? {
@@ -91,7 +88,8 @@ const get = (req, res) => {
       offset: parseInt(offset) ? parseInt(offset) : null,
       where: where,
       include: include,
-
+      // логирование запроса
+      //logging: console.log
     })
     .then((data) => {
       res.status(200).send(data);

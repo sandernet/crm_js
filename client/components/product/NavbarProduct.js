@@ -1,9 +1,9 @@
 import { Nav, NavItem, NavLink } from 'reactstrap';
-import ContextProduct from './ContextProduct';
-import ContextMP from './ContextMP';
+import ContextProduct from '../../context/ContextProduct';
+import ContextMP from '../../context/ContextMP';
 
 
-export default function NavbarProduct({ children }) {
+export default function NavbarProduct() {
     return (
         <ContextProduct.Consumer>
             {(context) => (
@@ -20,7 +20,8 @@ export default function NavbarProduct({ children }) {
                         {(contextMPlase) => (
                             contextMPlase.map((item, index) => (
                                 <NavItem key={index}>
-                                    <NavLink href={`${context?.id}/${item?.id}`}>
+                                    {/* <NavLink href={`${context?.id}/${item?.id}`}> */}
+                                    <NavLink>
                                         {item?.name}
                                     </NavLink>
                                 </NavItem>)
