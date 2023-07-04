@@ -55,6 +55,7 @@ const price = {
 // Получение данных
 const get = (req, res) => {
   const { search, id, limit, offset, ...other } = req.query;
+  console.log(limit, offset);
 
   // Добавляем связанные таблицы
   let include = [];
