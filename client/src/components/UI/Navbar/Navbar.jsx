@@ -1,18 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
-import {
-  UserContext as Context,
-  useUserContext as useContext,
-} from "@context/";
-
-import cl from "./Navbar.module.css";
-import { LOGIN_ROUTE, PRODUCT_ROUTE } from "../../../router/constantRouter";
 import { observer } from "mobx-react-lite";
+import cl from "./Navbar.module.css";
+
+import { useUserContext as useContext } from "@context/";
+import {
+  LOGIN_ROUTE,
+  PRODUCT_ROUTE,
+  SETTINGS_ROUTE,
+} from "../../../router/constantRouter";
 
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { Button, Container, NavLink } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 
 const NavBar = observer(() => {
   const user = useContext();
@@ -30,7 +30,9 @@ const NavBar = observer(() => {
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand className={cl.navbar__links} href={PRODUCT_ROUTE}>
+        <Navbar.Brand
+          className={cl.navbar__links}
+          onClick={async () => navigate(PRODUCT_ROUTE)}>
           CRM система компании
         </Navbar.Brand>
         {user.data.isAuth ? (
@@ -39,6 +41,13 @@ const NavBar = observer(() => {
               variant={"outline-light"}
               onClick={async () => navigate(PRODUCT_ROUTE)}>
               Товары
+            </Button>
+
+            <Button
+              variant={"outline-light"}
+              onClick={async () => navigate(SETTINGS_ROUTE)}
+              className="ml-2">
+              Настройка
             </Button>
 
             <Button

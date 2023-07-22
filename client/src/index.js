@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import './styles/App.css';
@@ -17,6 +17,15 @@ import {
 const Default = () => {
 
   const user = useContext();
+  if (!user.data.isAuth) {
+    console.log('-------ingex.js APP-----------');
+    console.log(user.data.isAuth);
+    user.data.setIsAuth(true)
+  }
+  else {
+    console.log('-------ingex.js APP-----------');
+    console.log(user.data.isAuth);
+  }
   // const options = {
   //   cachePolicy: "no-cache",
   //   interceptors: {

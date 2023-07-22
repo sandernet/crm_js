@@ -15,10 +15,7 @@ import {
 import { login, registration } from "../API/User/UserService";
 
 import { observer } from "mobx-react-lite";
-import {
-  UserContext as Context,
-  useUserContext as useContext,
-} from "@context/";
+import { useUserContext as useContext } from "@context/";
 
 const Auth = observer(() => {
   const user = useContext();

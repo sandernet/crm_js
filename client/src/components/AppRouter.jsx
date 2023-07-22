@@ -10,7 +10,8 @@ import { LOGIN_ROUTE, PRODUCT_ROUTE } from "../router/constantRouter";
 
 const AppRouter = observer(() => {
   const user = useContext();
-  console.log("888888888888888888");
+  console.log("-------AppRouter()------");
+  console.log(user.data.isAuth);
   return user.data.isAuth ? (
     <Routes>
       {privateRoutes.map((route) => (

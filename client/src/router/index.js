@@ -1,13 +1,15 @@
 import About from "../pages/About";
+import Settings from "../pages/Settings";
 import Products from "../pages/Products";
 import ProductPage from "../pages/ProductPage";
 import Login from "../pages/Login";
 
-import { LOGIN_ROUTE, REGISTRATION_ROUTE, ABOUT_ROUTE, PRODUCT_ROUTE } from "./constantRouter";
+import { LOGIN_ROUTE, REGISTRATION_ROUTE, ABOUT_ROUTE, PRODUCT_ROUTE, SETTINGS_ROUTE } from "./constantRouter";
 
 
 // Роутеры доступные только с авторизацией
 export const privateRoutes = [
+    { path: SETTINGS_ROUTE, component: <Settings />, exact: true },
     { path: PRODUCT_ROUTE, component: <Products />, exact: true },
     { path: PRODUCT_ROUTE + '/:id', component: <ProductPage />, exact: true },
     { path: ABOUT_ROUTE, component: <About />, exact: true },

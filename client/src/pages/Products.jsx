@@ -2,7 +2,7 @@ import React from "react";
 
 // Страница с товарами
 function Products() {
-  console.log("------------");
+  console.log("------Products()------");
   return (
     <div className="App">
       <h1>Страница с товарами</h1>
