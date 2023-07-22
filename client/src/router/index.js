@@ -3,15 +3,19 @@ import Products from "../pages/Products";
 import ProductPage from "../pages/ProductPage";
 import Login from "../pages/Login";
 
+import { LOGIN_ROUTE, REGISTRATION_ROUTE, ABOUT_ROUTE, PRODUCT_ROUTE } from "./constantRouter";
+
 
 // Роутеры доступные только с авторизацией
 export const privateRoutes = [
-    { path: '/about', component: <About />, exact: true },
-    { path: '/product', component: <Products />, exact: true },
-    { path: '/product/:id', component: <ProductPage />, exact: true },
+    { path: PRODUCT_ROUTE, component: <Products />, exact: true },
+    { path: PRODUCT_ROUTE + '/:id', component: <ProductPage />, exact: true },
+    { path: ABOUT_ROUTE, component: <About />, exact: true },
 ]
 
 // Роутеры доступные БЕЗ авторизации
 export const publicRoutes = [
-    { path: '/login', component: <Login />, exact: true },
+
+    { path: LOGIN_ROUTE, component: <Login />, exact: true },
+    { path: REGISTRATION_ROUTE, component: <Login />, exact: true },
 ]

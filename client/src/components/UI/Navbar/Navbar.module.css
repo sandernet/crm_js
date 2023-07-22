@@ -1,12 +1,12 @@
-.navbar {
-    height: 50px;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    background: lightgray;
+.navbar__links {
+  color: white;
 }
 
-.navbar__links {
-    margin-right: auto;
+.navbar__links button {
+  margin-right: 7px;
+}
+
+.navbar__links :hover {
+  color: white;
+  background-color: purple;
 }

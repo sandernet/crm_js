@@ -1,4 +1,4 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -25,14 +25,14 @@
   margin-top: 2px;
   justify-content: space-between;
   align-items: center;
-}
+} */
 /* .post__content {
     display: flex;
 } */
-
+/* 
 .post__btns {
   display: flex;
-}
+} */
 
 /* Анимация в списке */
 /* .post-enter {
@@ -49,7 +49,7 @@
     transform: translateX(-350px);
     transition: all 500ms ease-in;
 } */
-
+/* 
 .page__wrapper {
   margin-top: 30px;
   display: flex;
@@ -72,7 +72,7 @@
 }
 
 /* --------------------------------- */
-.propertysmp {
+/* .propertysmp {
   display: flex;
   justify-content: space-between;
 }
@@ -80,4 +80,4 @@
 .propertysmp {
   height: 45px;
   padding: 3px;
-}
+} */

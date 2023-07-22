@@ -1,17 +1,17 @@
-import React, { useContext } from "react";
+import { useUserContext as useContext } from "@context/";
+import { observer } from "mobx-react-lite";
+
+import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { privateRoutes, publicRoutes } from "../router";
-import { AuthContext } from "../context";
-import Loader from "./UI/Loader/Loader";
 
-const AppRouter = () => {
-  const { isAuth, isLoading } = useContext(AuthContext);
+import { LOGIN_ROUTE, PRODUCT_ROUTE } from "../router/constantRouter";
+// import Loader from "./UI/Loader/Loader";
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  return isAuth ? (
+const AppRouter = observer(() => {
+  const user = useContext();
+  console.log("888888888888888888");
+  return user.data.isAuth ? (
     <Routes>
       {privateRoutes.map((route) => (
         <Route
@@ -21,7 +21,7 @@ const AppRouter = () => {
           key={route.path}
         />
       ))}
-      <Route path="*" element={<Navigate to="/product" />} />
+      <Route path="*" element={<Navigate to={PRODUCT_ROUTE} />} />
     </Routes>
   ) : (
     <Routes>
@@ -33,9 +33,9 @@ const AppRouter = () => {
           key={route.path}
         />
       ))}
-      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to={LOGIN_ROUTE} />} />
     </Routes>
   );
-};
+});
 
 export default AppRouter;

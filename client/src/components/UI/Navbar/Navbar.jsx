@@ -1,30 +1,65 @@
-import React, {useContext} from 'react';
-import {Link} from "react-router-dom";
-import MyButton from "../button/MyButton";
-import {AuthContext} from "../../../context";
-import cl from './Navbar.module.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
-    const {isAuth, setIsAuth} = useContext(AuthContext);
+import {
+  UserContext as Context,
+  useUserContext as useContext,
+} from "@context/";
 
-    const logout = () => {
-        setIsAuth(false);
-        localStorage.removeItem('auth')
-    }
+import cl from "./Navbar.module.css";
+import { LOGIN_ROUTE, PRODUCT_ROUTE } from "../../../router/constantRouter";
+import { observer } from "mobx-react-lite";
 
-    return (
-        <div className={cl.navbar}>
-            <div >
-                <Link style={{padding : 15}} to="/product">Товары</Link>
-                <Link to="/about">О сайте</Link>
-            </div>
-            <div style={{marginLeft: "auto"}}>
-            <MyButton onClick={logout}>
-                Выйти
-            </MyButton>
-</div>
-        </div>
-    );
-};
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import { Button, Container, NavLink } from "react-bootstrap";
 
-export default Navbar;
+const NavBar = observer(() => {
+  const user = useContext();
+  const navigate = useNavigate();
+
+  // Функция аннулирования авторизации
+  const logOut = () => {
+    user.data.setUser({});
+    user.data.setIsAuth(false);
+    // удаляем токен из локального хранилища
+    localStorage.removeItem("token");
+    navigate(LOGIN_ROUTE); // редирект на страницу магазина
+  };
+
+  return (
+    <Navbar bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand className={cl.navbar__links} href={PRODUCT_ROUTE}>
+          CRM система компании
+        </Navbar.Brand>
+        {user.data.isAuth ? (
+          <Nav className={cl.navbar__links + " ml-auto"}>
+            <Button
+              variant={"outline-light"}
+              onClick={async () => navigate(PRODUCT_ROUTE)}>
+              Товары
+            </Button>
+
+            <Button
+              variant={"outline-light"}
+              onClick={() => logOut()}
+              className="ml-2">
+              Выйти
+            </Button>
+          </Nav>
+        ) : (
+          <Nav className={cl.navbar__links + " ml-auto"}>
+            <Button
+              variant={"outline-light"}
+              onClick={() => navigate(LOGIN_ROUTE)}>
+              Авторизация
+            </Button>
+          </Nav>
+        )}
+      </Container>
+    </Navbar>
+  );
+});
+
+export default NavBar;
