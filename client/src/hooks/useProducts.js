@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 // Сортировка товара
-export const useSortedProducts = (products, sort = "name") => {
+export const useSortedProducts = (products, sort) => {
     const sortedProducts = useMemo(() => {
         if (sort === "name") {
             return [...products].sort((a, b) => a[sort].localeCompare(b[sort]))

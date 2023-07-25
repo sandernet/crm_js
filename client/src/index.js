@@ -15,35 +15,11 @@ import {
 } from "@context/";
 
 const Default = () => {
+  console.log('-------ingex.js APP-----------');
 
   const user = useContext();
-  if (!user.data.isAuth) {
-    console.log('-------ingex.js APP-----------');
-    console.log(user.data.isAuth);
-    user.data.setIsAuth(true)
-  }
-  else {
-    console.log('-------ingex.js APP-----------');
-    console.log(user.data.isAuth);
-  }
-  // const options = {
-  //   cachePolicy: "no-cache",
-  //   interceptors: {
-  //     request: async ({ options }) => {
-  //       options.headers = {
-  //         "Content-Type": "application/json",
-  //         Authorization: "JWT " + localStorage.getItem("token"),
-  //       };
-  //       return options;
-  //     },
-  //     response: (props) => {
-  //       if (props.response.status === 401) {
-  //         dataUser.data.setIsUser(false);
-  //       }
-  //       return props.response;
-  //     },
-  //   },
-  // };
+  console.log(user.data);
+  !user.data.isAuth ? user.data.setIsAuth(true) : console.log(user.data.isAuth)
 
   return (
     <BrowserRouter>

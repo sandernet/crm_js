@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container, Row, Col, Table } from "react-bootstrap";
+import { Button, Container, Row, Col, Table, Dropdown } from "react-bootstrap";
 
 // Страница с товарами
 function Settings() {
@@ -17,11 +17,28 @@ function Settings() {
       <Row>
         <Col xs lg="3">
           <div className="d-grid gap-2">
-            <Button variant="outline-success">Загрузить города из Excel</Button>
+            <Button
+              variant="outline-success"
+              onClick={() => alert("Загрузить города из Excel")}>
+              Загрузить города из Excel
+            </Button>
             <Button variant="outline-success">Создать файл для Авито</Button>
             <Button variant="outline-success" onClick={() => run()}>
               Загрузить параметры из Авито (не работает)
             </Button>
+          </div>
+          <div style={{ paddingTop: 10 }}>
+            <Dropdown>
+              <Dropdown.Toggle variant="outline-success" id="dropdown-basic">
+                Выпадающее меню
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1">1 Action</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">2 Action</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">3 Action</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </Col>
         <Col xs lg="9">
@@ -40,12 +57,6 @@ function Settings() {
                 <td>Mark</td>
                 <td>Otto</td>
                 <td>@mdo</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
               </tr>
               <tr>
                 <td>3</td>
