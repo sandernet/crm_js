@@ -24,16 +24,23 @@ module.exports = (db, options, modelName) => {
         },
         options
     );
-    // // Связи с другими таблицами
-    // model.associate = (models) => {
-    //     // Родительская категория 
-    //     model.belongsTo(model, {
-    //         foreignKey: "parent_id",
-    //         //as: "parent_id",
-    //         onUpdate: "NO ACTION",
-    //         onDelete: "SET NULL",
-    //     });
-    // }
+
+    // Связи с другими таблицами
+    model.associate = () => {
+        // Родительская категория 
+        model.belongsTo(model, {
+            foreignKey: "parent_id",
+            as: "parent",
+            onUpdate: "NO ACTION",
+            onDelete: "SET NULL",
+        });
+        model.hasMany(model, {
+            foreignKey: "parent_id",
+            as: "children",
+            onUpdate: "NO ACTION",
+            onDelete: "SET NULL",
+        });
+    }
     return model;
 };
 

@@ -16,6 +16,29 @@ const getOneExternalCode = async (externalCodeMS) => {
   return await model.findOne({ where: { externalCodeMS: externalCodeMS } })
 }
 
+
+const getCategoriesWithHierarchy = async () => {
+  try {
+    const categoriesWithHierarchy = await model.findAll({
+      include: [
+        {
+          model: model,
+          as: 'children',
+          hierarchy: true, // Это опция позволяет установить иерархию
+        },
+      ],
+      where: { parent_id: null }, // Получаем только корневые категории
+    });
+
+    return categoriesWithHierarchy;
+  } catch (error) {
+    console.error('Error while fetching categories with hierarchy:', error);
+    throw error;
+  }
+};
+
+
+
 // Получение данных
 const getCategory = (req, res) => {
   res.status(200).send(getOneExternalCode(req.query));
@@ -24,7 +47,7 @@ const getCategory = (req, res) => {
 module.exports = (router, moduleName) => {
   model = models[moduleName];
 
-  router.get("/", checkMethod(getCategory, moduleName));
+  router.get("/", checkMethod(getCategoriesWithHierarchy, moduleName));
 
   defaultPutRouter(router, moduleName, model, null);
   defaultPostRouter(router, moduleName, model, null);
