@@ -1,0 +1,52 @@
+.prog_time_menu,
+.prog_time_menu ul {
+  list-style: none;
+  /* убираем маркеры для списков */
+}
+.prog_time_menu input[type="checkbox"] {
+  position: absolute;
+  /* позиционируем поля абсолютно, чтобы они не мешали и не занимали пространство */
+  opacity: 0;
+  /* ставим прозрачность на 0 (полностью прозрачный) */
+}
+.prog_time_menu label,
+.prog_time_menu a {
+  position: relative;
+  /* //обычное позиционирование */
+  display: block;
+  /* //блочный элемент */
+  padding: 5px;
+  /* 
+  /* //внутренний отступ */
+  background: #fafafa;
+  /* //задний фон */
+  border-bottom: 1px solid #555960;
+  /* //цвет и ширина границ */
+  color: #555960;
+  /* //цвет текста */
+  font-size: 1rem;
+  /* //размер шрифта */
+  margin: 0;
+  /* //наружный отступ */
+}
+/*Изначально наши пункты меню будут скрыты*/
+.prog_time_menu ul {
+  display: none;
+  /* //не позиционировать (скрывать) */
+}
+/*После нажатия на пункт меню, будет запускаться поиск внутри него ul и ему будет задаваться указанное свойство */
+.prog_time_menu input[type="checkbox"]:checked + label + ul,
+.prog_time_menu
+  input[type="checkbox"]:checked
+  + label:nth-of-type(n)
+  + ul
+  .prog_time_menu
+  input[type="checkbox"]:hover
+  + label
+  + ul,
+.prog_time_menu .submenu ul:hover,
+.prog_time_menu input[type="checkbox"]:hover + label:nth-of-type(n) + ul {
+  display: block;
+  transition: 0.5s;
+}
+/*............*/

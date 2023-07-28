@@ -17,27 +17,42 @@ const getOneExternalCode = async (externalCodeMS) => {
 }
 
 
-const getCategoriesWithHierarchy = async () => {
-  try {
-    const categoriesWithHierarchy = await model.findAll({
-      include: [
-        {
-          model: model,
-          as: 'children',
-          hierarchy: true, // Это опция позволяет установить иерархию
-        },
+// Получение данных
+const get = (req, res) => {
+  const { search, id, limit, offset, ...other } = req.query;
+  console.log(limit, offset);
+
+  // указываем в каких полях нужно искать строку /product?search=<>
+  const searchCaption = search
+    ? {
+      [Op.or]: [
+        { name: { [Op.like]: `%${search}%` } },
+        { description: { [Op.like]: `%${search}%` } },
       ],
-      where: { parent_id: null }, // Получаем только корневые категории
+    }
+    : null;
+  // поиск по id /?id=<>
+  const searchId = id ? { id } : null;
+
+  const where =
+    searchCaption || searchId ? { ...searchCaption, ...searchId } : null;
+  // выполняем запрос
+  model
+    .findAndCountAll({
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "deletedAt"],
+      },
+      order: [["name", "ASC"]],
+      limit: parseInt(limit) ? parseInt(limit) : null,
+      offset: parseInt(offset) ? parseInt(offset) : null,
+      where: where,
+      // логирование запроса
+      // logging: console.log
+    })
+    .then((data) => {
+      res.status(200).send(data);
     });
-
-    return categoriesWithHierarchy;
-  } catch (error) {
-    console.error('Error while fetching categories with hierarchy:', error);
-    throw error;
-  }
 };
-
-
 
 // Получение данных
 const getCategory = (req, res) => {
@@ -47,7 +62,7 @@ const getCategory = (req, res) => {
 module.exports = (router, moduleName) => {
   model = models[moduleName];
 
-  router.get("/", checkMethod(getCategoriesWithHierarchy, moduleName));
+  router.get("/", checkMethod(get, moduleName));
 
   defaultPutRouter(router, moduleName, model, null);
   defaultPostRouter(router, moduleName, model, null);

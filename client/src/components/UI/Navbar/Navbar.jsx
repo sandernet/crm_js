@@ -7,6 +7,7 @@ import { useUserContext as useContext } from "@context/";
 import {
   LOGIN_ROUTE,
   PRODUCT_ROUTE,
+  CARTMP_ROUTE,
   SETTINGS_ROUTE,
 } from "../../../router/constantRouter";
 
@@ -37,6 +38,11 @@ const NavBar = observer(() => {
         </Navbar.Brand>
         {user.data.isAuth ? (
           <Nav className={cl.navbar__links + " ml-auto"}>
+            <Button
+              variant={"outline-light"}
+              onClick={async () => navigate(CARTMP_ROUTE)}>
+              Карточки маркетплейсов
+            </Button>
             <Button
               variant={"outline-light"}
               onClick={async () => navigate(PRODUCT_ROUTE)}>

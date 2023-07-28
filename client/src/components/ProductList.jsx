@@ -5,7 +5,9 @@ import { Table } from "react-bootstrap";
 // Страница с товарами
 const ProductList = ({ products }) => {
   if (!products.length) {
-    return <h1 style={{ textAlign: "center" }}>Посты не найдены!</h1>;
+    return (
+      <h1 style={{ textAlign: "center" }}>Товаров не в текущей категории</h1>
+    );
   }
 
   return (

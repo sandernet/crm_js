@@ -16,7 +16,7 @@ import { useProducts } from "../hooks/useProducts";
 import { getPageCount } from "@utils/pages";
 
 // Страница с товарами
-const Products = observer(() => {
+const CartMarketPleas = observer(() => {
   console.log("------Products()------");
 
   const [products, setProduct] = useState([]);
@@ -62,23 +62,23 @@ const Products = observer(() => {
   return (
     <Container>
       <ProductFilter
-        title={"Товары"}
+        title={"Карточки маркетплейсов"}
         filter={filter}
         setFilter={setFilter}
         setCreateProductVisible={setCreateProductVisible}
       />
       <Row>
         <Col xs md="3">
-          <MenuCategories setCategory={setCategory} />
+          {/* <MenuCategories setCategory={setCategory} /> */}
         </Col>
         <Col xs md="9">
           <GetDataInfo Error={postError} isLoading={isPostsLoading}>
-            <ProductList products={sortedAndSearchedPosts} />
+            {/* <ProductList products={sortedAndSearchedPosts} />
             <MyPagination
               page={page}
               changePage={changePage}
               totalPages={totalPages}
-            />
+            /> */}
           </GetDataInfo>
         </Col>
       </Row>
@@ -91,4 +91,4 @@ const Products = observer(() => {
     </Container>
   );
 });
-export default Products;
+export default CartMarketPleas;

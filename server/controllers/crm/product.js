@@ -54,7 +54,7 @@ const price = {
 
 // Получение данных
 const get = (req, res) => {
-  const { search, id, limit, offset, ...other } = req.query;
+  const { search, id, limit, offset, category, ...other } = req.query;
   console.log(limit, offset);
 
   // Добавляем связанные таблицы
@@ -63,6 +63,9 @@ const get = (req, res) => {
   (other.price === 'true' || other.full === 'true') ? include.push(price) : null;
   (other.property === 'true' || other.full === 'true') ? include.push(property) : null;
 
+  const categoryId = category == undefined ? { categoryId: { [Op.is]: null } } : {
+    categoryId: { [Op.eq]: Number(category) }
+  }
   // указываем в каких полях нужно искать строку /product?search=<>
   const searchCaption = search
     ? {
@@ -77,14 +80,14 @@ const get = (req, res) => {
   const searchId = id ? { id } : null;
 
   const where =
-    searchCaption || searchId ? { ...searchCaption, ...searchId } : null;
+    searchCaption || searchId || categoryId ? { ...searchCaption, ...searchId, ...categoryId } : null;
   // выполняем запрос
   model
     .findAndCountAll({
       attributes: {
         exclude: ["createdAt", "updatedAt", "deletedAt", "chatId"],
       },
-      order: [["id", "ASC"]],
+      order: [["name", "ASC"]],
       limit: parseInt(limit) ? parseInt(limit) : null,
       offset: parseInt(offset) ? parseInt(offset) : null,
       where: where,

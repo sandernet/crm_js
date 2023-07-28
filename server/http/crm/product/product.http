@@ -8,13 +8,17 @@ content-type: {{contentType}}
     "name": "Прожектор",
     "description": "Жопа",
     "archived": "fasle",
-    "categoryId": 1,
+    "category": 1,
 }
 
 
 ###
 // вывод всех товаров из таблицы
-GET http://{{hostname}}/api/crm/product/?images=true&limit=10&offset=0&price=true
+GET http://{{hostname}}/api/crm/product
+?limit=10
+&offset=0
+&category=437
+
 # GET http://{{hostname}}/api/product/?id=3107&price=true&limit=10
 
 ###
