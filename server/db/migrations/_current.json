@@ -1,5 +1,84 @@
 {
     "tables": {
+        "cardMPs": {
+            "tableName": "cardMPs",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "article": {
+                    "field": "article",
+                    "seqType": "Sequelize.STRING"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "field": "deletedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "parentId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "cardMPs",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "parentId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "marketPlaceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "marketPlaces",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "NO ACTION",
+                    "field": "marketPlaceId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "categoryMarketPlaceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "categoryMarketPlaces",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "NO ACTION",
+                    "field": "categoryMarketPlaceId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "productId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "products",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "NO ACTION",
+                    "field": "productId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
         "categories": {
             "tableName": "categories",
             "schema": {
@@ -22,13 +101,6 @@
                 },
                 "parent_id": {
                     "field": "parent_id",
-                    "allowNull": true,
-                    "references": {
-                        "model": "categories",
-                        "key": "id"
-                    },
-                    "onDelete": "SET NULL",
-                    "onUpdate": "NO ACTION",
                     "seqType": "Sequelize.STRING"
                 },
                 "description": {
@@ -66,17 +138,16 @@
                     "field": "name",
                     "seqType": "Sequelize.STRING"
                 },
-                "externalCodeMS": {
-                    "unique": true,
-                    "field": "externalCodeMS",
+                "marketPId": {
+                    "field": "marketPId",
                     "seqType": "Sequelize.STRING"
                 },
                 "description": {
                     "field": "description",
                     "seqType": "Sequelize.TEXT"
                 },
-                "url": {
-                    "field": "url",
+                "info": {
+                    "field": "info",
                     "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
@@ -420,16 +491,51 @@
                     "onUpdate": "NO ACTION",
                     "field": "productId",
                     "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "propertyCardMPs": {
+            "tableName": "propertyCardMPs",
+            "schema": {
+                "value": {
+                    "field": "value",
+                    "seqType": "Sequelize.STRING"
                 },
-                "propertyMPId": {
-                    "allowNull": true,
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "field": "deletedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "cardMPId": {
+                    "primaryKey": true,
                     "references": {
-                        "model": "propertyMarketPlaces",
+                        "model": "cardMPs",
                         "key": "id"
                     },
                     "onDelete": "CASCADE",
-                    "onUpdate": "NO ACTION",
-                    "field": "propertyMPId",
+                    "onUpdate": "CASCADE",
+                    "field": "cardMPId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "propertyId": {
+                    "primaryKey": true,
+                    "references": {
+                        "model": "properties",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "propertyId",
                     "seqType": "Sequelize.INTEGER"
                 }
             },
@@ -574,6 +680,6 @@
             "indexes": []
         }
     },
-    "exists": true,
-    "revision": 8
+    "exists": false,
+    "revision": 1
 }

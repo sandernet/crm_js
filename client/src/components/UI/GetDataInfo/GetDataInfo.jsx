@@ -1,5 +1,6 @@
 import React from "react";
 import Loader from "../../UI/Loader/Loader";
+import { Alert } from "react-bootstrap";
 
 const GetDataInfo = (props) => {
   console.log("------GetDatainfo()------");

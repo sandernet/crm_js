@@ -2,7 +2,7 @@ import React from "react";
 import MyInput from "./UI/Input/MyInput";
 import MyButton from "./UI/button/MyButton";
 import { useFetching } from "../hooks/useFetching";
-import ProductService from "../API/Product/ProductService";
+import ProductService from "../API/Product/ProductAPI";
 // import MySelect from "./UI/select/MySelect";
 
 const PropertyMP = ({ product, mp }) => {

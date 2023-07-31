@@ -1,24 +1,18 @@
 const { DataTypes } = require("sequelize");
 
 // ==============================================
-// маркетплейсы
+// Связь карточки со свойствами карточки М-М
 //-----------------------------------------------
 module.exports = (db, options, modelName) => {
     const model = db.define(
         modelName,
         {
-            name: { // название Маркетплейса
-                type: DataTypes.STRING,
-                allowNull: false
-            },
-            token: { // Токен авторизации
-                type: DataTypes.STRING,
-            },
-            description: { // путь к папке
+            value: { // значение характеристики
                 type: DataTypes.STRING,
             }
         },
         options
     );
+
     return model;
 };

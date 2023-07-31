@@ -8,17 +8,21 @@ const Sequelize = require("sequelize");
  * createTable() => "marketPlaces", deps: []
  * createTable() => "syncInfos", deps: []
  * createTable() => "typePrices", deps: []
+ * createTable() => "categoryMarketPlaces", deps: [marketPlaces]
  * createTable() => "products", deps: [categories]
+ * createTable() => "cardMPs", deps: [cardMPs, marketPlaces, categoryMarketPlaces, products]
  * createTable() => "imagesProducts", deps: [products]
  * createTable() => "prices", deps: [typePrices, products]
- * createTable() => "properties", deps: [marketPlaces, products]
+ * createTable() => "properties", deps: [products]
+ * createTable() => "propertyCardMPs", deps: [cardMPs, properties]
+ * createTable() => "propertyMarketPlaces", deps: [marketPlaces, categoryMarketPlaces]
  *
  */
 
 const info = {
   revision: 1,
   name: "init",
-  created: "2023-05-25T06:36:43.979Z",
+  created: "2023-07-28T08:22:38.662Z",
   comment: "",
 };
 
@@ -140,6 +144,7 @@ const migrationCommands = (transaction) => [
         },
         info: { type: Sequelize.STRING, field: "info" },
         module: { type: Sequelize.STRING, field: "module" },
+        action: { type: Sequelize.STRING, field: "action" },
         resultError: {
           type: Sequelize.INTEGER,
           field: "resultError",
@@ -178,6 +183,45 @@ const migrationCommands = (transaction) => [
           allowNull: false,
         },
         deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
+      },
+      { transaction },
+    ],
+  },
+  {
+    fn: "createTable",
+    params: [
+      "categoryMarketPlaces",
+      {
+        id: {
+          type: Sequelize.INTEGER,
+          field: "id",
+          autoIncrement: true,
+          primaryKey: true,
+          allowNull: false,
+        },
+        name: { type: Sequelize.STRING, field: "name" },
+        marketPId: { type: Sequelize.STRING, field: "marketPId" },
+        description: { type: Sequelize.TEXT, field: "description" },
+        info: { type: Sequelize.STRING, field: "info" },
+        createdAt: {
+          type: Sequelize.DATE,
+          field: "createdAt",
+          allowNull: false,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          field: "updatedAt",
+          allowNull: false,
+        },
+        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
+        marketPlaceId: {
+          type: Sequelize.INTEGER,
+          field: "marketPlaceId",
+          onUpdate: "NO ACTION",
+          onDelete: "CASCADE",
+          references: { model: "marketPlaces", key: "id" },
+          allowNull: true,
+        },
       },
       { transaction },
     ],
@@ -228,6 +272,67 @@ const migrationCommands = (transaction) => [
   {
     fn: "createTable",
     params: [
+      "cardMPs",
+      {
+        id: {
+          type: Sequelize.INTEGER,
+          field: "id",
+          autoIncrement: true,
+          primaryKey: true,
+          allowNull: false,
+        },
+        article: { type: Sequelize.STRING, field: "article" },
+        name: { type: Sequelize.STRING, field: "name" },
+        createdAt: {
+          type: Sequelize.DATE,
+          field: "createdAt",
+          allowNull: false,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          field: "updatedAt",
+          allowNull: false,
+        },
+        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
+        parentId: {
+          type: Sequelize.INTEGER,
+          field: "parentId",
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
+          references: { model: "cardMPs", key: "id" },
+          allowNull: true,
+        },
+        marketPlaceId: {
+          type: Sequelize.INTEGER,
+          field: "marketPlaceId",
+          onUpdate: "NO ACTION",
+          onDelete: "NO ACTION",
+          references: { model: "marketPlaces", key: "id" },
+          allowNull: true,
+        },
+        categoryMarketPlaceId: {
+          type: Sequelize.INTEGER,
+          field: "categoryMarketPlaceId",
+          onUpdate: "NO ACTION",
+          onDelete: "CASCADE",
+          references: { model: "categoryMarketPlaces", key: "id" },
+          allowNull: true,
+        },
+        productId: {
+          type: Sequelize.INTEGER,
+          field: "productId",
+          onUpdate: "NO ACTION",
+          onDelete: "NO ACTION",
+          references: { model: "products", key: "id" },
+          allowNull: true,
+        },
+      },
+      { transaction },
+    ],
+  },
+  {
+    fn: "createTable",
+    params: [
       "imagesProducts",
       {
         id: {
@@ -239,6 +344,7 @@ const migrationCommands = (transaction) => [
         },
         nameFiles: { type: Sequelize.STRING, field: "nameFiles" },
         pathName: { type: Sequelize.STRING, field: "pathName" },
+        url: { type: Sequelize.STRING, field: "url" },
         typeImage: { type: Sequelize.STRING, field: "typeImage" },
         createdAt: {
           type: Sequelize.DATE,
@@ -338,14 +444,6 @@ const migrationCommands = (transaction) => [
           allowNull: false,
         },
         deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
-        marketPlaceId: {
-          type: Sequelize.INTEGER,
-          field: "marketPlaceId",
-          onUpdate: "NO ACTION",
-          onDelete: "CASCADE",
-          references: { model: "marketPlaces", key: "id" },
-          allowNull: true,
-        },
         productId: {
           type: Sequelize.INTEGER,
           field: "productId",
@@ -358,12 +456,105 @@ const migrationCommands = (transaction) => [
       { transaction },
     ],
   },
+  {
+    fn: "createTable",
+    params: [
+      "propertyCardMPs",
+      {
+        value: { type: Sequelize.STRING, field: "value" },
+        createdAt: {
+          type: Sequelize.DATE,
+          field: "createdAt",
+          allowNull: false,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          field: "updatedAt",
+          allowNull: false,
+        },
+        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
+        cardMPId: {
+          type: Sequelize.INTEGER,
+          field: "cardMPId",
+          onUpdate: "CASCADE",
+          onDelete: "CASCADE",
+          references: { model: "cardMPs", key: "id" },
+          primaryKey: true,
+        },
+        propertyId: {
+          type: Sequelize.INTEGER,
+          field: "propertyId",
+          onUpdate: "CASCADE",
+          onDelete: "CASCADE",
+          references: { model: "properties", key: "id" },
+          primaryKey: true,
+        },
+      },
+      { transaction },
+    ],
+  },
+  {
+    fn: "createTable",
+    params: [
+      "propertyMarketPlaces",
+      {
+        id: {
+          type: Sequelize.INTEGER,
+          field: "id",
+          autoIncrement: true,
+          primaryKey: true,
+          allowNull: false,
+        },
+        name: { type: Sequelize.STRING, field: "name", allowNull: false },
+        params: { type: Sequelize.STRING, field: "params" },
+        description: { type: Sequelize.TEXT, field: "description" },
+        example: { type: Sequelize.TEXT, field: "example" },
+        requiredField: { type: Sequelize.INTEGER, field: "requiredField" },
+        createdAt: {
+          type: Sequelize.DATE,
+          field: "createdAt",
+          allowNull: false,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          field: "updatedAt",
+          allowNull: false,
+        },
+        deletedAt: { type: Sequelize.DATE, field: "deletedAt" },
+        marketPlaceId: {
+          type: Sequelize.INTEGER,
+          field: "marketPlaceId",
+          onUpdate: "NO ACTION",
+          onDelete: "NO ACTION",
+          references: { model: "marketPlaces", key: "id" },
+          allowNull: true,
+        },
+        categoryMarketPlaceId: {
+          type: Sequelize.INTEGER,
+          field: "categoryMarketPlaceId",
+          onUpdate: "NO ACTION",
+          onDelete: "NO ACTION",
+          references: { model: "categoryMarketPlaces", key: "id" },
+          allowNull: true,
+        },
+      },
+      { transaction },
+    ],
+  },
 ];
 
 const rollbackCommands = (transaction) => [
   {
     fn: "dropTable",
+    params: ["cardMPs", { transaction }],
+  },
+  {
+    fn: "dropTable",
     params: ["categories", { transaction }],
+  },
+  {
+    fn: "dropTable",
+    params: ["categoryMarketPlaces", { transaction }],
   },
   {
     fn: "dropTable",
@@ -388,6 +579,14 @@ const rollbackCommands = (transaction) => [
   {
     fn: "dropTable",
     params: ["properties", { transaction }],
+  },
+  {
+    fn: "dropTable",
+    params: ["propertyCardMPs", { transaction }],
+  },
+  {
+    fn: "dropTable",
+    params: ["propertyMarketPlaces", { transaction }],
   },
   {
     fn: "dropTable",

@@ -1,7 +1,7 @@
 import React from "react";
 import MyButton from "./UI/button/MyButton";
 import { useNavigate } from "react-router-dom";
-import ProductService from "../API/Product/ProductService";
+import ProductService from "../API/Product/ProductAPI";
 
 const PostItem = (props) => {
   const router = useNavigate();

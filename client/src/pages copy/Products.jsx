@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import ProductService from "../API/Product/ProductService";
+import ProductService from "../API/Product/ProductAPI";
 import { useProducts } from "../hooks/useProducts";
 import { useFetching } from "../hooks/useFetching";
 import { getPageCount } from "../utils/pages";

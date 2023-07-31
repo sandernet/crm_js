@@ -19,20 +19,19 @@ module.exports = (db, options, modelName) => {
     );
     // Связи с другими таблицами
     model.associate = (models) => {
-        // таблица маркетплейсов
-        model.belongsTo(models.propertyMarketPlace, {
-            foreignKey: "propertyMPId",
-            as: "propertyMP",
-            onUpdate: "NO ACTION",
-            onDelete: "CASCADE",
-        });
-
         // Таблица товаров
         model.belongsTo(models.product, {
             foreignKey: "productId",
-            as: "product",
+            as: "property",
             onUpdate: "NO ACTION",
             onDelete: "CASCADE",
+        });
+        // Свойства категорий Многие ко многим
+        model.belongsToMany(models.cardMP, {
+            through: "propertyCardMP",
+            foreignKey: "propertyId",
+            otherKey: "cardMPId",
+            as: "cardMP"
         });
     };
     return model;

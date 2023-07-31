@@ -1,9 +1,20 @@
 import React from "react";
 import { Button, Container, Row, Col, Table, Dropdown } from "react-bootstrap";
 
+import { useFetching } from "../hooks/useFetching";
+import SettingsAPI from "../API/Settings/SettingsAPI";
+
 // Страница с товарами
 function Settings() {
-  const run = () => {};
+  // Загрузка товаров ---------------
+  const [fetchProducts, isPostsLoading, postError] = useFetching(async () => {
+    const response = await SettingsAPI.loaderProductsMS(false);
+    console.log(response);
+  });
+
+  const loaderProductMS = async () => {
+    await fetchProducts();
+  };
 
   console.log("------Settings()------");
   return (
@@ -23,8 +34,8 @@ function Settings() {
               Загрузить города из Excel
             </Button>
             <Button variant="outline-success">Создать файл для Авито</Button>
-            <Button variant="outline-success" onClick={() => run()}>
-              Загрузить параметры из Авито (не работает)
+            <Button variant="outline-success" onClick={() => loaderProductMS()}>
+              Загрузить / обновить товары из мойСклад
             </Button>
           </div>
           <div style={{ paddingTop: 10 }}>

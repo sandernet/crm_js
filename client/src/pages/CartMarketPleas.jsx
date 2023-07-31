@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import React, { useState, useRef, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
-import CreateProduct from "../components/modalsWindows/CreateProduct";
+import CreateCardMP from "../components/Forms/CreateCardMP";
 import ProductList from "../components/ProductList";
 
 import MyPagination from "../components/UI/MyPagination/MyPagination";
@@ -11,7 +11,7 @@ import MenuCategories from "../components/UI/MenuCategories/MenuCategories";
 import GetDataInfo from "../components/UI/GetDataInfo/GetDataInfo";
 
 import { useFetching } from "../hooks/useFetching";
-import ProductService from "../API/Product/ProductService";
+import CardMPAPI from "../API/CardMP/CardMPAPI";
 import { useProducts } from "../hooks/useProducts";
 import { getPageCount } from "@utils/pages";
 
@@ -19,10 +19,10 @@ import { getPageCount } from "@utils/pages";
 const CartMarketPleas = observer(() => {
   console.log("------Products()------");
 
-  const [products, setProduct] = useState([]);
+  const [cardMP, setCardMP] = useState([]);
   const [category, setCategory] = useState(null);
   // Модальное окно
-  const [CreateProductVisible, setCreateProductVisible] = useState(false);
+  const [ModalsWindowsVisible, setModalsWindowsVisible] = useState(false);
   const [filter, setFilter] = useState({ sort: "name", query: "" });
   // общее количество страниц товаров
   const [totalPages, setTotalPages] = useState(0);
@@ -33,12 +33,8 @@ const CartMarketPleas = observer(() => {
   const [fetchProducts, isPostsLoading, postError] = useFetching(
     async (limit, page, category) => {
       const offset = limit * (page - 1);
-      const response = await ProductService.getAllProducts(
-        limit,
-        offset,
-        category
-      );
-      setProduct(response.data["rows"]);
+      const response = await CardMPAPI.getAllCardMP(limit, offset, category);
+      setCardMP(response.data["rows"]);
       const totalCount = 565;
       setTotalPages(getPageCount(totalCount, limit));
     }
@@ -47,13 +43,6 @@ const CartMarketPleas = observer(() => {
   useEffect(() => {
     fetchProducts(limit, page, category);
   }, [page, limit, category]);
-
-  // Свой hook
-  const sortedAndSearchedPosts = useProducts(
-    products,
-    filter.sort,
-    filter.query
-  );
 
   const changePage = (page) => {
     setPage(page);
@@ -65,28 +54,34 @@ const CartMarketPleas = observer(() => {
         title={"Карточки маркетплейсов"}
         filter={filter}
         setFilter={setFilter}
-        setCreateProductVisible={setCreateProductVisible}
+        setCreateProductVisible={setModalsWindowsVisible}
       />
       <Row>
         <Col xs md="3">
+          <div>
+            <p>Список маркетплейсов</p>
+          </div>
           {/* <MenuCategories setCategory={setCategory} /> */}
         </Col>
         <Col xs md="9">
           <GetDataInfo Error={postError} isLoading={isPostsLoading}>
-            {/* <ProductList products={sortedAndSearchedPosts} />
+            <div>
+              <p>Список товаров по паркетплейсам</p>
+            </div>
+            {/* <ProductList products={setCardMP} /> */}
             <MyPagination
               page={page}
               changePage={changePage}
               totalPages={totalPages}
-            /> */}
+            />
           </GetDataInfo>
         </Col>
       </Row>
 
       {/*    Добавляем модальные окна */}
-      <CreateProduct
-        show={CreateProductVisible}
-        onHide={() => setCreateProductVisible(false)}
+      <CreateCardMP
+        show={ModalsWindowsVisible}
+        onHide={() => setModalsWindowsVisible(false)}
       />
     </Container>
   );

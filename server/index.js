@@ -1,63 +1,67 @@
-// достаем параметры из файла конфигурации .env
-require("dotenv").config();
+require("module-alias/register");
+require("./config");
+require("./events");
+const express = require("express");
+const controllers = require("./controller");
+const wsServer = require("./wsServer");
+const { userRole } = require("@models");
 
-const { Router } = require("express");
-const app = require("./config/express")();
-const { loader } = require("./utils");
-// Авторизация по токену
-const checkJWT = require("./utils/jwtMiddleware");
+// const timer = () => {
+//     return new Promise((res) => {
+//         setTimeout(() => {
+//             res();
+//         }, 5000);
+//     });
+// };
 
-const PORT = process.env.PORT || 5000
+// process.myEvents?.on("new order", async (_, getHeaders, answer) => {
+//     await timer();
+//     if (typeof getHeaders === "function") {
+//         const headers = getHeaders();
+//         console.log(headers);
+//         answer({ user: headers.authorization });
+//     }
+//     console.log("OK new order");
+// });
 
-// загрузка контроллера в авторизации
-// { path: "./controllers/auth", type: "authentication" },
-loader(
-    { path: "./controllers/auth", type: "authentication" },
-    checkJWT,
-    () => {
-        const router = Router();
-        app.use(`/api/profile/`, router);
-        return router;
-    }
-);
+// process.myEvents?.on("webSocketData", (props) => {
+//     const { data, send } = props;
+//     send("pong : " + data);
+// });
 
-//  { path: "./routers", type: "routers" },
-loader(
-    { path: "./controllers/crm", type: "crm" },
-    checkJWT,
-    (moduleName) => {
-        const router = Router();
-        app.use(`/api/crm/${moduleName}`, router);
-        return router;
-    }
-);
+// process.myEvents?.on("webSocketData", (props) => {
+//     const { data, send } = props;
+//     send("new listener pong : " + data);
+// });
 
+const app = express();
 
-// мой склад
-// загружаем роутера из модуля мой склад
-loader(
-    { path: "./controllers/moysklad", type: "moysklad", exclude: ["index.js"] },
-    checkJWT,
-    () => {
-        const router = Router();
-        app.use(`/api/moysklad/`, router);
-        return router;
-    }
-);
+if (typeof wsServer === "function") {
+    wsServer(app);
+}
 
+app.use(express.json());
 
-//  { path: "./routers", type: "routers" },
-loader(
-    { path: "./controllers/avito", type: "avito" },
-    checkJWT,
-    (moduleName) => {
-        const router = Router();
-        app.use(`/api/avito/${moduleName}`, router);
-        return router;
-    }
-);
+if (Array.isArray(controllers.private)) {
+    controllers.private.forEach((item) => {
+        if (item.name && item.router) {
+            app.use(item.name, item.router);
+        }
+    });
+} else {
+    console.log("controllers private not correct");
+}
 
+if (Array.isArray(controllers.public)) {
+    controllers.public.forEach((item) => {
+        if (item.name && item.router) {
+            app.use(item.name, item.router);
+        }
+    });
+}
 
+app.listen(8989, () => {
+    console.log("server listen on port: 8989");
+});
 
-app.listen(PORT, () => console.log(`Start server, port: ${PORT}`));
-
+// userRole.create({ caption: "auto create", controller: "user", userId: 1 });

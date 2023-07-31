@@ -1,0 +1,40 @@
+@modul = cardmp
+
+
+###
+// вывод всех товаров из таблицы
+GET http://{{hostname}}/api/crm/{{modul}}/
+
+###
+// поиск товаров по полям наименования и описание
+GET http://{{hostname}}/api/{{modul}}?search=това
+
+###
+POST http://{{hostname}}/api/crm/{{modul}}/
+content-type: {{contentType}}
+
+{
+      "article": "Настенныl2 светильники",
+      "name": "Все светильники линейного типа"
+}
+
+###
+// обновление товара по id в body + Указание полей которые нужно обновить
+PUT http://{{hostname}}/api/{{modul}}/
+content-type: {{contentType}}
+
+{
+      "id": 1,
+      "description": "Коневая дириктори",
+      "parent_id": "#"
+} 
+
+
+###
+// Удаление товара по id в body
+DELETE http://{{hostname}}/api/{{modul}}/
+content-type: {{contentType}}
+
+{
+    "id": 4
+}

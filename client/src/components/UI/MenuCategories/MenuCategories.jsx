@@ -7,7 +7,7 @@ import GetDataInfo from "../GetDataInfo/GetDataInfo";
 import MenuItem from "./MenuItem";
 
 import { useFetching } from "../../../hooks/useFetching";
-import ProductService from "../../../API/Product/ProductService";
+import ProductService from "../../../API/Product/ProductAPI";
 
 const MenuCategories = observer(({ setCategory }) => {
   console.log("------MenuCategories()------");

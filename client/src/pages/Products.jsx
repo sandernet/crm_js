@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import React, { useState, useRef, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
-import CreateProduct from "../components/modalsWindows/CreateProduct";
+import CreateProduct from "../components/Forms/CreateProduct";
 import ProductList from "../components/ProductList";
 
 import MyPagination from "../components/UI/MyPagination/MyPagination";
@@ -11,7 +11,7 @@ import MenuCategories from "../components/UI/MenuCategories/MenuCategories";
 import GetDataInfo from "../components/UI/GetDataInfo/GetDataInfo";
 
 import { useFetching } from "../hooks/useFetching";
-import ProductService from "../API/Product/ProductService";
+import ProductService from "../API/Product/ProductAPI";
 import { useProducts } from "../hooks/useProducts";
 import { getPageCount } from "@utils/pages";
 

@@ -1,11 +1,12 @@
 const { axiosGet, axiosConfig } = require('./axiosConfig')
-// функции получение времени посдедней синхронихации модуля
-// Функция добовления времени синхронизации модуля
+// функции получение времени последней синхронизации модуля
+// Функция добавления времени синхронизации модуля
 const { limitLoader, getIdFormUrl, moduleName } = require('./config')
 const { getSyncMaxData, addSyncInfo } = require('../logging/syncLogging')
 // const { defaultGet } = require("../../utils/db");
-const { getOneExternalCode } = require("../crm/category");
+// const { getOneExternalCode } = require("../crm/category");
 const models = require("../../db/models");
+
 
 // Модель данных Таблица
 let model = models.category
@@ -13,6 +14,9 @@ let model = models.category
 // параметр API MC для получение категорий товаров
 const url = '/entity/productfolder'
 
+const getOneExternalCode = async (externalCodeMS) => {
+    return await model.findOne({ where: { externalCodeMS: externalCodeMS } })
+}
 
 // Обновление всех категорий 
 const syncCategoryMS = async () => {

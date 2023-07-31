@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFetching } from "../hooks/useFetching";
-import ProductService from "../API/Product/ProductService";
+import ProductService from "../API/Product/ProductAPI";
 import Loader from "../components/UI/Loader/Loader";
 import Carousel from "../components/UI/Carousel/Carousel";
 import PropertyMP from "../components/PropertyMP";

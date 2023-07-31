@@ -10,25 +10,31 @@ module.exports = (db, options, modelName) => {
             name: {
                 type: DataTypes.STRING,
             },
-            externalCodeMS: { //id из моё склада
+            marketPId: {
                 type: DataTypes.STRING,
-                unique: true,
             },
             description: { // Описание категории
                 type: DataTypes.TEXT,
             },
-            url: { // Описание категории
+            info: { // Описание категории
                 type: DataTypes.STRING,
             }
         },
         options
     );
+
     // Связи с другими таблицами
     model.associate = (models) => {
         // таблица маркетплейсов
         model.belongsTo(models.marketPlace, {
             foreignKey: "marketPlaceId",
             as: "marketPlace",
+            onUpdate: "NO ACTION",
+            onDelete: "CASCADE",
+        });
+        model.hasMany(models.cardMP, {
+            foreignKey: "categoryMarketPlaceId",
+            as: "categoryMP",
             onUpdate: "NO ACTION",
             onDelete: "CASCADE",
         });

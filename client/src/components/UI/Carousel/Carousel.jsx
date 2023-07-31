@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import Slider from "react-slick";
-import ProductService from "../../../API/Product/ProductService";
+import ProductService from "../../../API/Product/ProductAPI";
 import cl from "./Carousel.module.css"; // Импортируйте свой файл стилей
 
 const Carousel = ({ imageUrls }) => {

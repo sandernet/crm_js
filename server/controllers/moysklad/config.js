@@ -1,6 +1,6 @@
 // если задано null тогда загружаются все данные не зависимо от последней удачной загрузки
-const lastUpdateDate = '-'//null;
-const limitLoader = 100;
+const lastUpdateDate = null;// '-'
+const limitLoader = 150;
 const moduleName = 'Мой Склад';
 
 const getIdFormUrl = (url) => {

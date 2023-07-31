@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export default class ProductService {
-    static async getAllProducts(limit = 10, offset = 0, category = null) {
-        const response = await axios.get('http://localhost:5000/api/crm/product', {
+export default class CardMPAPI {
+    static async getAllCardMP(limit = 10, offset = 0, category = null) {
+        const response = await axios.get('http://localhost:5000/api/crm/cardmp/', {
             params: {
                 limit: limit,
                 offset: offset,
@@ -16,7 +16,7 @@ export default class ProductService {
 
 
     // получаем Категории по id товара
-    static async getAllCategories() {
+    static async getAllCategoriesMP() {
         const response = await axios.get('http://localhost:5000/api/crm/category',)
         return response;
     }

@@ -21,7 +21,7 @@ module.exports = (db, options, modelName) => {
             example: { // Пример заполнения
                 type: DataTypes.TEXT,
             },
-            requiredField: { // обязательный [1] параметр или нет null
+            requiredField: { // обязательный=[1], Не обязательный = null
                 type: DataTypes.INTEGER,
             }
         },
@@ -41,12 +41,6 @@ module.exports = (db, options, modelName) => {
             as: "categoryMarketPlace",
             onUpdate: "NO ACTION",
             onDelete: "NO ACTION",
-        });
-        model.hasMany(models.property, {
-            foreignKey: "propertyMPId",
-            as: "property",
-            onUpdate: "NO ACTION",
-            onDelete: "CASCADE",
         });
     };
     return model;
