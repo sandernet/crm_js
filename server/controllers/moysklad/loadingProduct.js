@@ -10,8 +10,8 @@ const { getCategory } = require("./loadingCategory")
 const { loadingImages } = require("./loadingImages")
 
 // БД 
-const models = require("../../db/models");
-const { addOrUpdateRecord } = require("../../utils/db");
+const models = require("@models");
+const { addOrUpdateRecord } = require("@utils/db");
 // Таблица БД
 const model = models.product
 

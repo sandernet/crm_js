@@ -1,10 +1,10 @@
-const models = require("../../db/models");
+const models = require("@models");
 const { Op } = require("sequelize");
 // const { axiosGet, axiosConfig } = require('../../controllers/moysklad/axiosConfig')
 const axiosModule = require('axios')
 
 
-const { checkMethod } = require("../../utils");
+const { checkMethod } = require("@utils");
 
 let model = models.property
 let modelMP = models.propertyMarketPlace

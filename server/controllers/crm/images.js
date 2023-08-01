@@ -1,8 +1,8 @@
 const path = require('path');
 
-const { checkMethod } = require("../../utils");
+const { checkMethod } = require("@utils");
 
-const models = require("../../db/models");
+const models = require("@models");
 const model = models.imagesProduct;
 
 

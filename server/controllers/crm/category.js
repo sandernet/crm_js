@@ -1,14 +1,14 @@
-const models = require("../../db/models");
+const models = require("@models");
 const { Op } = require("sequelize");
 
-const { defaultGet } = require("../../utils/db");
-const { checkMethod } = require("../../utils");
+const { defaultGet } = require("@utils/db");
+const { checkMethod } = require("@utils");
 
 const {
   defaultPostRouter,
   defaultDeleteRouter,
   defaultPutRouter,
-} = require("../../utils/db");
+} = require("@utils/db");
 
 let model = models.category
 

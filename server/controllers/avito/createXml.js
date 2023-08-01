@@ -1,6 +1,6 @@
 const fs = require('fs');
 const xmlbuilder = require('xmlbuilder');
-const { checkMethod } = require("../../utils");
+const { checkMethod } = require("@utils");
 
 
 const createXml = () => {

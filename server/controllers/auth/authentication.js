@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 
-const models = require("../../db/models");
-const { checkMethod } = require("../../utils");
+const models = require("@models");
+const { checkMethod } = require("@utils");
 
 // Авторизация по токену
-const checkJWT = require("../../utils/jwtMiddleware");
+const checkJWT = require("@utils/jwtMiddleware");
 
 // Определяем таблицу с которой будут храниться данные о пользователе
 let model = models.employee

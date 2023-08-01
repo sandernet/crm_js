@@ -1,9 +1,9 @@
-const models = require("../../db/models");
-const { checkMethod } = require("../../utils");
+const models = require("@models");
+const { checkMethod } = require("@utils");
 
 const { moduleName } = require("./config/config")
 
-const { addOrUpdateRecord } = require("../../utils/db");
+const { addOrUpdateRecord } = require("@utils/db");
 
 
 // логирование загрузки данных

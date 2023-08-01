@@ -5,7 +5,7 @@ const { limitLoader, getIdFormUrl, moduleName } = require('./config')
 const { getSyncMaxData, addSyncInfo } = require('../logging/syncLogging')
 // const { defaultGet } = require("../../utils/db");
 const { getOneExternalCode } = require("../crm/category");
-const models = require("../../db/models");
+const models = require("@models");
 
 // Модель данных Таблица
 let model = models.category

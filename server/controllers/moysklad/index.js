@@ -1,4 +1,4 @@
-const { checkMethod } = require("../../utils");
+const { checkMethod } = require("@utils");
 
 const { loadingProduct } = require("./loadingProduct")
 const { loadingCategory } = require("./loadingCategory")

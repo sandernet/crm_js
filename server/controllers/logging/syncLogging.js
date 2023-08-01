@@ -1,4 +1,4 @@
-const models = require("../../db/models");
+const models = require("@models");
 const { Sequelize, Op } = require("sequelize");
 const { lastUpdateDate } = require("../moysklad/config")
 

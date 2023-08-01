@@ -1,12 +1,12 @@
-const models = require("../../db/models");
+const models = require("@models");
 const { Op } = require("sequelize");
-const { checkMethod } = require("../../utils");
+const { checkMethod } = require("@utils");
 const {
   defaultPostRouter,
   defaultDeleteRouter,
   defaultPutRouter,
   defaultHelpRouter,
-} = require("../../utils/db");
+} = require("@utils/db");
 
 let model = models.employee
 

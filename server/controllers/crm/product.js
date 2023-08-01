@@ -1,4 +1,4 @@
-const models = require("../../db/models");
+const models = require("@models"); //require("../../db/models");
 const { Op } = require("sequelize");
 
 const model = models.product;

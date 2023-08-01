@@ -5,10 +5,10 @@ const { moduleName } = require('./config')
 // функции получение времени последней синхронизации модуля
 // Функция добавления времени синхронизации модуля
 const { addSyncInfo } = require('../logging/syncLogging')
-const { writerFile } = require("../../utils")
+const { writerFile } = require("@utils")
 
 // БД 
-const models = require("../../db/models");
+const models = require("@models");
 // Таблица БД
 const model = models.imagesProduct
 
