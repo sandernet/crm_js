@@ -19,22 +19,28 @@ const { checkMethodSync, checkMethod } = require("./checkMethod");
 const { writerFile } = require("./loaderFiles");
 
 module.exports = {
-  loader,
-  getValue,
-  groupBy,
-  sleep,
-  clamp,
-  collectBy,
-  flatten,
-  indexBy,
-  differenceBy,
-  sumBy,
-  ascending,
-  descending,
-  bifurcateBy,
-  compareString,
-  compareStringInArray,
-  checkMethod,
-  checkMethodSync,
-  writerFile
+  ...require("./validate"),
+  ...require("./express"),
+  ...require("./module"),
+  ...require("./jwt"),
+  ...require("./fs"),
+  ...{
+    loader,
+    getValue,
+    groupBy,
+    // clamp,
+    collectBy,
+    flatten,
+    indexBy,
+    differenceBy,
+    sumBy,
+    ascending,
+    descending,
+    bifurcateBy,
+    compareString,
+    compareStringInArray,
+    checkMethod,
+    checkMethodSync,
+    writerFile
+  }
 }

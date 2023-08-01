@@ -7,6 +7,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
+    "express-ws": "^5.0.2",
     "file": "^0.2.2",
     "jest": "^29.4.3",
     "jsonwebtoken": "^9.0.0",
@@ -36,11 +37,13 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "nodemon": "^2.0.20",
-    "module-alias": "^2.2.3"
+    "module-alias": "^2.2.3",
+    "nodemon": "^2.0.20"
   },
   "_moduleAliases": {
     "@utils": "utils",
-    "@models": "db/models"
+    "@class": "class",
+    "@models": "db/models",
+    "@config": "config"
   }
 }

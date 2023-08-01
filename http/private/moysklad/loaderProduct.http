@@ -1,0 +1,16 @@
+@modul = moysklad
+
+###
+// запрос данных на загрузку ассортимента
+// ?isLoadingImages=false загрузка без картинок
+GET http://{{hostname}}/api/{{modul}}/loadingProduct/?isLoadingImages=false
+
+
+###
+// запрос на загрузку категорий
+GET http://{{hostname}}/api/{{modul}}/loadingcategory/
+Authorization: {{token}}
+
+
+
+

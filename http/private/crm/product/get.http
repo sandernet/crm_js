@@ -1,0 +1,15 @@
+##
+// вывод всех товаров из таблицы
+GET http://{{hostname}}/api/crm/product
+?limit=10
+&offset=0
+&category=437
+Authorization: {{token}}
+
+###
+// вывод всех товаров из таблицы
+GET http://{{hostname}}/api/crm/product/1
+?limit=10
+&offset=0
+&category=437
+Authorization: {{token}}

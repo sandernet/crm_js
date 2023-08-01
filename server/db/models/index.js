@@ -37,6 +37,12 @@ if (config.use_env_variable) {
 // также можно добавлять другие параметры для таблиц
 const defOptions = { paranoid: true };
 
+// поля по умолчанию
+const defField = {
+  name: Sequelize.DataTypes.TEXT,
+  description: Sequelize.DataTypes.TEXT,
+};
+
 
 let findFile = [];
 
@@ -82,7 +88,7 @@ findFile.forEach((item) => {
   const model = require(item);
 
   if (typeof model === "function") {
-    const loadModel = model(sequelize, defOptions, modelName);
+    const loadModel = model(sequelize, defOptions, modelName, defField);
 
     if (loadModel) {
       loaderFile.push(

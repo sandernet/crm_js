@@ -1,0 +1,7 @@
+@modul = auth
+
+###
+// Авторизация по логину и паролю
+GET http://{{hostname}}/api/{{modul}}
+?login=sander
+&password=eRo6AcsvzSDSU
