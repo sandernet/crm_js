@@ -50,8 +50,7 @@ const axiosGet = (config, processingData) => {
             .then((response) => {
                 // обрабатываем результат тут
                 // c помощью процедуры переданной в параметре
-                console.log(response)
-                if (processingData === "function") {
+                if (typeof processingData === "function") {
                     const message = processingData(response.data)
                     resolve(message);
                 }

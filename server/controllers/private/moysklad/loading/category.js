@@ -1,14 +1,14 @@
 const { axiosGet, axiosConfig } = require('../config/axiosConfig')
-// функции получение времени посдедней синхронихации модуля
-// Функция добовления времени синхронизации модуля
+// функции получение времени последней синхронизации модуля
+// Функция добавления времени синхронизации модуля
 const { limitLoader, getIdFormUrl, moduleName } = require('../config/config')
-const { getSyncMaxData, addSyncInfo } = require('@utils/logging/syncLogging')
+const { getSyncMaxData, addSyncInfo } = require('@utils')
 // const { defaultGet } = require("../../utils/db");
 const { getOneExternalCode } = require("../../crm/category");
 const models = require("@models");
 
 // Модель данных Таблица
-let model = models.category
+let model = models.productCategory
 
 // параметр API MC для получение категорий товаров
 const url = '/entity/productfolder'
@@ -21,7 +21,7 @@ const syncCategoryMS = async () => {
     // запрос MS в массив для записи в модель категория
     let count = 0;
     try {
-        const filterDateMS = await getSyncMaxData(moduleName, __filename, lastUpdateDate = null)
+        const filterDateMS = await getSyncMaxData(moduleName, __filename)
         let params = { limit: limitLoader, offset: 0, ...filterDateMS }
 
 
@@ -122,12 +122,11 @@ const bulkCreateData = (dataArray) => {
 };
 // Получение Товаров из мой склад
 const loadingCategory = async (req, res) => {
-    const startDateTime = new Date();
-    console.log(`${startDateTime} - Время запуска обмена.`)
+
+    console.log(`Время запуска обмена.`)
 
     const countCategory = await syncCategoryMS();
-    const finishDateTime = new Date();
-    console.log(`${finishDateTime} Обработано ${countCategory} категорий // ${moduleName} // ${__filename}`)
+    console.log(`Обработано ${countCategory} категорий // ${moduleName} // ${__filename}`)
     res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countCategory} категорий` })
 }
 

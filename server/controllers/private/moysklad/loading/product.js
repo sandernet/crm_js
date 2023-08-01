@@ -3,7 +3,7 @@ const { axiosGet, axiosConfig } = require('../config/axiosConfig')
 
 // функции получение времени последней синхронизации модуля
 // Функция добавления времени синхронизации модуля
-const { getSyncMaxData, addSyncInfo } = require('@utils/logging/syncLogging')
+const { getSyncMaxData, addSyncInfo } = require('@utils')
 const { limitLoader, getIdFormUrl, moduleName } = require("../config/config")
 
 const { getCategory } = require("../loading/category")

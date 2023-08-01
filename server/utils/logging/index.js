@@ -1,16 +1,15 @@
-const models = require("@models");
+const { loggings } = require("@models");
 const { Sequelize, Op } = require("sequelize");
 
 
 
-let model = models.syncInfo
 
 // создание записи в таблицу логирования взаимодействия с  серверами API
 const addSyncInfo = async (info, module, action, date, resultError) => {
     if (date === undefined) {
         date = new Date()
     }
-    return await model.create(
+    return await logging.create(
         {
             ...{
                 info: info,
@@ -44,7 +43,7 @@ const getSyncMaxData = async (module, action, resultError = 0, lastUpdateDate = 
         return ""
     }
 
-    const data = await model.findOne({
+    const data = await loggings.findOne({
         where: {
             [Op.and]: [
                 { module: module },
@@ -53,7 +52,7 @@ const getSyncMaxData = async (module, action, resultError = 0, lastUpdateDate = 
             ],
         },
         attributes: [
-            [Sequelize.fn('max', Sequelize.col(`${model.name}.createdAt`)), 'm__createdAt'],
+            [Sequelize.fn('max', Sequelize.col(`${loggings.name}.createdAt`)), 'm__createdAt'],
         ],
     })
     if (data === null || data.dataValues.m__createdAt === null) {

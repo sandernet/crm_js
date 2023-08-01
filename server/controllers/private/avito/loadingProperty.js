@@ -7,7 +7,7 @@ const { addOrUpdateRecord } = require("@utils/db");
 
 
 // логирование загрузки данных
-const { addSyncInfo } = require('@utils/logging/syncLogging')
+const { addSyncInfo } = require('@utils')
 
 let model = models.propertyMarketPlace
 
