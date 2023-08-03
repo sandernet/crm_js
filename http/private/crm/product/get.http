@@ -3,7 +3,7 @@
 GET http://{{hostname}}/api/crm/product
 ?limit=10
 &offset=0
-&category=437
+&category=1530
 Authorization: {{token}}
 
 ###

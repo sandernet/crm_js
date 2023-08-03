@@ -1,20 +1,13 @@
 const models = require("@models");
 const { Op } = require("sequelize");
 
-const { defaultGet } = require("@utils/db");
-const { checkMethod } = require("@utils");
+let model = models.productCategory
 
-const {
-  defaultPostRouter,
-  defaultDeleteRouter,
-  defaultPutRouter,
-} = require("@utils/db");
-
-let model = models.category
-
-const getOneExternalCode = async (externalCodeMS) => {
-  return await model.findOne({ where: { externalCodeMS: externalCodeMS } })
-}
+// Получение записи по id данных
+const getURI = (req, res) => {
+  const { id } = req.params;
+  model.findOne({ where: { id: id } }).defAnswer(res);
+};
 
 
 // Получение данных
@@ -54,17 +47,8 @@ const get = (req, res) => {
     });
 };
 
-// Получение данных
-const getCategory = (req, res) => {
-  res.status(200).send(getOneExternalCode(req.query));
-}
-
-module.exports = (router, moduleName) => {
-  model = models[moduleName];
-
-  router.get("/", checkMethod(get, moduleName));
-
-  defaultPutRouter(router, moduleName, model, null);
-  defaultPostRouter(router, moduleName, model, null);
-  defaultDeleteRouter(router, moduleName, model, null);
+module.exports = (router) => {
+  router.get("/", get);
+  router.get("/:id", getURI);
+  return true
 };

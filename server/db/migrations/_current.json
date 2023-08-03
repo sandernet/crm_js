@@ -306,9 +306,8 @@
                     "seqType": "Sequelize.INTEGER"
                 },
                 "name": {
-                    "allowNull": false,
                     "field": "name",
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.TEXT"
                 },
                 "externalCodeMS": {
                     "unique": true,
@@ -321,7 +320,7 @@
                 },
                 "description": {
                     "field": "description",
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.TEXT"
                 },
                 "createdAt": {
                     "allowNull": false,

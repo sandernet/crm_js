@@ -21,7 +21,7 @@ const Sequelize = require("sequelize");
 const info = {
   revision: 1,
   name: "init",
-  created: "2023-08-01T05:17:11.655Z",
+  created: "2023-08-03T03:20:16.541Z",
   comment: "",
 };
 
@@ -125,14 +125,14 @@ const migrationCommands = (transaction) => [
           primaryKey: true,
           allowNull: false,
         },
-        name: { type: Sequelize.STRING, field: "name", allowNull: false },
+        name: { type: Sequelize.TEXT, field: "name" },
         externalCodeMS: {
           type: Sequelize.STRING,
           field: "externalCodeMS",
           unique: true,
         },
         parent_id: { type: Sequelize.STRING, field: "parent_id" },
-        description: { type: Sequelize.STRING, field: "description" },
+        description: { type: Sequelize.TEXT, field: "description" },
         createdAt: {
           type: Sequelize.DATE,
           field: "createdAt",

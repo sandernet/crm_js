@@ -8,8 +8,7 @@ module.exports = (db, options, modelName) => {
         modelName,
         {
             name: {
-                type: DataTypes.STRING,
-                allowNull: false
+                type: DataTypes.TEXT,
             },
             externalCodeMS: { //id из моё склада
                 type: DataTypes.STRING,
@@ -19,7 +18,7 @@ module.exports = (db, options, modelName) => {
                 type: DataTypes.STRING,
             },
             description: { // Описание категории
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT,
             }
         },
         options

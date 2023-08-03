@@ -39,7 +39,7 @@ const Products = observer(() => {
         category
       );
       setProduct(response.data["rows"]);
-      const totalCount = 565;
+      const totalCount = response.data?.count;
       setTotalPages(getPageCount(totalCount, limit));
     }
   );
@@ -47,6 +47,10 @@ const Products = observer(() => {
   useEffect(() => {
     fetchProducts(limit, page, category);
   }, [page, limit, category]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [limit, category]);
 
   // Свой hook
   const sortedAndSearchedPosts = useProducts(

@@ -6,8 +6,8 @@ const { axiosGet, axiosConfig } = require('../config/axiosConfig')
 const { getSyncMaxData, addSyncInfo } = require('@utils')
 const { limitLoader, getIdFormUrl, moduleName } = require("../config/config")
 
-const { getCategory } = require("../loading/category")
-const { loadingImages } = require("../loading/image")
+const { getCategory } = require("./category")
+const { loadingImages } = require("./image")
 
 // БД 
 const models = require("@models");
@@ -38,9 +38,9 @@ const processingData = async (msObj) => {
         // если нету загружаем все категории"
         if (i.pathName !== '') {
             const category = await getCategory(getIdFormUrl(i.productFolder?.meta?.href))
-            items.categoryId = category ? category.id : null
+            items.productCategoryId = category ? category.id : null
         } else {
-            items.categoryId = null
+            items.productCategoryId = null
         }
         // Свойства
         items.property = {
@@ -124,7 +124,7 @@ const loadingProduct = async (req, res) => {
                     await loadingImages(Record.id, data.data[i].urlImages)
                 }
                 // **************************************
-                //  Тут будем обрабатывать все характеристики для товара
+                //  Обрабатываем все характеристики для товара
                 let dataProperty = data.data[i].property
                 for (let key in dataProperty) {
                     await addOrUpdateRecord(
@@ -137,11 +137,11 @@ const loadingProduct = async (req, res) => {
                             productId: Record.id,
                             name: key
                         },
-                        models.property)
+                        models.productProperty)
                 }
 
                 // **************************************
-                //  Тут будем обрабатывать цены
+                //  Обрабатываем цены
                 let dataPrice = data.data[i].price
                 for (let key in dataPrice) {
                     await addOrUpdateRecord(

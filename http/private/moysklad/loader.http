@@ -3,8 +3,11 @@
 ###
 // запрос данных на загрузку ассортимента
 // ?isLoadingImages=false загрузка без картинок
-GET http://{{hostname}}/api/{{modul}}/loadingProduct/?isLoadingImages=false
+GET http://{{hostname}}/api/{{modul}}/loadingProduct/
+?isLoadingImages=true 
+Authorization: {{token}}
 
+# загрузка с картинкаим или без
 
 ###
 // запрос на загрузку категорий

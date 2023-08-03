@@ -1,4 +1,4 @@
-const { product, productImages } = require("@models"); //require("../../db/models");
+const { product, productImages, price } = require("@models"); //require("../../db/models");
 const { Op } = require("sequelize");
 
 // const model = models.product;
@@ -101,14 +101,17 @@ const get = (req, res) => {
       const productImagesData = await productImages.findAll({
         where: { productId: data.rows.map((item) => item.id) },
       })
-
+      const productPrice = await price.findAll({
+        where: { productId: data.rows.map((item) => item.id) },
+      })
 
       return {
         count: data.count,
         rows: data.rows.map((item) => {
           return {
             ...item.toJSON(),
-            productImages: productImagesData.find((images) => images.productId === item.id)
+            images: productImagesData.filter((images) => images.productId === item.id),
+            price: productPrice.filter((price) => price.productId === item.id)
           }
 
         })

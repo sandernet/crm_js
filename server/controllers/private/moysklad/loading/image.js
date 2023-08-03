@@ -9,7 +9,7 @@ const { addSyncInfo, writerFile } = require("@utils")
 // БД 
 const models = require("@models");
 // Таблица БД
-const model = models.imagesProduct
+const model = models.productImages
 
 
 

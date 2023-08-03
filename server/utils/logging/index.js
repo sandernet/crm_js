@@ -1,4 +1,4 @@
-const { loggings } = require("@models");
+const { logging } = require("@models");
 const { Sequelize, Op } = require("sequelize");
 
 
@@ -43,7 +43,7 @@ const getSyncMaxData = async (module, action, resultError = 0, lastUpdateDate = 
         return ""
     }
 
-    const data = await loggings.findOne({
+    const data = await logging.findOne({
         where: {
             [Op.and]: [
                 { module: module },

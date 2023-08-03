@@ -22,7 +22,7 @@ export const login = async (email, password) => {
 
     // раз комментировать для авторизации на сервере и получения токена 
 
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.47CRhPULZXmzu7gkSSGsgJ9x38rUpgotPJuMKqIqUzw'
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MX0.k0E4fCFP1VDoTcpmlvKekVYldTCQCb2NQVQICz-HSAM"
     localStorage.setItem('token', token)
     return jwt_decode(token) //декодируем и возвращаем информацию о пользователе
     // const { data } = await $host.post('api/user/login', { email, password })

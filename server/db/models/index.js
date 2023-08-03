@@ -43,7 +43,6 @@ const defField = {
   description: Sequelize.DataTypes.TEXT,
 };
 
-
 let findFile = [];
 
 function capitalizeFirstLetterWithoutIndex(string) {
@@ -108,6 +107,7 @@ Object.keys(db).forEach((modelName) => {
 });
 
 db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
 if (typeof console.logUserDone === "function") {
   console.logUserDone("SYSTEM", `DB-models:\n ${loaderFile.join(", ")}`);

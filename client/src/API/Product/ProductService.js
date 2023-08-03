@@ -3,6 +3,9 @@ import axios from "axios";
 export default class ProductService {
     static async getAllProducts(limit = 10, offset = 0, category = null) {
         const response = await axios.get('http://localhost:5000/api/crm/product', {
+            headers: {
+                Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MX0.k0E4fCFP1VDoTcpmlvKekVYldTCQCb2NQVQICz-HSAM",
+            },
             params: {
                 limit: limit,
                 offset: offset,
@@ -17,7 +20,11 @@ export default class ProductService {
 
     // получаем Категории по id товара
     static async getAllCategories() {
-        const response = await axios.get('http://localhost:5000/api/crm/category',)
+        const response = await axios.get('http://localhost:5000/api/crm/category', {
+            headers: {
+                Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MX0.k0E4fCFP1VDoTcpmlvKekVYldTCQCb2NQVQICz-HSAM",
+            }
+        })
         return response;
     }
 

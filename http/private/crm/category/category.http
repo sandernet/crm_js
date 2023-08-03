@@ -1,9 +1,10 @@
-@modul = category
+@modul = Category
 
 
 ###
 // вывод всех товаров из таблицы
 GET http://{{hostname}}/api/crm/{{modul}}/
+Authorization: {{token}}
 
 ###
 // поиск товаров по полям наименования и описание

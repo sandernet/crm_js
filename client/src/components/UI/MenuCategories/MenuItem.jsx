@@ -13,7 +13,11 @@ const MenuItem = ({ item, setCategory }) => {
 
   return (
     <li className={cl.submenu}>
-      <input type="checkbox" name={item.id} id={item.id} checked></input>
+      <input
+        type="checkbox"
+        name={item.id}
+        id={item.id}
+        className="checked"></input>
       <label for={item.id} onClick={() => handleToggle(item.id)}>
         {item.name}
       </label>

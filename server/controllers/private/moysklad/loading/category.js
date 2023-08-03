@@ -4,7 +4,6 @@ const { axiosGet, axiosConfig } = require('../config/axiosConfig')
 const { limitLoader, getIdFormUrl, moduleName } = require('../config/config')
 const { getSyncMaxData, addSyncInfo } = require('@utils')
 // const { defaultGet } = require("../../utils/db");
-const { getOneExternalCode } = require("../../crm/category");
 const models = require("@models");
 
 // Модель данных Таблица
@@ -12,6 +11,11 @@ let model = models.productCategory
 
 // параметр API MC для получение категорий товаров
 const url = '/entity/productfolder'
+
+
+const getOneExternalCode = async (externalCodeMS) => {
+    return await model.findOne({ where: { externalCodeMS: externalCodeMS } })
+}
 
 
 // Обновление всех категорий 
@@ -114,17 +118,15 @@ const bulkCreateData = (dataArray) => {
     // }]
     return model.bulkCreate(
         dataArray
-        , {
-            //Указываем какие поля нужно обновить,
-            updateOnDuplicate: ["name", "description", "parent_id"]
-        }
+        // , {
+        //     //Указываем какие поля нужно обновить,
+        //     updateOnDuplicate: ["name", "externalCodeMS", "description", "parent_id"]
+        // }
     )
 };
 // Получение Товаров из мой склад
 const loadingCategory = async (req, res) => {
-
-    console.log(`Время запуска обмена.`)
-
+    console.log(`Запуск обмена.`)
     const countCategory = await syncCategoryMS();
     console.log(`Обработано ${countCategory} категорий // ${moduleName} // ${__filename}`)
     res.status(200).send({ mes: `Зарос выполнен! / Обработано ${countCategory} категорий` })
