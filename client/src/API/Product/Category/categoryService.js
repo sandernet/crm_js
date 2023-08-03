@@ -1,22 +1,31 @@
 import axios from "axios";
 
-export default class ProductService {
-    static async getAllProducts(limit = 10, offset = 0, category = null) {
-        const response = await axios.get('http://localhost:5000/api/crm/product', {
+export default class CategoryService {
+    // получаем Категории по id товара
+    static async getAllCategories() {
+        const response = await axios.get('http://localhost:5000/api/crm/category', {
             headers: {
                 Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MX0.k0E4fCFP1VDoTcpmlvKekVYldTCQCb2NQVQICz-HSAM",
-            },
-            params: {
-                limit: limit,
-                offset: offset,
-                category: category,
-                images: true,
-                price: true
             }
         })
         return response;
     }
 
+
+    // Приводит к иерархическому объекту категорий
+    static async buildHierarchy(arr, parentId = null) {
+        const result = [];
+        for (const item of arr) {
+            if (item.parent_id === parentId) {
+                const children = await this.buildHierarchy(arr, item.externalCodeMS);
+                if (children.length) {
+                    item.children = children;
+                }
+                result.push(item);
+            }
+        }
+        return result;
+    }
 
     // // получаем товар по id товара
     // static async getById(id) {

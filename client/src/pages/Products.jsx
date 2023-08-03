@@ -73,6 +73,7 @@ const Products = observer(() => {
       />
       <Row>
         <Col xs md="3">
+          {/* <FileSystemNavigator /> */}
           <MenuCategories setCategory={setCategory} />
         </Col>
         <Col xs md="9">
