@@ -25,8 +25,13 @@ module.exports = (db, options, modelName) => {
             onDelete: "CASCADE",
         });
 
-        // Таблица товаров
+        // к какому товару свойство
         model.belongsTo(models.product, {
+            onUpdate: "NO ACTION",
+            onDelete: "CASCADE",
+        });
+        // к какому торговому предложению свойство
+        model.belongsTo(models.tradeOffer, {
             onUpdate: "NO ACTION",
             onDelete: "CASCADE",
         });

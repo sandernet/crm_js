@@ -1,69 +1,15 @@
 const { product, productImages, price } = require("@models"); //require("../../db/models");
 const { Op } = require("sequelize");
 
-// const model = models.product;
-// const modelImagesProduct = models.imagesProduct;
-// const modelPrice = models.price;
-// const modelProperty = models.property;
-
-const { checkMethod } = require("@utils");
-
-
-
 const getURI = (req, res) => {
   const { id } = req.params;
   product.findOne({ where: { id } }).defAnswer(res);
 };
 
-
-
-// // Связанные таблицы
-// const property = {
-//   model: modelProperty,
-//   as: 'property',
-//   // limit: 1,
-//   where: {
-//     "propertyMPId": { //  поле для отбора
-//       [Op.eq]: null, // Используем оператор сравнения "больше"
-//     }
-//   },
-//   attributes: {
-//     // Исключить поля field3 и field4 из модели 2
-//     exclude: ["createdAt", "updatedAt", "deletedAt"]
-//   }
-// };
-// const images = {
-//   model: modelImagesProduct,
-//   as: 'images',
-//   // limit: 1,
-//   //where: { "typeImage": "miniature" },
-//   attributes: {
-//     // Исключить поля field3 и field4 из модели 2
-//     exclude: ["createdAt", "updatedAt", "deletedAt"]
-//   }
-// };
-// const price = {
-//   model: modelPrice,
-//   as: 'price',
-//   // limit: 1,
-//   // where: {
-//   //   "price": { поле для отбора
-//   //     [Op.gt]: 0, // Используем оператор сравнения "больше"
-//   //   }
-//   // },
-//   attributes: {
-//     // Исключить поля field3 и field4 из модели 2
-//     // include: ["name", "price"],
-//     exclude: ["createdAt", "updatedAt", "deletedAt"]
-//   }
-// };
-
-
 // Получение данных
 const get = (req, res) => {
   const { search, id, limit, offset, category, ...other } = req.query;
   console.log(limit, offset);
-
 
   const productCategoryId = category == undefined ? { productCategoryId: { [Op.is]: null } } : {
     productCategoryId: { [Op.eq]: Number(category) }
@@ -128,6 +74,7 @@ const post = (req, res, promiseError) => {
     })
     .catch(promiseError);
 };
+
 // Обновление записи 
 const put = (req, res, promiseError) => {
   const { id, ...body } = req.body;
@@ -139,7 +86,7 @@ const put = (req, res, promiseError) => {
   product
     .update(body, { where: { id: id } })
     .then(() => {
-      model
+      product
         .findOne({
           where: { id: id },
           attributes: {

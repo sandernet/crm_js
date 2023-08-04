@@ -8,7 +8,7 @@ Authorization: {{token}}
 
 ###
 // вывод всех товаров из таблицы
-GET http://{{hostname}}/api/crm/product/1
+GET http://{{hostname}}/api/crm/product/56
 ?limit=10
 &offset=0
 &category=437

@@ -1,0 +1,15 @@
+@module = marketplace
+
+##
+// вывод всех товаров из таблицы
+GET http://{{hostname}}/api/{{module}}
+?limit=10
+&offset=0
+Authorization: {{token}}
+
+###
+// Запрос одной записи
+GET http://{{hostname}}/api/{{module}}/1
+?limit=10
+&offset=0
+Authorization: {{token}}

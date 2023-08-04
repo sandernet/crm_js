@@ -1,0 +1,14 @@
+@module = marketplace
+
+##
+// вывод всех записей с отбором
+GET http://{{hostname}}/api/{{module}}/tradeoffer
+?limit=10
+&offset=0
+Authorization: {{token}}
+
+
+###
+// получение одной записи по id
+GET http://{{hostname}}/api/{{module}}/tradeoffer/2
+Authorization: {{token}}

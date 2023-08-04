@@ -60,7 +60,7 @@ findFile.forEach((item) => {
         const isLoad = controller(router, controllerName);
 
         if (isLoad) {
-            loadController.push(controllerName);
+            loadController.push(`/api/` + controllerName);
             controllers.push({ name: `/api/${controllerName}`, router });
         }
     }

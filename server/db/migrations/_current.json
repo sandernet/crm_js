@@ -503,6 +503,103 @@
                     "onUpdate": "NO ACTION",
                     "field": "productId",
                     "seqType": "Sequelize.INTEGER"
+                },
+                "tradeOfferId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "tradeOffers",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "NO ACTION",
+                    "field": "tradeOfferId",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "tradeOffers": {
+            "tableName": "tradeOffers",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.STRING"
+                },
+                "archived": {
+                    "defaultValue": {
+                        "value": 1
+                    },
+                    "field": "archived",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "field": "deletedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "parent_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "tradeOffers",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "NO ACTION",
+                    "field": "parent_id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "marketplaceId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "marketplaces",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "NO ACTION",
+                    "field": "marketplaceId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "marketplaceCategoryId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "marketplaceCategories",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "NO ACTION",
+                    "field": "marketplaceCategoryId",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "productId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "products",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "NO ACTION",
+                    "field": "productId",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -632,6 +729,6 @@
             "indexes": []
         }
     },
-    "exists": false,
-    "revision": 1
+    "exists": true,
+    "revision": 3
 }

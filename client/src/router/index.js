@@ -1,7 +1,7 @@
 import About from "../pages/About";
 import Settings from "../pages/Settings";
 import Products from "../pages/Products";
-import CartMarketPleas from "../pages/CartMarketPleas";
+import MarketPleas from "../pages/MarketPleas";
 import ProductPage from "../pages/ProductPage";
 import Login from "../pages/Login";
 
@@ -10,7 +10,7 @@ import {
     REGISTRATION_ROUTE,
     ABOUT_ROUTE,
     PRODUCT_ROUTE,
-    CARTMP_ROUTE,
+    MARKETPLEAS_ROUTE,
     SETTINGS_ROUTE
 } from "./constantRouter";
 
@@ -19,7 +19,7 @@ import {
 export const privateRoutes = [
     { path: SETTINGS_ROUTE, component: <Settings />, exact: true },
     { path: PRODUCT_ROUTE, component: <Products />, exact: true },
-    { path: CARTMP_ROUTE, component: <CartMarketPleas />, exact: true },
+    { path: MARKETPLEAS_ROUTE, component: <MarketPleas />, exact: true },
     { path: PRODUCT_ROUTE + '/:id', component: <ProductPage />, exact: true },
     { path: ABOUT_ROUTE, component: <About />, exact: true },
 ]

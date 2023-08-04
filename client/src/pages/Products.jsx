@@ -7,7 +7,7 @@ import ProductList from "../components/ProductList";
 
 import MyPagination from "../components/UI/MyPagination/MyPagination";
 import ProductFilter from "../components/ProductFilter";
-import MenuCategories from "../components/UI/MenuCategories/MenuCategories";
+import MenuCategories from "../components/UI/MenuTreeView/MenuCategories";
 import GetDataInfo from "../components/UI/GetDataInfo/GetDataInfo";
 
 import { useFetching } from "../hooks/useFetching";
@@ -74,7 +74,7 @@ const Products = observer(() => {
       <Row>
         <Col xs md="3">
           {/* <FileSystemNavigator /> */}
-          <MenuCategories setCategory={setCategory} />
+          <MenuCategories setItemMenu={setCategory} />
         </Col>
         <Col xs md="9">
           <GetDataInfo Error={postError} isLoading={isPostsLoading}>

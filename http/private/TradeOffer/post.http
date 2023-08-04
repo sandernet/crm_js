@@ -1,0 +1,13 @@
+@module = marketplace
+
+
+###
+POST http://{{hostname}}/api/{{module}}/tradeoffer
+Content-Type: {{contentType}};
+charset: "utf-8"
+Authorization: {{token}}
+
+{
+    "name": "Шкаф ШРМ 3",
+    "description": "Шкаф для одежды ШРМ 33"
+}
